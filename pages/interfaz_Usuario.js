@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import axios from 'axios';
 
+import Header from '@/components/common/Header';
+
 const inter = Inter({ subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -48,12 +50,17 @@ export default function interfaz_Usuario() {
 
     return (
         <main
-            className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
-            <Link href="/"
-                className="p-6 mt-6 text-center text-black border w-96 rounded-xl bg-white hover:bg-blue-600 hover:text-white ease-out duration-500">
-                Inicio
-            </Link>
-            <div className='maw-w-lg mx-auto p-6 text-black bg-white shadow-md rounded-lg'>
+            className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}>
+            <img
+                src="/Fondo_Biblioteca.jpeg"
+                alt="landimg"
+                layout="fill"
+                className=" object-cover w-full h-screen opacity-30 z-0 fixed"
+            />
+
+            <div className='maw-w-lg mx-auto p-6 text-black bg-white shadow-md rounded-lg z-10'>
+
+
                 <h1 className='text-3xl font-bold text-center'>
                     Usuarios
                 </h1>
