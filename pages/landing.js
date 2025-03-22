@@ -1,4 +1,5 @@
 import Header from "@/components/common/Header";
+import Link from "next/link";
 
 
 export default function landing () {
@@ -33,6 +34,19 @@ export default function landing () {
                         and get ready for adventure!
                     </p>
                 </div>
+
+                <div className="w-full h-auto flex justify-center items-center">
+                <Link className="group w-1/2 bg-purple-700 text-white text-2xl p-4 rounded-xl hover:bg-purple-900 hover:text-black ease-out duration-500"
+                href='/interfaz_Usuario'>
+                    <span class="text-center">Start your adventure!!</span>
+                </Link>
+                
+
+
+                </div>
+
+                
+
             </div>
             
         
