@@ -1,10 +1,13 @@
 import Header from "@/components/common/Header";
 import Link from "next/link";
+import { Jersey_10 } from '@next/font/google';
 
+
+const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 
 export default function landing () {
     return(
-        <div className="bg-black text-white w-full min-h-screen flex flex-col items-center justify-start bg-fixed">
+        <div className={`bg-black text-white w-full min-h-screen flex flex-col items-center justify-start bg-fixed ${jersey_10.className}`}>    
             <img
                 src="/img_interior_caverna.jpeg"
                 alt="landimg"
@@ -44,18 +47,8 @@ export default function landing () {
                 href='/product'>
                     <span class="text-center">Start your adventure!!</span>
                 </Link>
-                
-
-
                 </div>
-
-                
-
             </div>
-            
-        
-
-
         </div>
     )
 }

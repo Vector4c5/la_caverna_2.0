@@ -1,8 +1,11 @@
-import { IoHomeOutline} from "react-icons/io5";
+import { IoHomeOutline } from "react-icons/io5";
 import { MdPlayArrow } from "react-icons/md";
+import { GiAxeSword } from "react-icons/gi";
+import { GiOpenBook } from "react-icons/gi";
+import { FaUserFriends } from "react-icons/fa";
 import Link from "next/link";
 import { Jersey_10 } from '@next/font/google';
-
+import LoginBtn from "@/components/common/Login-Btn";
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 
@@ -15,14 +18,19 @@ export default function Header() {
             icon: <IoHomeOutline />
         },
         {
-            name: "about",
-            href: "/about.js",
-            icon: <IoHomeOutline />
+            name: "Multiplayer",
+            href: "/contact",
+            icon: <FaUserFriends/>
         },
         {
-            name: "",
-            href: "/contact.js",
-            icon: <IoHomeOutline />
+            name: "Playes",
+            href: "/about",
+            icon: <GiAxeSword />
+        },
+        {
+            name: "Masters",
+            href: "/contact",
+            icon: <GiOpenBook />
         },
     ];
 
@@ -53,6 +61,7 @@ export default function Header() {
                         </li>
                     ))}
                 </nav>
+                <LoginBtn />
             </div>
         </main>
     );
