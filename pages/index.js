@@ -27,6 +27,9 @@ export default function Home() {
         className="absolute object-cover w-full h-screen opacity-30 z-0"
       />
 
+
+      
+
       <div className="relative container w-full h-svh flex flex-col items-center justify-center m-20">
         <div
           className="container w-9/12 h-1/3 p-5 m-2 flex items-center justify-center border-8 border-white border-double bg-black bg-opacity-60"
