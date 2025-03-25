@@ -1,13 +1,17 @@
 import { IoHomeOutline} from "react-icons/io5";
 import { MdPlayArrow } from "react-icons/md";
 import Link from "next/link";
+import { Jersey_10 } from '@next/font/google';
+
+
+const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 
 export default function Header() {
     
     const navPages = [
         {
-            name: "home",
-            href: "/index.js",
+            name: "Home",
+            href: "/landing",
             icon: <IoHomeOutline />
         },
         {
@@ -16,16 +20,17 @@ export default function Header() {
             icon: <IoHomeOutline />
         },
         {
-            name: "contact",
+            name: "",
             href: "/contact.js",
             icon: <IoHomeOutline />
         },
     ];
 
     return (
-        <div className="flex items-center w-full h-full border-double border-4 border-purple-400 bg-gray-900 bg-opacity-50">
+        <main className={`flex items-center w-full h-full py-3 max-h-24 border-double border-8 border-purple-400 bg-black bg-opacity-50 ${jersey_10.className}
+        shadow-lg shadow-gray-500`}>
             <div className="flex justify-start w-1/2 mx-8">
-                <h1 className="text-4xl font-['Press_Start_2P'] text-white">
+                <h1 className="text-6xl text-white">
                     The Cavern
                 </h1>
             </div>
@@ -41,7 +46,7 @@ export default function Header() {
                                 <div className="scale-150">
                                     {page.icon}
                                 </div>
-                                <p className="text-xl">
+                                <p className="text-3xl">
                                     {page.name}
                                 </p>
                             </Link>
@@ -49,6 +54,6 @@ export default function Header() {
                     ))}
                 </nav>
             </div>
-        </div>
+        </main>
     );
 }

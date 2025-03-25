@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import Header from '@/components/common/Header';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { Jersey_10 } from '@next/font/google';
 import { PiArrowSquareRight } from "react-icons/pi";
+
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -152,7 +154,10 @@ export default function InterfazUsuario() {
                 layout="fill"
                 className="object-cover w-full h-screen opacity-30 z-0 fixed"
             />
-            <div className='z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4'>
+            <div className='z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4'>
+                <div className='w-10/12 h-auto'>
+                    <Header />
+                </div>
                 {isLoggedIn ? (
                     <div className='container w-10/12 gap-4 flex flex-col items-center justify-start'>
                         <div className='w-full h-auto flex items-center justify-start rounded-xl bg-black bg-opacity-60 p-6 gap-6
