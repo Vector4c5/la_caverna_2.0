@@ -1,24 +1,12 @@
-import localFont from "next/font/local";
+import { Jersey_10 } from '@next/font/google';
 import StarAnimation from "../components/common/StartAnimation";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
-import { Inter } from 'next/font/google';
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
-const inter = Inter({ subsets: ['latin'] });
+const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export default function Home() {
   const { data: session } = useSession();
@@ -151,7 +139,7 @@ export default function Home() {
   }
 
   return (
-    <main className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}>
+    <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
       <div className="bg-black text-white w-full h-screen flex flex-col justify-center">
         <StarAnimation />
         <img
@@ -160,11 +148,11 @@ export default function Home() {
           layout="fill"
           className="absolute object-cover w-full h-screen opacity-30 z-0"
         />
-        
+
         {isLoggedIn ? (
-          <div className="relative container w-full h-svh flex flex-col items-center justify-center m-20">
+          <div className="relative container w-full h-screen flex flex-col items-center justify-center">
             <div className="container w-9/12 h-1/3 p-5 m-2 flex items-center justify-center border-8 border-white border-double bg-black bg-opacity-60">
-              <h1 className={`text-5xl text-center`}>
+              <h1 className='text-8xl text-center'>
                 Welcome to The Cavern
               </h1>
             </div>
@@ -175,7 +163,7 @@ export default function Home() {
                 className="group relative w-9/12 h-auto p-2 border-4 border-double border-yellow-700 rounded-xl bg-black bg-opacity-60 hover:scale-90
                 transform transition duration-500 ease-in-out overflow-hidden animate-pulse hover:animate-none">
                 <span
-                  className="relative z-10 w-full h-full text-2xl text-white text-center
+                  className="relative z-10 w-full h-full text-4xl text-white text-center
                   group-hover:text-black flex items-center justify-center transition duration-500 ease-in-out">
                   Start your adventure!!
                 </span>
@@ -186,92 +174,109 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="items-end justify-center w-full h-screen flex flex-col z-10">
-            <div className="container w-1/2 h-auto bg-white m-4 p-4 border-4 border-black rounded-xl">
-              <form onSubmit={handleAddUser} className='mt-6'>
-                <div className='mb-4'>
-                  <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='nameUser'>
-                    Nombre de usuario
-                  </label>
-                  <input
-                    type='text'
-                    id='nameUser'
-                    value={nameUser}
-                    onChange={(e) => setNameUser(e.target.value)}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  />
-                </div>
-                <div className='mb-4'>
-                  <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='emailUser'>
-                    Correo
-                  </label>
-                  <input
-                    type='email'
-                    id='emailUser'
-                    value={emailUser}
-                    onChange={(e) => setEmailUser(e.target.value)}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  />
-                </div>
-                <div className='mb-4'>
-                  <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='passwordUser'>
-                    Contraseña
-                  </label>
-                  <input
-                    type='password'
-                    id='passwordUser'
-                    value={passwordUser}
-                    onChange={(e) => setPasswordUser(e.target.value)}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  />
-                </div>
-                <div className='flex items-center justify-between'>
-                  <button
-                    type='submit'
-                    className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                  >
-                    Añadir usuario
-                  </button>
-                </div>
-              </form>
+          <div className="items-center justify-center w-full h-screen flex flex-col z-10">
+            <div className="container flex flex-col items-center justify-center w-8/12 h-auto bg-gray-600 bg-opacity-60 p-4 m-4
+            border-4 border-purple-800 rounded-xl gap-1">
+              <h1 className='text-5xl text-white text-center'>
+                Welcome To The Cavern!!
+              </h1>
+              <div className='flex w-full h-auto gap-5'>
+                <form onSubmit={handleAddUser} className='w-1/2 p-4'>
+                  <div className='w-11/12'>
+                    <label className="block text-white text text-3xl mb-2" htmlFor='nameUser'>
+                      User Name
+                    </label>
+                    <input
+                      type='text'
+                      id='nameUser'
+                      value={nameUser}
+                      onChange={(e) => setNameUser(e.target.value)}
+                      className='appearance-none border-4 border-cyan-950 rounded-lg w-full p-1 px-3 text-black text-2xl leading-tight
+                    hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
+                    focus:border-purple-800 transition-all ease-out duration-500'
+                    />
+                  </div>
+                  <div className='w-11/12'>
+                    <label className="block text-white text text-3xl mb-2" htmlFor='emailUser'>
+                      Correo
+                    </label>
+                    <input
+                      type='email'
+                      id='emailUser'
+                      value={emailUser}
+                      onChange={(e) => setEmailUser(e.target.value)}
+                      className='appearance-none border-4 border-cyan-950 rounded-lg w-full p-1 px-3 text-black text-2xl leading-tight
+                    hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
+                    focus:border-purple-800 transition-all ease-out duration-500'                  />
+                  </div>
+                  <div className='w-11/12'>
+                    <label className="block text-white text text-3xl mb-2" htmlFor='passwordUser'>
+                      Contraseña
+                    </label>
+                    <input
+                      type='password'
+                      id='passwordUser'
+                      value={passwordUser}
+                      onChange={(e) => setPasswordUser(e.target.value)}
+                      className='appearance-none border-4 border-cyan-950 rounded-lg w-full p-1 px-3 text-black text-2xl leading-tight
+                    hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
+                    focus:border-purple-800 transition-all ease-out duration-500'                  />
+                  </div>
+                  <div className='flex items-center justify-end w-11/12'>
+                    <button
+                      type='submit'
+                      className='w-6/12 bg-white border-4 border-gray-900 hover:bg-purple-500 text-black text-2xl px-4 py-1 rounded-lg mt-4
+                    transition-all ease-out duration-500 right-0'
+                    >
+                      Registrate
+                    </button>
+                  </div>
+                </form>
 
-              <form onSubmit={handleManualLogin} className='mt-6'>
-                <div className='mb-4'>
-                  <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='IniciarEmailUser'>
-                    Correo
-                  </label>
-                  <input
-                    type='email'
-                    id='IniciarEmailUser'
-                    value={manualEmailUser}
-                    onChange={(e) => setManualEmailUser(e.target.value)}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  />
-                </div>
-                <div className='mb-4'>
-                  <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='iniciarPasswordUser'>
-                    Contraseña
-                  </label>
-                  <input
-                    type='password'
-                    id='iniciarPasswordUser'
-                    value={manualPasswordUser}
-                    onChange={(e) => setManualPasswordUser(e.target.value)}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  />
-                </div>
-                <div className='flex items-center justify-between'>
-                  <button
-                    type='submit'
-                    className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                  >
-                    Iniciar sesión
-                  </button>
-                </div>
-              </form>
-              <p>No estás logeado</p>
-              <button onClick={handleLogin} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
-                Iniciar sesión con Google
+                <form onSubmit={handleManualLogin} className='w-1/2 p-4'>
+                  <div className='w-11/12'>
+                    <label className="block text-white text text-3xl mb-2" htmlFor='IniciarEmailUser'>
+                      Correo
+                    </label>
+                    <input
+                      type='email'
+                      id='IniciarEmailUser'
+                      value={manualEmailUser}
+                      onChange={(e) => setManualEmailUser(e.target.value)}
+                      className='appearance-none border-4 border-cyan-950 rounded-lg w-full p-1 px-3 text-black text-2xl leading-tight
+                    hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
+                    focus:border-purple-800 transition-all ease-out duration-500'                  />
+                  </div>
+                  <div className='w-11/12'>
+                    <label className="block text-white text text-3xl mb-2" htmlFor='iniciarPasswordUser'>
+                      Contraseña
+                    </label>
+                    <input
+                      type='password'
+                      id='iniciarPasswordUser'
+                      value={manualPasswordUser}
+                      onChange={(e) => setManualPasswordUser(e.target.value)}
+                      className='appearance-none border-4 border-cyan-950 rounded-lg w-full p-1 px-3 text-black text-2xl leading-tight
+                    hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
+                    focus:border-purple-800 transition-all ease-out duration-500'                  />
+                  </div>
+                  <div className='flex items-center justify-end w-11/12'>
+                    <button
+                      type='submit'
+                      className='w-6/12 bg-white border-4 border-gray-900 hover:bg-teal-500 text-black text-2xl px-4 py-1 rounded-lg mt-4
+                    transition-all ease-out duration-500 right-0'                  >
+                      Iniciar sesión
+                    </button>
+                  </div>
+                </form>
+
+              </div>
+
+              <button onClick={handleLogin}
+                className='appearance-none w-10/12 border-4 border-yellow-900 rounded-lg p-4 px-3 text-white text-4xl bg-black bg-opacity-60
+                hover:bg-amber-800 hover:text-black hover:shadow-purple-500 hover:shadow-sm hover:border-black transition-all ease-out 
+                duration-500'>
+                  Iniciar sesión con Google
               </button>
             </div>
           </div>

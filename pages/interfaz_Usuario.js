@@ -39,17 +39,22 @@ export default function InterfazUsuario() {
     }, []);
 
     useEffect(() => {
-        async function fetchCharacters() {
+        const fetchCharacters = async (userId) => {
             try {
-                const { data } = await axios.get(`${backUrl}/characters`);
+                const { data } = await axios.get(`${backUrl}/characters`, {
+                    params: { userId }
+                });
                 setCharacters(data);
             } catch (error) {
                 console.log("Error cargando los personajes", error);
             }
+        };
+
+        if (loggedInUser) {
+            fetchCharacters(loggedInUser.id_user);
         }
-        fetchCharacters();
-    }, []);
-    
+    }, [loggedInUser]);
+
     useEffect(() => {
         if (session && session.user) {
             const newUser = {
@@ -65,7 +70,8 @@ export default function InterfazUsuario() {
     useEffect(() => {
         const storedUser = localStorage.getItem('loggedInUser');
         if (storedUser) {
-            setLoggedInUser(JSON.parse(storedUser));
+            const user = JSON.parse(storedUser);
+            setLoggedInUser(user);
             setIsLoggedIn(true);
         }
     }, []);
@@ -153,6 +159,14 @@ export default function InterfazUsuario() {
                         <button onClick={handleLogout} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                             Cerrar sesión
                         </button>
+                        <div>
+                            <h2 className='text-2xl font-bold text-center mt-4'>Tus personajes</h2>
+                            <ul>
+                                {characters.map(character => (
+                                    <li key={character.id_character}>{character.name_character}</li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 ) : (
                     <div className="items-end justify-center w-full h-screen flex flex-col z-10">
