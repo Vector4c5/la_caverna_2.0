@@ -14,9 +14,15 @@ export default function InterfazUsuario() {
     const [nameUser, setNameUser] = useState('');
     const [emailUser, setEmailUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
+    const [manualEmailUser, setManualEmailUser] = useState('');
+    const [manualPasswordUser, setManualPasswordUser] = useState('');
     const [loading, setLoading] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
+
+    const generateRandomPassword = () => {
+        return Math.random().toString(36).slice(-8); // Genera una contraseña aleatoria de 8 caracteres
+    };
 
     useEffect(() => {
         async function fetchUsers() {
@@ -43,11 +49,7 @@ export default function InterfazUsuario() {
         }
         fetchCharacters();
     }, []);
-
-    const generateRandomPassword = () => {
-        return Math.random().toString(36).slice(-8); // Genera una contraseña aleatoria de 8 caracteres
-    };
-
+    
     useEffect(() => {
         if (session && session.user) {
             const newUser = {
@@ -59,6 +61,14 @@ export default function InterfazUsuario() {
             setIsLoggedIn(true);
         }
     }, [session]);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('loggedInUser');
+        if (storedUser) {
+            setLoggedInUser(JSON.parse(storedUser));
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     const addUserToDatabase = async (user) => {
         try {
@@ -75,6 +85,7 @@ export default function InterfazUsuario() {
             setUsers([...users, response.data]);
             setIsLoggedIn(true);
             setLoggedInUser(response.data);
+            localStorage.setItem('loggedInUser', JSON.stringify(response.data));
         } catch (error) {
             console.log('Error al añadir usuario:', error);
         }
@@ -101,10 +112,11 @@ export default function InterfazUsuario() {
     const handleManualLogin = async (e) => {
         e.preventDefault();
         try {
-            const user = users.find(u => u.email_user === emailUser && u.password_user === passwordUser);
+            const user = users.find(u => u.email_user === manualEmailUser && u.password_user === manualPasswordUser);
             if (user) {
                 setIsLoggedIn(true);
                 setLoggedInUser(user);
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
                 console.log('Inicio de sesión exitoso:', user);
             } else {
                 console.log('Correo o contraseña incorrectos.');
@@ -114,7 +126,12 @@ export default function InterfazUsuario() {
         }
     };
 
-    
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setLoggedInUser(null);
+        localStorage.removeItem('loggedInUser');
+        signOut();
+    };
 
     if (loading) {
         return <p className='text-2xl font-bold text-center'>Cargando usuarios...</p>
@@ -133,96 +150,99 @@ export default function InterfazUsuario() {
                     <div>
                         <h1 className='text-3xl font-bold text-center'>Bienvenido, {loggedInUser ? loggedInUser.name_user : session.user.name}</h1>
                         <p>Email: {loggedInUser ? loggedInUser.email_user : session.user.email}</p>
-                        <button onClick={() => signOut()} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                        <button onClick={handleLogout} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                             Cerrar sesión
                         </button>
                     </div>
                 ) : (
-                    <div>
-                        <form onSubmit={handleAddUser} className='mt-6'>
-                            <div className='mb-4'>
-                                <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='nameUser'>
-                                    Nombre de usuario
-                                </label>
-                                <input
-                                    type='text'
-                                    id='nameUser'
-                                    value={nameUser}
-                                    onChange={(e) => setNameUser(e.target.value)}
-                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                />
-                            </div>
-                            <div className='mb-4'>
-                                <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='emailUser'>
-                                    Correo
-                                </label>
-                                <input
-                                    type='email'
-                                    id='emailUser'
-                                    value={emailUser}
-                                    onChange={(e) => setEmailUser(e.target.value)}
-                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                />
-                            </div>
-                            <div className='mb-4'>
-                                <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='passwordUser'>
-                                    Contraseña
-                                </label>
-                                <input
-                                    type='password'
-                                    id='passwordUser'
-                                    value={passwordUser}
-                                    onChange={(e) => setPasswordUser(e.target.value)}
-                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                />
-                            </div>
-                            <div className='flex items-center justify-between'>
-                                <button
-                                    type='submit'
-                                    className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                                >
-                                    Añadir usuario
-                                </button>
-                            </div>
-                        </form>
-                        <form onSubmit={handleManualLogin} className='mt-6'>
-                            <div className='mb-4'>
-                                <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='emailUser'>
-                                    Correo
-                                </label>
-                                <input
-                                    type='email'
-                                    id='emailUser'
-                                    value={emailUser}
-                                    onChange={(e) => setEmailUser(e.target.value)}
-                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                />
-                            </div>
-                            <div className='mb-4'>
-                                <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='passwordUser'>
-                                    Contraseña
-                                </label>
-                                <input
-                                    type='password'
-                                    id='passwordUser'
-                                    value={passwordUser}
-                                    onChange={(e) => setPasswordUser(e.target.value)}
-                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                />
-                            </div>
-                            <div className='flex items-center justify-between'>
-                                <button
-                                    type='submit'
-                                    className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                                >
-                                    Iniciar sesión
-                                </button>
-                            </div>
-                        </form>
-                        <p>No estás logeado</p>
-                        <button onClick={handleLogin} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
-                            Iniciar sesión con Google
-                        </button>
+                    <div className="items-end justify-center w-full h-screen flex flex-col z-10">
+                        <div className="container w-1/2 h-auto bg-white m-4 p-4 border-4 border-black rounded-xl">
+                            <form onSubmit={handleAddUser} className='mt-6'>
+                                <div className='mb-4'>
+                                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='nameUser'>
+                                        Nombre de usuario
+                                    </label>
+                                    <input
+                                        type='text'
+                                        id='nameUser'
+                                        value={nameUser}
+                                        onChange={(e) => setNameUser(e.target.value)}
+                                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    />
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='emailUser'>
+                                        Correo
+                                    </label>
+                                    <input
+                                        type='email'
+                                        id='emailUser'
+                                        value={emailUser}
+                                        onChange={(e) => setEmailUser(e.target.value)}
+                                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    />
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='passwordUser'>
+                                        Contraseña
+                                    </label>
+                                    <input
+                                        type='password'
+                                        id='passwordUser'
+                                        value={passwordUser}
+                                        onChange={(e) => setPasswordUser(e.target.value)}
+                                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    />
+                                </div>
+                                <div className='flex items-center justify-between'>
+                                    <button
+                                        type='submit'
+                                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                                    >
+                                        Añadir usuario
+                                    </button>
+                                </div>
+                            </form>
+
+                            <form onSubmit={handleManualLogin} className='mt-6'>
+                                <div className='mb-4'>
+                                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='IniciarEmailUser'>
+                                        Correo
+                                    </label>
+                                    <input
+                                        type='email'
+                                        id='IniciarEmailUser'
+                                        value={manualEmailUser}
+                                        onChange={(e) => setManualEmailUser(e.target.value)}
+                                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    />
+                                </div>
+                                <div className='mb-4'>
+                                    <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='iniciarPasswordUser'>
+                                        Contraseña
+                                    </label>
+                                    <input
+                                        type='password'
+                                        id='iniciarPasswordUser'
+                                        value={manualPasswordUser}
+                                        onChange={(e) => setManualPasswordUser(e.target.value)}
+                                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    />
+                                </div>
+                                <div className='flex items-center justify-between'>
+                                    <button
+                                        type='submit'
+                                        className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                                    >
+                                        Iniciar sesión
+                                    </button>
+                                </div>
+                            </form>
+                            <p>No estás logeado</p>
+                            <button onClick={handleLogin} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                                Iniciar sesión con Google
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
