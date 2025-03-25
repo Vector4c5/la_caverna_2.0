@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Inter } from 'next/font/google';
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { Jersey_10 } from '@next/font/google';
+import { PiArrowSquareRight } from "react-icons/pi";
 
-const inter = Inter({ subsets: ['latin'] });
+const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function InterfazUsuario() {
@@ -144,26 +145,45 @@ export default function InterfazUsuario() {
     }
 
     return (
-        <main className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}>
+        <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
             <img
                 src="/Fondo_Biblioteca.jpeg"
                 alt="landimg"
                 layout="fill"
                 className="object-cover w-full h-screen opacity-30 z-0 fixed"
             />
-            <div className='z-10 bg-black bg-opacity-80 p-5'>
+            <div className='z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4'>
                 {isLoggedIn ? (
-                    <div>
-                        <h1 className='text-3xl font-bold text-center'>Bienvenido, {loggedInUser ? loggedInUser.name_user : session.user.name}</h1>
-                        <p>Email: {loggedInUser ? loggedInUser.email_user : session.user.email}</p>
-                        <button onClick={handleLogout} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
-                            Cerrar sesión
-                        </button>
-                        <div>
-                            <h2 className='text-2xl font-bold text-center mt-4'>Tus personajes</h2>
-                            <ul>
+                    <div className='container w-10/12 gap-4 flex flex-col items-center justify-start'>
+                        <div className='w-full h-auto flex items-center justify-start rounded-xl bg-black bg-opacity-60 p-6 gap-6
+                        border-white border-2'>
+                            <img
+                                src="/Imagen_Perfil.png"
+                                alt="imagen de perfil"
+                                layout="fill"
+                                className="w-44 rounded-full"
+                                />
+                            <div>
+                            <h1 className='text-6xl text-white'>
+                                Bienvenido, {loggedInUser ? loggedInUser.name_user : session.user.name}</h1>
+                            <p className='text-3xl text-white'>Email: {loggedInUser ? loggedInUser.email_user : session.user.email}</p>
+                            </div>
+                            <button onClick={handleLogout} 
+                            className='bg-red-500 hover:bg-red-700 text-white text-3xl py-2 px-4 rounded focus:outline-none 
+                            focus:shadow-outline ml-auto m-4 gap-1 transition-all ease-out duration-500'>
+                                Cerrar sesión
+                                <div className='flex items-center justify-center scale-150'>
+                                    <PiArrowSquareRight/>
+                                </div>
+                                
+                            </button>
+                        </div>
+                        <div className='w-full h-auto grid grid-cols-3 gap-4 rounded-xl bg-black bg-opacity-60 p-6
+                        border-white border-2'>
+                            <h2 className='col-span-3 text-7xl text-center'>Tus personajes</h2>
+                            <ul className='col-span-3'>
                                 {characters.map(character => (
-                                    <li key={character.id_character}>{character.name_character}</li>
+                                    <li key={character.id_character} className='col-span-1 text-white text-3xl'>{character.name_character}</li>
                                 ))}
                             </ul>
                         </div>
