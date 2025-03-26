@@ -6,7 +6,6 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import { Jersey_10 } from '@next/font/google';
 import { PiArrowSquareRight } from "react-icons/pi";
 
-
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -185,10 +184,80 @@ export default function InterfazUsuario() {
                         </div>
                         <div className='w-full h-auto grid grid-cols-3 gap-4 rounded-xl bg-black bg-opacity-60 p-6
                         border-white border-2'>
-                            <h2 className='col-span-3 text-7xl text-center'>Tus personajes</h2>
-                            <ul className='col-span-3'>
+                            <h2 className='col-span-3 text-7xl text-center'>
+                                Tus personajes
+                            </h2>
+                            <Link href='/crear_personaje' 
+                            className='col-span-3 text-center text-4xl bg-blue-500 hover:bg-blue-700 transition-all ease-out duration-500 '> 
+                                Crear Personaje
+                            </Link>
+
+                            <ul className='col-span-3 grid grid-cols-3 gap-4'>
                                 {characters.map(character => (
-                                    <li key={character.id_character} className='col-span-1 text-white text-3xl'>{character.name_character}</li>
+                                    <li key={character.id_character} className='text-white text-3xl'>
+                                        {
+                                            character.name_character
+                                        }<br/>
+                                        {
+                                            character.race
+                                        }<br/>
+                                        {
+                                            character.level_character
+                                        }<br/>
+                                        {
+                                            character.class
+                                        }<br/>
+                                        {
+                                            character.dexterity
+                                        }<br/>
+                                        {
+                                            character.constitution
+                                        }<br/>
+                                        {
+                                            character.intelligence
+                                        }<br/>
+                                        {
+                                            character.wisdom
+                                        }<br/>
+                                        {
+                                            character.charisma
+                                        }<br/>
+                                        {
+                                            character.hit_points
+                                        }<br/>
+                                        {
+                                            character.armor_class
+                                        }
+                                        {
+                                            character.initiative
+                                        }<br/>
+                                        {
+                                            character.speed
+                                        }<br/>
+                                        {
+                                            character.background
+                                        }<br/>
+                                        <div>
+                                            <h3 className='text-2xl'>Skills:</h3>
+                                            <ul>
+                                                {Object.entries(character.skills).map(([skill, value]) => (
+                                                    <li key={skill}>
+                                                        {skill}: {value}<br/>
+                                                        </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h3 className='text-2xl'>Spells:</h3>
+                                            <ul>
+                                                {Object.entries(character.spells).map(([spell, value]) => (
+                                                    <li key={spell}>
+                                                        {spell}: {value}<br/>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        </li>
                                 ))}
                             </ul>
                         </div>

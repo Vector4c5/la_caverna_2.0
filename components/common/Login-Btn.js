@@ -1,4 +1,4 @@
-import { useSession, signIn } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { Jersey_10 } from '@next/font/google';
 import { FaUserAstronaut } from "react-icons/fa";
@@ -12,6 +12,7 @@ const backUrl = process.env.NEXT_PUBLIC_API_URL;
 export default function LoginBtn() {
     const { data: session } = useSession();
     const [loggedInUser, setLoggedInUser] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -33,27 +34,53 @@ export default function LoginBtn() {
         fetchUser();
     }, [session]);
 
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+
     if (loggedInUser) {
         return (
-            <Link href='/interfaz_Usuario' className={`group flex items-center gap-4 mx-2 hover:translate-x-4 transition 
-                            duration-300 ease-in-out ${jersey_10.className}`}>
-                <div className="opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out scale-150">
-                    <MdPlayArrow />
-                </div>
-                <div className="scale-150">
-                    <FaUserAstronaut />
-                </div>
-                <p className="text-3xl">
-                    {loggedInUser.name_user}
-                </p>
-            </Link>
+            <div className={`relative ${jersey_10.className}`}>
+                <button onClick={toggleMenu} className="group flex items-center gap-4 mx-2 hover:translate-x-4 transition 
+                            duration-300 ease-in-out">
+                    <div className="opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out scale-150">
+                        <MdPlayArrow />
+                    </div>
+                    <div className="scale-150">
+                        <FaUserAstronaut />
+                    </div>
+                    <p className="text-3xl">
+                        {loggedInUser.name_user}
+                    </p>
+                </button>
+                {menuOpen && (
+                    <div className="absolute mr-auto mt-8 w-48 bg-white border-2 border-gray-500 shadow-lg z-10">
+                        <Link href="/profile" className="group flex items-center px-2 py-2 text-2xl text-black border-b-2 border-black hover:bg-gray-200">
+                            <div className="opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out">
+                                <MdPlayArrow />
+                            </div>
+                            <p className='group-hover:translate-x-2 transition duration-300 ease-in-out'>
+                                Perfil
+                            </p>
+                        </Link>
+                        
+                        <Link href="/settings" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+                            Configuración
+                        </Link>
+
+                        <button onClick={() => signOut()} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
+                            Cerrar sesión
+                        </button>
+                    </div>
+                )}
+            </div>
         );
     }
 
     return (
-        <>
-            <Link href='/' className={`group flex items-center gap-4 mx-2 hover:translate-x-4 transition 
-                            duration-300 ease-in-out ${jersey_10.className}`}>
+        <div className={`relative ${jersey_10.className}`}>
+            <button onClick={toggleMenu} className="group flex items-center gap-4 mx-2 hover:translate-x-4 transition 
+                            duration-300 ease-in-out">
                 <div className="opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out scale-150">
                     <MdPlayArrow />
                 </div>
@@ -61,9 +88,14 @@ export default function LoginBtn() {
                     <FaUserAstronaut />
                 </div>
                 <p className="text-3xl">
-                    Inicia sesion
+                    Inicia sesión
                 </p>
-            </Link>
-        </>
+            </button>
+            {menuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                    <button onClick={() => signIn()} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Iniciar sesión con Google</button>
+                </div>
+            )}
+        </div>
     );
 }

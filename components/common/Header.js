@@ -19,7 +19,7 @@ export default function Header() {
         },
         {
             name: "Multiplayer",
-            href: "/contact",
+            href: "/services",
             icon: <FaUserFriends/>
         },
         {
