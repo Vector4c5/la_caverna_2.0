@@ -187,7 +187,7 @@ export default function InterfazUsuario() {
                             <h2 className='col-span-3 text-7xl text-center'>
                                 Tus personajes
                             </h2>
-                            <Link href='/crear_personaje' 
+                            <Link href='/Creacion_Personajes' 
                             className='col-span-3 text-center text-4xl bg-blue-500 hover:bg-blue-700 transition-all ease-out duration-500 '> 
                                 Crear Personaje
                             </Link>
@@ -265,6 +265,10 @@ export default function InterfazUsuario() {
                 ) : (
                     <div className="items-end justify-center w-full h-screen flex flex-col z-10">
                         <div className="container w-1/2 h-auto bg-white m-4 p-4 border-4 border-black rounded-xl">
+                        <Link href='/Creacion_Personajes' 
+                            className='col-span-3 text-center text-4xl bg-blue-500 hover:bg-blue-700 transition-all ease-out duration-500 '> 
+                                Crear Personaje
+                            </Link>
                             <form onSubmit={handleAddUser} className='mt-6'>
                                 <div className='mb-4'>
                                     <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='nameUser'>
