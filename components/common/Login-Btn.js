@@ -38,6 +38,15 @@ export default function LoginBtn() {
         setMenuOpen(!menuOpen);
     };
 
+    const handleLogout = () => {
+        // Eliminar el usuario almacenado en localStorage
+        localStorage.removeItem('loggedInUser');
+        // Actualizar el estado para reflejar que no hay usuario logueado
+        setLoggedInUser(null);
+        // Llamar a la función de cierre de sesión de NextAuth
+        signOut();
+    };
+
     if (loggedInUser) {
         return (
             <div className={`relative ${jersey_10.className}`}>
@@ -68,7 +77,10 @@ export default function LoginBtn() {
                             Configuración
                         </Link>
 
-                        <button onClick={() => signOut()} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
+                        <button
+                            onClick={handleLogout}
+                            className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
+                        >
                             Cerrar sesión
                         </button>
                     </div>

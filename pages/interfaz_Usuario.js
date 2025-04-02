@@ -22,10 +22,6 @@ export default function InterfazUsuario() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
 
-    const generateRandomPassword = () => {
-        return Math.random().toString(36).slice(-8); // Genera una contraseña aleatoria de 8 caracteres
-    };
-
     useEffect(() => {
         async function fetchUsers() {
             try {
