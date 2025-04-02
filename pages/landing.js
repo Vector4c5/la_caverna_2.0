@@ -45,7 +45,7 @@ export default function landing () {
                 </Link>
                 <Link className="group w-1/2 bg-purple-700 text-white text-2xl p-4 rounded-xl hover:bg-purple-900 hover:text-black ease-out duration-500"
                 href='/product'>
-                    <span class="text-center">Start your adventure!!</span>
+                    <span className="text-center">Start your adventure!!</span>
                 </Link>
                 </div>
             </div>
