@@ -87,26 +87,26 @@ export default function Home() {
   const handleManualRegister = async (e) => {
     e.preventDefault();
     const newUser = {
-        user_name: manualNameUser, // Cambiado a "user_name" para coincidir con el backend
-        email_user: registerEmailUser,
+      user_name: manualNameUser, // Cambiado a "user_name" para coincidir con el backend
+      email_user: registerEmailUser,
     };
 
     try {
-        const existingUser = users.find(u => u.email_user === newUser.email_user);
-        if (existingUser) {
-            alert('El usuario ya está registrado.');
-            return;
-        }
+      const existingUser = users.find(u => u.email_user === newUser.email_user);
+      if (existingUser) {
+        alert('El usuario ya está registrado.');
+        return;
+      }
 
-        const response = await axios.post(`${backUrl}/users_cavern`, newUser); // Enviando los datos correctos
-        console.log('Usuario registrado correctamente:', response.data);
-        setUsers([...users, response.data]);
-        alert('Registro exitoso. Ahora puedes iniciar sesión.');
+      const response = await axios.post(`${backUrl}/users_cavern`, newUser); // Enviando los datos correctos
+      console.log('Usuario registrado correctamente:', response.data);
+      setUsers([...users, response.data]);
+      alert('Registro exitoso. Ahora puedes iniciar sesión.');
     } catch (error) {
-        console.log('Error al registrar usuario:', error);
-        alert('Hubo un error al registrar el usuario.');
+      console.log('Error al registrar usuario:', error);
+      alert('Hubo un error al registrar el usuario.');
     }
-};
+  };
 
   const handleLogout = () => {
     setIsLoggedIn(false);

@@ -10,18 +10,14 @@ import LoginBtn from "@/components/common/Login-Btn";
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 
 export default function Header() {
-    
+
     const navPages = [
         {
             name: "Home",
             href: "/landing",
             icon: <IoHomeOutline />
         },
-        {
-            name: "Multiplayer",
-            href: "/services",
-            icon: <FaUserFriends/>
-        },
+
         {
             name: "Playes",
             href: "/about",
@@ -35,9 +31,14 @@ export default function Header() {
     ];
 
     return (
-        <main className={`flex items-center w-full h-full py-3 max-h-24 border-double border-8 border-purple-400 bg-black bg-opacity-50 ${jersey_10.className}
+        <main className={`flex items-center justify-between w-full h-full py-3 max-h-24 border-double border-8 border-purple-400 bg-black bg-opacity-50 ${jersey_10.className}
         shadow-lg shadow-gray-500`}>
-            <div className="flex justify-start w-1/2 mx-8">
+            <img
+                src="/Logo_The_Cavern.jpeg"
+                alt="Logo"
+                className="w-16 h-auto border-4 border-white rounded-full shadow-md shadow-gray-500 mx-4"
+            />
+            <div className="flex justify-start w-1/2">
                 <h1 className="text-6xl text-white">
                     The Cavern
                 </h1>
@@ -46,7 +47,7 @@ export default function Header() {
                 <nav className="flex justify-around gap-5">
                     {navPages.map((page) => (
                         <li key={page.href} className="group flex text-center items-center relative">
-                            <Link href={page.href} className="flex items-center gap-4 mx-2 group-hover:translate-x-4 transition 
+                            <Link href={page.href} className="flex items-center gap-4 mx-1 group-hover:translate-x-4 transition 
                             duration-300 ease-in-out">
                                 <div className="opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out scale-150">
                                     <MdPlayArrow />

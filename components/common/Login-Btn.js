@@ -50,7 +50,7 @@ export default function LoginBtn() {
     if (loggedInUser) {
         return (
             <div className={`relative ${jersey_10.className}`}>
-                <button onClick={toggleMenu} className="group flex items-center gap-4 mx-2 hover:translate-x-4 transition 
+                <button onClick={toggleMenu} className="group max-w-60 flex items-center gap-4 mx-2 hover:translate-x-4 transition overflow-hidden
                             duration-300 ease-in-out">
                     <div className="opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out scale-150">
                         <MdPlayArrow />
@@ -58,8 +58,8 @@ export default function LoginBtn() {
                     <div className="scale-150">
                         <FaUserAstronaut />
                     </div>
-                    <p className="text-3xl">
-                        {loggedInUser.name_user}
+                    <p className="text-3xl truncate overflow-hidden whitespace-nowrap text-ellipsis">
+                        {loggedInUser.user_name}
                     </p>
                 </button>
                 {menuOpen && (
@@ -72,7 +72,7 @@ export default function LoginBtn() {
                                 Perfil
                             </p>
                         </Link>
-                        
+
                         <Link href="/settings" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
                             Configuración
                         </Link>
