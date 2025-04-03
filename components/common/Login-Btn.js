@@ -21,7 +21,7 @@ export default function LoginBtn() {
                 setLoggedInUser(JSON.parse(storedUser));
             } else if (session && session.user) {
                 try {
-                    const { data } = await axios.get(`${backUrl}/users`, {
+                    const { data } = await axios.get(`${backUrl}/users_cavern`, {
                         params: { email: session.user.email }
                     });
                     setLoggedInUser(data);
@@ -59,12 +59,12 @@ export default function LoginBtn() {
                         <FaUserAstronaut />
                     </div>
                     <p className="text-3xl truncate overflow-hidden whitespace-nowrap text-ellipsis">
-                        {loggedInUser.user_name}
+                        {loggedInUser.name_user}
                     </p>
                 </button>
                 {menuOpen && (
                     <div className="absolute mr-auto mt-8 w-48 bg-white border-2 border-gray-500 shadow-lg z-10">
-                        <Link href="/profile" className="group flex items-center px-2 py-2 text-2xl text-black border-b-2 border-black hover:bg-gray-200">
+                        <Link href="/interfaz_Usuario" className="group flex items-center px-2 py-2 text-2xl text-black border-b-2 border-black hover:bg-gray-200">
                             <div className="opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out">
                                 <MdPlayArrow />
                             </div>
