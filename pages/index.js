@@ -1,5 +1,5 @@
 import { Jersey_10 } from '@next/font/google';
-import StarAnimation from "../components/common/StartAnimation";
+import StarAnimation from "@/components/common/StartAnimation";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
 import axios from 'axios';

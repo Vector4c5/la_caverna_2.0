@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Header from '@/components/common/Header';
+import StartAnimation from '@/components/common/StartAnimation'
 import CharacterGrid from '@/components/common/CharacterGrid';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -95,6 +96,7 @@ export default function InterfazUsuario() {
     if (!isLoggedIn) {
         return (
             <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+                <StartAnimation/>
                 <img
                     src="/Fondo_Biblioteca.jpeg"
                     alt="landimg"
@@ -140,6 +142,7 @@ export default function InterfazUsuario() {
 
     return (
         <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+            <StartAnimation/>
             <img
                 src="/Fondo_Biblioteca.jpeg"
                 alt="landimg"
