@@ -29,11 +29,7 @@ const CharacterPage = ({ character }) => {
         <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center my-8">{character.name_character}</h1>
             <div className="bg-white shadow-md rounded-lg p-6">
-                <img
-                    src={getClassImage(character.class_character)}
-                    alt={character.class_character}
-                    className="w-full h-64 object-cover rounded-lg mb-4"
-                />
+                 
                 <p className="text-lg"><strong>Descripción:</strong> {character.background || 'Sin descripción'}</p>
                 <p className="text-lg"><strong>Nivel:</strong> {character.level_character || 'N/A'}</p>
                 <p className="text-lg"><strong>Clase:</strong> {character.class_character || 'N/A'}</p>
