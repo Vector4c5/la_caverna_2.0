@@ -94,7 +94,7 @@ const CharacterGrid = ({ userId }) => {
                         </Link>
                     ))}
                 <Link
-                    href='/'
+                    href='/add_Character'
                     className="group flex flex-col justify-center items-center w-full border-4 border-pink-600 rounded-lg p-2 px-3 
                     text-white bg-black bg-opacity-60 hover:bg-pink-950 hover:scale-105 transition-all ease-out 
                     duration-400"
@@ -108,7 +108,7 @@ const CharacterGrid = ({ userId }) => {
                 </div>
             ) : (
                 <Link
-                href='/'
+                href='/add_Character'
                 className="group flex flex-col justify-center items-center w-full border-4 border-pink-600 rounded-lg p-2 px-3 text-white bg-black bg-opacity-60
                 hover:bg-pink-950 hover:scale-105 transition-all ease-out 
                 duration-400"
