@@ -99,7 +99,7 @@ const CharacterGrid = ({ userId }) => {
                     text-white bg-black bg-opacity-60 hover:bg-pink-950 hover:scale-105 transition-all ease-out 
                     duration-400"
                 >
-                    <p className='group-hover:text-black text-center text-5xl'>Agregar Persopnaje</p>
+                    <p className='group-hover:text-black text-center text-5xl'>Add Character</p>
                     <div className="group-hover:text-black w-full h-auto my-3 flex flex-col items-center justify-center text-6xl text-white">
                         <FaPlusSquare />
                     </div>
@@ -113,7 +113,7 @@ const CharacterGrid = ({ userId }) => {
                 hover:bg-pink-950 hover:scale-105 transition-all ease-out 
                 duration-400"
                 >
-                    <p className='text-center'>Agregar Persopnaje</p>
+                    <p className='text-center'>Add Character</p>
                     <div className="w-full h-auto flex flex-col items-center justify-center opacity-100 scale-150">
                     <FaPlusSquare />
                     </div>
