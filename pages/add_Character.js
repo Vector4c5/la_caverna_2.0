@@ -34,6 +34,8 @@ const AddCharacter = () => {
     const [raceData, setRaceData] = useState(null); // Estado para almacenar los datos de la raza seleccionada
     const [diceResults, setDiceResults] = useState(Array(6).fill([])); // Estado para almacenar los resultados de los 6 dados
     const [classData, setClassData] = useState(null); // Estado para almacenar los datos de la clase seleccionada
+    const [skills, setSkills] = useState([]); // Estado para almacenar las habilidades dinámicas
+    const [spells, setSpells] = useState([]); // Estado para almacenar los hechizos dinámicos
 
     // Obtener el userId desde localStorage o el backend
     useEffect(() => {
@@ -144,6 +146,18 @@ const AddCharacter = () => {
         });
     };
 
+    const handleSkillChange = (index, field, value) => {
+        const updatedSkills = [...skills];
+        updatedSkills[index][field] = value;
+        setSkills(updatedSkills);
+    };
+
+    const handleSpellChange = (index, field, value) => {
+        const updatedSpells = [...spells];
+        updatedSpells[index][field] = value;
+        setSpells(updatedSpells);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!userId) {
@@ -151,18 +165,45 @@ const AddCharacter = () => {
             return;
         }
 
-        console.log('Enviando personaje:', {
-            id_user: userId,
-            ...formData,
-        });
-
         try {
-            const response = await axios.post(`${backUrl}/characters`, {
+            // Crear el personaje primero
+            const characterResponse = await axios.post(`${backUrl}/characters`, {
                 id_user: userId,
                 ...formData,
             });
-            console.log('Respuesta del backend:', response.data);
-            setMessage(response.data.mensaje || 'Personaje creado exitosamente.');
+            const id_character = characterResponse.data.id_character; // Obtener el ID del personaje creado
+
+            console.log('Personaje creado con ID:', id_character);
+
+            // Crear las habilidades asociadas al personaje
+            for (const skill of skills) {
+                try {
+                    await axios.post(`${backUrl}/skills`, {
+                        ...skill,
+                        id_character,
+                    });
+                    console.log('Habilidad creada:', skill.name_skill);
+                } catch (err) {
+                    console.error(`Error al crear la habilidad "${skill.name_skill}":`, err.response?.data || err);
+                }
+            }
+
+            // Crear los hechizos asociados al personaje
+            for (const spell of spells) {
+                try {
+                    await axios.post(`${backUrl}/spells`, {
+                        name_spell: spell.name_spell,
+                        description_spell: spell.description_spell,
+                        level_spell: spell.level_spell,
+                        id_character,
+                    });
+                    console.log('Hechizo creado:', spell.name_spell);
+                } catch (err) {
+                    console.error(`Error al crear el hechizo "${spell.name_spell}":`, err.response?.data || err);
+                }
+            }
+
+            setMessage('Personaje, habilidades y hechizos creados exitosamente.');
             setError('');
             setFormData({
                 name_character: '',
@@ -181,8 +222,10 @@ const AddCharacter = () => {
                 speed: '',
                 background: '',
             });
+            setSkills([]); // Reiniciar las habilidades
+            setSpells([]); // Reiniciar los hechizos
         } catch (err) {
-            console.error('Error al agregar el personaje:', err.response ? err.response.data : err);
+            console.error('Error al agregar el personaje:', err.response?.data || err);
             setError(err.response?.data?.error || 'Hubo un error al agregar el personaje. Intenta nuevamente.');
             setMessage('');
         }
@@ -195,6 +238,24 @@ const AddCharacter = () => {
             newResults[diceIndex] = results;
             return newResults;
         });
+    };
+
+    const addSkillInput = () => {
+        setSkills([...skills, { name_skill: '', description_skill: '', level_skill: '' }]);
+    };
+
+    const removeSkillInput = (index) => {
+        const updatedSkills = skills.filter((_, i) => i !== index);
+        setSkills(updatedSkills);
+    };
+
+    const addSpellInput = () => {
+        setSpells([...spells, { name_spell: '', description_spell: '', level_spell: '' }]);
+    };
+
+    const removeSpellInput = (index) => {
+        const updatedSpells = spells.filter((_, i) => i !== index);
+        setSpells(updatedSpells);
     };
 
     return (
@@ -479,6 +540,128 @@ const AddCharacter = () => {
                                 required
                             ></textarea>
                         </div>
+
+                        <div className='w-full h-auto flex items-center justify-start py-4 gap-4'>
+
+                            {/* Agregar habilidades dinámicas */}
+                            <div className='w-1/2 h-auto flex flex-col items-start justify-start py-4 mb-auto'>
+                                <h2 className='text-3xl whitespace-nowrap'>Habilidades</h2>
+                                {skills.map((skill, index) => (
+                                    <div key={index} className='w-full h-auto flex flex-col items-start justify-start pt-2 mb-4 border-b-2 border-white'>
+                                        <label className='text-2xl whitespace-nowrap'>Skill Name</label>
+                                        <input
+                                            type="text"
+                                            name="name_skill"
+                                            value={skill.name_skill}
+                                            onChange={(e) => handleSkillChange(index, 'name_skill', e.target.value)}
+                                            className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            required
+                                        />
+
+                                        <label className='text-2xl whitespace-nowrap'>Level Skill</label>
+                                        <input
+                                            type="number"
+                                            name="level_skill"
+                                            value={skill.level_skill}
+                                            onChange={(e) => handleSkillChange(index, 'level_skill', e.target.value)}
+                                            className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            required
+                                        />
+
+
+                                        <label className='text-2xl whitespace-nowrap'>Descripción de la Habilidad</label>
+                                        <textarea
+                                            name="description_skill"
+                                            value={skill.description_skill}
+                                            onChange={(e) => handleSkillChange(index, 'description_skill', e.target.value)}
+                                            className="w-full h-auto min-h-32 text-2xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            required
+                                        ></textarea>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => removeSkillInput(index)}
+                                            className="appearance-none w-5/12 h-auto my-4 border-4 border-red-700 rounded-lg p-1 px-3 text-white text-3xl text-center 
+                                            bg-black bg-opacity-60 hover:bg-red-500 hover:text-black  hover:scale-105 
+                                            transition-all ease-out duration-400"                                        >
+                                            <p className='text-2xl'>
+                                                Eliminar Hechizo
+                                            </p>
+                                        </button>
+                                    </div>
+                                ))}
+                                <button
+                                    type="button"
+                                    onClick={addSkillInput}
+                                    className="appearance-none w-5/12 h-auto border-4 border-teal-600 rounded-lg p-1 px-3 text-white text-3xl text-center 
+                                bg-black bg-opacity-60 hover:bg-teal-300 hover:text-black  hover:scale-105 
+                                transition-all ease-out duration-400"
+                                >
+                                    Agregar Habilidad
+                                </button>
+                            </div>
+
+                            {/* Agregar hechizos dinámicos */}
+                            <div className='w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto'>
+                                <h2 className='text-3xl whitespace-nowrap'>Hechizos</h2>
+                                {spells.map((spell, index) => (
+                                    <div key={index} className='w-full h-auto flex flex-col items-start justify-start pt-2 border-b-2 border-white mb-4'>
+                                        <label className='text-2xl whitespace-nowrap'>Nombre del Hechizo</label>
+                                        <input
+                                            type="text"
+                                            name="name_spell"
+                                            value={spell.name_spell}
+                                            onChange={(e) => handleSpellChange(index, 'name_spell', e.target.value)}
+                                            className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            required
+                                        />
+
+                                        <label className='text-2xl whitespace-nowrap'>Nivel del Hechizo</label>
+                                        <input
+                                            type="number"
+                                            name="level_spell"
+                                            value={spell.level_spell}
+                                            onChange={(e) => handleSpellChange(index, 'level_spell', e.target.value)}
+                                            className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            required
+                                        />
+
+                                        <label className='text-2xl whitespace-nowrap'>Descripción del Hechizo</label>
+                                        <textarea
+                                            name="description_spell"
+                                            value={spell.description_spell}
+                                            onChange={(e) => handleSpellChange(index, 'description_spell', e.target.value)}
+                                            className="w-full h-auto min-h-32 text-2xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            required
+                                        ></textarea>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => removeSpellInput(index)}
+                                            className="appearance-none w-5/12 h-auto my-4 border-4 border-red-700 rounded-lg p-1 px-3 text-white text-3xl text-center 
+                                            bg-black bg-opacity-60 hover:bg-red-500 hover:text-black  hover:scale-105 
+                                            transition-all ease-out duration-400"                                        >
+                                            <p className='text-2xl'>
+                                                Eliminar Hechizo
+                                            </p>
+                                        </button>
+                                    </div>
+                                ))}
+                                <button
+                                    type="button"
+                                    onClick={addSpellInput}
+                                    className="appearance-none w-5/12 h-auto border-4 border-teal-600 rounded-lg p-1 px-3 text-white text-3xl text-center 
+                                bg-black bg-opacity-60 hover:bg-teal-300 hover:text-black  hover:scale-105 
+                                transition-all ease-out duration-400"
+                                >
+                                    Agregar Hechizo
+                                </button>
+                            </div>
+
+
+                        </div>
+
+
                     </div>
                     <div
                         className='w-full h-auto flex items-center justify-center my-4'>
@@ -502,8 +685,10 @@ const AddCharacter = () => {
                                 <div className="w-full h-auto flex flex-col items-start justify-center p-4 rounded-lg text-white gap-2">
                                     <h2 className="w-full text-5xl mb-4 text-center">Información de la Raza</h2>
 
-                                    <p className="text-3xl text-yellow-500">Velocidad: <p className='text-white text-2xl'>{raceData.speed} </p> </p>
-                                    <p className="text-3xl text-yellow-500 ">Tamaño: <p className='text-white text-2xl'> {raceData.size} </p></p>
+                                    <h3 className="text-3xl text-yellow-500">Velocidad: </h3>
+                                    <p className='text-2xl'>{raceData.speed} </p>
+                                    <h3 className="text-3xl text-yellow-500 ">Tamaño: </h3>
+                                    <p className='text-2xl'> {raceData.size} </p>
                                     <h3 className="text-3xl text-yellow-500">Descripción del Tamaño: </h3>
                                     <p className='text-2xl'>{raceData.size_description}</p>
                                     <h3 className="text-3xl mt-4 text-yellow-500">Bonificaciones de Habilidad:</h3>
