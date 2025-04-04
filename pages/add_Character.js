@@ -544,7 +544,7 @@ const AddCharacter = () => {
                         <div className='w-full h-auto flex items-center justify-start py-4 gap-4'>
 
                             {/* Agregar habilidades dinámicas */}
-                            <div className='w-1/2 h-auto flex flex-col items-start justify-start py-4 mb-auto'>
+                            <div className='w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto'>
                                 <h2 className='text-3xl whitespace-nowrap'>Habilidades</h2>
                                 {skills.map((skill, index) => (
                                     <div key={index} className='w-full h-auto flex flex-col items-start justify-start pt-2 mb-4 border-b-2 border-white'>
@@ -593,8 +593,8 @@ const AddCharacter = () => {
                                 <button
                                     type="button"
                                     onClick={addSkillInput}
-                                    className="appearance-none w-5/12 h-auto border-4 border-teal-600 rounded-lg p-1 px-3 text-white text-3xl text-center 
-                                bg-black bg-opacity-60 hover:bg-teal-300 hover:text-black  hover:scale-105 
+                                    className="appearance-none w-11/12 h-auto border-4 border-yellow-600 rounded-lg p-1 px-3 text-white text-3xl text-center 
+                                bg-black bg-opacity-60 hover:bg-yellow-300 hover:text-black  hover:scale-105 
                                 transition-all ease-out duration-400"
                                 >
                                     Agregar Habilidad
@@ -650,8 +650,8 @@ const AddCharacter = () => {
                                 <button
                                     type="button"
                                     onClick={addSpellInput}
-                                    className="appearance-none w-5/12 h-auto border-4 border-teal-600 rounded-lg p-1 px-3 text-white text-3xl text-center 
-                                bg-black bg-opacity-60 hover:bg-teal-300 hover:text-black  hover:scale-105 
+                                    className="appearance-none w-11/12 h-auto border-4 border-yellow-600 rounded-lg p-1 px-3 text-white text-3xl text-center 
+                                bg-black bg-opacity-60 hover:bg-yellow-300 hover:text-black  hover:scale-105 
                                 transition-all ease-out duration-400"
                                 >
                                     Agregar Hechizo
