@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+const backUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const getClassImage = (classCharacter) => {
     switch (classCharacter.toLowerCase()) {
         case 'hechicera':
@@ -29,7 +31,6 @@ const CharacterPage = ({ character }) => {
         <div className="container mx-auto px-4">
             <h1 className="text-4xl font-bold text-center my-8">{character.name_character}</h1>
             <div className="bg-white shadow-md rounded-lg p-6">
-                 
                 <p className="text-lg"><strong>Descripción:</strong> {character.background || 'Sin descripción'}</p>
                 <p className="text-lg"><strong>Nivel:</strong> {character.level_character || 'N/A'}</p>
                 <p className="text-lg"><strong>Clase:</strong> {character.class_character || 'N/A'}</p>
@@ -40,25 +41,33 @@ const CharacterPage = ({ character }) => {
 };
 
 export async function getStaticPaths() {
-    // Obtén todos los personajes para generar las rutas dinámicas
-    const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/characters`);
-    const paths = Array.isArray(data)
-        ? data.map((character) => ({
-            params: { id_character: character.id_character.toString() },
-        }))
-        : [];
+    try {
+        // Obtén un personaje del backend para generar una ruta dinámica
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/characters`);
+        
+        // Si el backend devuelve un objeto único, genera una sola ruta
+        const paths = data && data.id_character
+            ? [{ params: { id_character: data.id_character.toString() } }]
+            : [];
 
-    return {
-        paths,
-        fallback: true, // Permite generar páginas dinámicas bajo demanda
-    };
+        return {
+            paths,
+            fallback: true, // Permite generar páginas dinámicas bajo demanda
+        };
+    } catch (error) {
+        console.error('Error al obtener los personajes para las rutas dinámicas:', error);
+        return {
+            paths: [],
+            fallback: true, // Permite generar páginas dinámicas bajo demanda
+        };
+    }
 }
 
 export async function getStaticProps({ params }) {
     try {
         // Obtén los datos del personaje basado en el id_character
         const { data } = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/characters/${params.id_character}`
+            `${backUrl}/characters/by-id/${params.id_character}`
         );
 
         return {

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaPlusSquare } from "react-icons/fa";
 
+const backUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const CharacterGrid = ({ userId }) => {
     const [characters, setCharacters] = useState([]); // Estado para almacenar los personajes
     const [loading, setLoading] = useState(true); // Estado para manejar el estado de carga
@@ -16,14 +18,14 @@ const CharacterGrid = ({ userId }) => {
                 setError(null); // Reinicia el estado de error
 
                 console.log(`Fetching characters for userId: ${userId}`); // Log para verificar el userId
-                const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/characters/${userId}`);
+                const { data } = await axios.get(`${backUrl}/characters/${userId}`);
                 console.log('API Response:', data); // Log para verificar la respuesta de la API
 
-                // Verifica si la respuesta es un array o un objeto
+                // Verifica si la respuesta es un objeto único o un array
                 if (Array.isArray(data)) {
-                    setCharacters(data); // Si es un array, guárdalo directamente
+                    setCharacters(data); // Si es un array, úsalo directamente
                 } else if (data && typeof data === 'object') {
-                    setCharacters([data]); // Si es un objeto, conviértelo en un array
+                    setCharacters([data]); // Si es un objeto único, conviértelo en un array
                 } else {
                     console.error('API response is not valid:', data);
                     setCharacters([]); // Si no es válido, establece un array vacío
@@ -43,7 +45,7 @@ const CharacterGrid = ({ userId }) => {
 
     // Función para obtener la ruta de la imagen según la clase del personaje
     const getClassImage = (classCharacter) => {
-        switch (classCharacter.toLowerCase()) {
+        switch (classCharacter?.toLowerCase()) {
             case 'hechicera':
                 return '/Logo_The_Cavern.jpeg'; // Ruta de la imagen para "Hechicera"
             case 'guerrero':
@@ -75,7 +77,7 @@ const CharacterGrid = ({ userId }) => {
                     {characters.map((character) => (
                         <Link
                             key={character.id_character}
-                            href={`/characters/${character.id_character}`}
+                            href={`/characters/${character.id_character}`} // Cambiado para coincidir con la ruta dinámica
                             className="group flex flex-col justify-start appearance-none w-full border-4 border-teal-600 rounded-lg p-2 px-3 text-white bg-black bg-opacity-60
                                 hover:bg-teal-950 hover:scale-105 transition-all ease-out 
                                 duration-400"
@@ -93,33 +95,31 @@ const CharacterGrid = ({ userId }) => {
                             <p className="text-xl">Clase: {character.class_character || 'N/A'}</p>
                         </Link>
                     ))}
-                <Link
-                    href='/add_Character'
-                    className="group flex flex-col justify-center items-center w-full border-4 border-pink-600 rounded-lg p-2 px-3 
-                    text-white bg-black bg-opacity-60 hover:bg-pink-950 hover:scale-105 transition-all ease-out 
-                    duration-400"
-                >
-                    <p className='group-hover:text-black text-center text-5xl'>Add Character</p>
-                    <div className="group-hover:text-black w-full h-auto my-3 flex flex-col items-center justify-center text-6xl text-white">
-                        <FaPlusSquare />
-                    </div>
-                </Link>
-            
+                    <Link
+                        href='/add_Character'
+                        className="group flex flex-col justify-center items-center w-full border-4 border-pink-600 rounded-lg p-2 px-3 
+                        text-white bg-black bg-opacity-60 hover:bg-pink-950 hover:scale-105 transition-all ease-out 
+                        duration-400"
+                    >
+                        <p className='group-hover:text-black text-center text-5xl'>Add Character</p>
+                        <div className="group-hover:text-black w-full h-auto my-3 flex flex-col items-center justify-center text-6xl text-white">
+                            <FaPlusSquare />
+                        </div>
+                    </Link>
                 </div>
             ) : (
                 <Link
-                href='/add_Character'
-                className="group flex flex-col justify-center items-center w-full border-4 border-pink-600 rounded-lg p-2 px-3 text-white bg-black bg-opacity-60
-                hover:bg-pink-950 hover:scale-105 transition-all ease-out 
-                duration-400"
+                    href='/add_Character'
+                    className="group flex flex-col justify-center items-center w-full border-4 border-pink-600 rounded-lg p-2 px-3 text-white bg-black bg-opacity-60
+                    hover:bg-pink-950 hover:scale-105 transition-all ease-out 
+                    duration-400"
                 >
                     <p className='text-center'>Add Character</p>
                     <div className="w-full h-auto flex flex-col items-center justify-center opacity-100 scale-150">
-                    <FaPlusSquare />
+                        <FaPlusSquare />
                     </div>
-            </Link>
+                </Link>
             )}
-            
         </div>
     );
 };

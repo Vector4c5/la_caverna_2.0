@@ -273,7 +273,7 @@ const AddCharacter = () => {
 
             <div className='z-10 w-full h-auto flex flex-col items-center justify-start gap-4'>
 
-                <h1 className="text-4xl font-bold text-center my-8">Agregar Personaje</h1>
+                <h1 className="text-7xl text-center my-4 mt-8">Crea Tu Prsonaje</h1>
                 <form onSubmit={handleSubmit} className="bg-black bg-opacity-70 border-4 border-white border-dashed w-8/12 shadow-md rounded-xl p-6">
                     <div className="Flex flex-col items-center justify-start gap-4">
 
@@ -775,8 +775,6 @@ const AddCharacter = () => {
                         </div>
 
                     </div>
-
-
                 </form>
                 {message && <p className="text-green-500 mt-4">{message}</p>}
                 {error && <p className="text-red-500 mt-4">{error}</p>}
