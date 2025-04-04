@@ -32,6 +32,8 @@ const AddCharacter = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [raceData, setRaceData] = useState(null); // Estado para almacenar los datos de la raza seleccionada
+    const [diceResults, setDiceResults] = useState(Array(6).fill([])); // Estado para almacenar los resultados de los 6 dados
+    const [classData, setClassData] = useState(null); // Estado para almacenar los datos de la clase seleccionada
 
     // Obtener el userId desde localStorage o el backend
     useEffect(() => {
@@ -105,6 +107,30 @@ const AddCharacter = () => {
         fetchRaceData();
     }, [formData.race]);
 
+    // Obtener datos de la clase seleccionada
+    useEffect(() => {
+        const fetchClassData = async () => {
+            if (!formData.class_character) return;
+
+            try {
+                const formattedClass = formData.class_character.toLowerCase();
+                const response = await fetch(`https://www.dnd5eapi.co/api/classes/${formattedClass}`);
+
+                if (!response.ok) {
+                    throw new Error('Class not found');
+                }
+
+                const data = await response.json();
+                setClassData(data); // Guardar los datos de la clase en el estado
+            } catch (error) {
+                console.error('Error al obtener los datos de la clase:', error);
+                setClassData(null);
+            }
+        };
+
+        fetchClassData();
+    }, [formData.class_character]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -162,6 +188,15 @@ const AddCharacter = () => {
         }
     };
 
+    const rollDice = (diceIndex) => {
+        const results = Array.from({ length: 6 }, () => Math.floor(Math.random() * 20) + 1); // Generar 5 números aleatorios entre 1 y 20
+        setDiceResults((prevResults) => {
+            const newResults = [...prevResults];
+            newResults[diceIndex] = results;
+            return newResults;
+        });
+    };
+
     return (
         <div className={`w-full mx-auto flex flex-col items-center justify-start p-4 overflow-y-auto ${jersey_10.className}`}>
             <div className='w-10/12 h-auto z-10'>
@@ -181,7 +216,7 @@ const AddCharacter = () => {
                 <form onSubmit={handleSubmit} className="bg-black bg-opacity-60 border-4 border-white border-dashed w-8/12 shadow-md rounded-xl p-6">
                     <div className="Flex flex-col items-center justify-start gap-4">
 
-                        <div className='w-full h-auto flex items-center justify-center'>
+                        <div className='w-full h-auto flex items-center justify-center mb-4 border-b-2 border-white py-4'>
                             <div className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'>
                                 <div className='w-full h-auto flex items-center justify-start'>
                                     <label className="text-3xl whitespace-nowrap mx-4">Nombre del Personaje</label>
@@ -215,7 +250,6 @@ const AddCharacter = () => {
                                         <option value="tiefling">Tiefling</option>
                                     </select>
                                 </div>
-
                             </div>
 
                             <div className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'>
@@ -255,196 +289,296 @@ const AddCharacter = () => {
                                     />
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         {/* Espacio entre las dos columnas */}
-                        
-                            {/* Mostrar datos de la raza seleccionada */}
-                        {raceData && (
-                            <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-800 bg-opacity-70 p-4 rounded-lg">
-                                <h2 className="text-2xl text-white mb-4">Información de la Raza</h2>
-                                <p className="text-white">Velocidad: {raceData.speed}</p>
-                                <p className="text-white">Tamaño: {raceData.size}</p>
-                                <p className="text-white">Descripción del Tamaño: {raceData.size_description}</p>
-                                <h3 className="text-xl text-white mt-4">Bonificaciones de Habilidad:</h3>
-                                <ul className="list-disc list-inside text-white">
-                                    {raceData.ability_bonuses?.map((bonus, index) => (
-                                        <li key={index}>{bonus.ability_score.name}: +{bonus.bonus}</li>
-                                    ))}
-                                </ul>
-                                <h3 className="text-xl text-white mt-4">Idiomas:</h3>
-                                <p className="text-white">{raceData.language_desc}</p>
 
-                                {/* Mostrar Traits */}
-                                <h2
-                                    className="text-xl md:text-2xl text-center mb-4 text-white"
-                                    style={{ fontFamily: "'Press Start 2P', cursive" }}
-                                >
-                                    Racial Traits
-                                </h2>
-                                {raceData.traitsDetails && (
-                                    <ul className="list-disc list-inside text-white">
-                                        {raceData.traitsDetails.map((trait) => (
-                                            <div key={trait.index} className="mb-4">
-                                                <h3 className="text-lg md:text-xl font-bold text-white">{trait.name}</h3>
-                                                <p className="text-white">{trait.desc[0]}</p>
-                                            </div>
-                                        ))}
-                                    </ul>
-                                )}
+                        <div className='w-full h-auto flex flex-col items-center justify-center gap-4 border-b-2 border-white pb-4'>
+                            <div className='w-full h-auto flex items-center justify-between'>
+                                <div className='w-1/3 h-auto flex items-center justify-start'>
+                                    <label className="text-3xl whitespace-nowrap mx-4">Fuerza</label>
+                                    <input
+                                        type="number"
+                                        name="strength"
+                                        value={formData.strength}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+                                <div className='w-1/3 h-auto flex items-center justify-start'>
+                                    <label className="text-3xl whitespace-nowrap mx-4">Destreza</label>
+                                    <input
+                                        type="number"
+                                        name="dexterity"
+                                        value={formData.dexterity}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+                                <div className='w-1/3 h-auto flex items-center justify-start'>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Constitución</label>
+                                    <input
+                                        type="number"
+                                        name="constitution"
+                                        value={formData.constitution}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
 
-                                {/* Mostrar Subraces */}
-                                {raceData.subracesDetails && raceData.subracesDetails.length > 0 && (
-                                    <div className="mt-6">
-                                        <h2
-                                            className="text-xl md:text-2xl mb-4 text-white"
-                                            style={{ fontFamily: "'Press Start 2P', cursive" }}
-                                        >
-                                            Subraces
-                                        </h2>
-                                        {raceData.subracesDetails.map((subrace) => (
-                                            <div key={subrace.index} className="mb-4">
-                                                <h3 className="text-lg md:text-xl font-bold text-white">{subrace.name}</h3>
-                                                <p className="text-white">{subrace.desc}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
                             </div>
-                        )}
 
-                            
+                            <div className='w-full h-auto flex items-center justify-between'>
+
+                                <div className='w-1/3 h-auto flex items-center justify-start'>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Inteligencia</label>
+                                    <input
+                                        type="number"
+                                        name="intelligence"
+                                        value={formData.intelligence}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+
+                                <div className='w-1/3 h-auto flex items-center justify-start'>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Sabiduría</label>
+                                    <input
+                                        type="number"
+                                        name="wisdom"
+                                        value={formData.wisdom}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+
+                                <div className='w-1/3 h-auto flex items-center justify-start'>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Carisma</label>
+                                    <input
+                                        type="number"
+                                        name="charisma"
+                                        value={formData.charisma}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            {/* Agregar lógica de dados */}
+                            <div className="w-full h-auto flex flex-col items-center justify-center gap-1 pb-4">
+                                <h2 className="w-5/12 text-4xl text-white border-b-2 border-white text-center">Lanzar Dados</h2>
+                                <p className='text-3xl'> ¿No tienes dados? No te preocupes, prueba tu suerte con los nuestros</p>
+                                <div className="w-full">
+                                    {[...Array(1)].map((_, index) => (
+                                        <div key={index} className="w-full flex flex-col items-center justify-center rounded-lg shadow-md gap-4">
+
+                                            <ul className="flex justify-center w-full text-white mt-2 gap-4">
+                                                {diceResults[index]?.map((result, i) => (
+                                                    <li
+                                                        className='flex flex-col justify-center items-center bg-teal-500 bg-opacity-50 p-2 border-2 border-teal-300
+                                                    '
+                                                        key={i}
+                                                    >
+                                                        <p className='text-2xl'>
+                                                            Dado {i + 1}:
+                                                        </p>
+                                                        <p className='text-2xl'>
+                                                            {result}
+                                                        </p>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                            <button
+                                                type="button" // Cambiar el tipo del botón para que no envíe el formulario
+                                                onClick={(e) => {
+                                                    e.preventDefault(); // Evitar que el botón dispare el envío del formulario
+                                                    rollDice(index);
+                                                }}
+                                                className="appearance-none w-5/12 h-auto border-4 border-pink-500 rounded-lg p-1 px-3 text-white text-3xl text-center 
+                                                bg-black bg-opacity-60 hover:bg-pink-300 hover:text-black  hover:scale-105 
+                                                transition-all ease-out duration-400'"
+                                            >
+                                                Lanzar
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            className='w-full h-auto flex justify-center items-center gap-2 border-b-2 border-white py-4'
+                        >
+                            <div
+                                className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'
+                            >
+                                <div className='w-full h-auto flex items-center justify-start'>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Puntos de Golpe</label>
+                                    <input
+                                        type="number"
+                                        name="hit_points"
+                                        value={formData.hit_points}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+                                <div className='w-full h-auto flex items-center justify-start'>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Clase de Armadura</label>
+                                    <input
+                                        type="number"
+                                        name="armor_class"
+                                        value={formData.armor_class}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div
+                                className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'
+                            >
+                                <div className='w-full h-auto flex items-center justify-start'>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Iniciativa</label>
+                                    <input
+                                        type="number"
+                                        name="initiative"
+                                        value={formData.initiative}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+                                <div className='w-full h-auto flex items-center justify-start'>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Velocidad</label>
+                                    <input
+                                        type="number"
+                                        name="speed"
+                                        value={formData.speed}
+                                        onChange={handleChange}
+                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
 
-
-
-                        <div>
-                            <label className="block text-black mb-2">Fuerza</label>
-                            <input
-                                type="number"
-                                name="strength"
-                                value={formData.strength}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Destreza</label>
-                            <input
-                                type="number"
-                                name="dexterity"
-                                value={formData.dexterity}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Constitución</label>
-                            <input
-                                type="number"
-                                name="constitution"
-                                value={formData.constitution}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Inteligencia</label>
-                            <input
-                                type="number"
-                                name="intelligence"
-                                value={formData.intelligence}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Sabiduría</label>
-                            <input
-                                type="number"
-                                name="wisdom"
-                                value={formData.wisdom}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Carisma</label>
-                            <input
-                                type="number"
-                                name="charisma"
-                                value={formData.charisma}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Puntos de Golpe</label>
-                            <input
-                                type="number"
-                                name="hit_points"
-                                value={formData.hit_points}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Clase de Armadura</label>
-                            <input
-                                type="number"
-                                name="armor_class"
-                                value={formData.armor_class}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Iniciativa</label>
-                            <input
-                                type="number"
-                                name="initiative"
-                                value={formData.initiative}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-black mb-2">Velocidad</label>
-                            <input
-                                type="number"
-                                name="speed"
-                                value={formData.speed}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div className="col-span-2">
-                            <label className="block text-black mb-2">Trasfondo</label>
+                        <div className='w-full h-auto flex flex-col items-start justify-center py-4'>
+                            <label className='text-3xl whitespace-nowrap'>Trasfondo</label>
                             <textarea
                                 name="background"
                                 value={formData.background}
                                 onChange={handleChange}
-                                className="w-full border rounded-lg p-2"
-                                rows="4"
+                                className="w-full h-auto min-h-32 text-2xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                 required
                             ></textarea>
                         </div>
                     </div>
-                    <button
-                        type="submit"
-                        className="mt-4 w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-all"
-                    >
-                        Agregar Personaje
-                    </button>
+                    <div
+                        className='w-full h-auto flex items-center justify-center my-4'>
+                        <button
+                            type="submit"
+                            className='appearance-none w-10/12 border-4 border-teal-600 rounded-lg p-2 px-3 text-white text-4xl bg-black bg-opacity-60
+                    hover:bg-teal-300 hover:text-black hover:scale-105 transition-all ease-out 
+                    duration-400'
+                        >
+                            Agregar Personaje
+                        </button>
+
+                    </div>
+
+
+                    {raceData && (
+                        <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-800 bg-opacity-70 p-4 rounded-lg">
+                            <h2 className="text-2xl text-white mb-4">Información de la Raza</h2>
+                            <p className="text-white">Velocidad: {raceData.speed}</p>
+                            <p className="text-white">Tamaño: {raceData.size}</p>
+                            <p className="text-white">Descripción del Tamaño: {raceData.size_description}</p>
+                            <h3 className="text-xl text-white mt-4">Bonificaciones de Habilidad:</h3>
+                            <ul className="list-disc list-inside text-white">
+                                {raceData.ability_bonuses?.map((bonus, index) => (
+                                    <li key={index}>{bonus.ability_score.name}: +{bonus.bonus}</li>
+                                ))}
+                            </ul>
+                            <h3 className="text-xl text-white mt-4">Idiomas:</h3>
+                            <p className="text-white">{raceData.language_desc}</p>
+
+                            {/* Mostrar Traits */}
+                            <h2
+                                className="text-xl md:text-2xl text-center mb-4 text-white"
+                                style={{ fontFamily: "'Press Start 2P', cursive" }}
+                            >
+                                Racial Traits
+                            </h2>
+                            {raceData.traitsDetails && (
+                                <ul className="list-disc list-inside text-white">
+                                    {raceData.traitsDetails.map((trait) => (
+                                        <div key={trait.index} className="mb-4">
+                                            <h3 className="text-lg md:text-xl font-bold text-white">{trait.name}</h3>
+                                            <p className="text-white">{trait.desc[0]}</p>
+                                        </div>
+                                    ))}
+                                </ul>
+                            )}
+
+                            {/* Mostrar Subraces */}
+                            {raceData.subracesDetails && raceData.subracesDetails.length > 0 && (
+                                <div className="mt-6">
+                                    <h2
+                                        className="text-xl md:text-2xl mb-4 text-white"
+                                        style={{ fontFamily: "'Press Start 2P', cursive" }}
+                                    >
+                                        Subraces
+                                    </h2>
+                                    {raceData.subracesDetails.map((subrace) => (
+                                        <div key={subrace.index} className="mb-4">
+                                            <h3 className="text-lg md:text-xl font-bold text-white">{subrace.name}</h3>
+                                            <p className="text-white">{subrace.desc}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Mostrar datos de la clase seleccionada */}
+                    {classData && (
+                        <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-800 bg-opacity-70 p-4 rounded-lg">
+                            <h2 className="text-2xl text-white mb-4">Información de la Clase</h2>
+                            <p className="text-white">Hit Die: d{classData.hit_die}</p>
+
+                            {/* Mostrar opciones de proficiencias */}
+                            <ul className="list-disc list-inside my-4 text-white">
+                                When you start with this class, you must...
+                                {classData.proficiency_choices?.map((choice, index) => (
+                                    <li key={index} className="text-white">{choice.desc}</li>
+                                ))}
+                            </ul>
+
+                            {/* Mostrar proficiencias */}
+                            <h3 className="text-xl mb-2 text-white">Proficiencies:</h3>
+                            <ul className="list-disc list-inside text-white">
+                                {classData.proficiencies?.map((prof) => (
+                                    <li key={prof.index} className="text-white">{prof.name}</li>
+                                ))}
+                            </ul>
+
+                            {/* Mostrar equipo inicial */}
+                            <h3 className="text-xl text-white mt-4">Starting Equipment:</h3>
+                            <ul className="list-disc list-inside text-white">
+                                {classData.starting_equipment?.map((equip, index) => (
+                                    <li key={index}>{equip.equipment.name} x {equip.quantity}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
                 </form>
                 {message && <p className="text-green-500 mt-4">{message}</p>}
                 {error && <p className="text-red-500 mt-4">{error}</p>}
