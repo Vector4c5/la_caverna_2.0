@@ -213,7 +213,7 @@ const AddCharacter = () => {
             <div className='z-10 w-full h-auto flex flex-col items-center justify-start gap-4'>
 
                 <h1 className="text-4xl font-bold text-center my-8">Agregar Personaje</h1>
-                <form onSubmit={handleSubmit} className="bg-black bg-opacity-60 border-4 border-white border-dashed w-8/12 shadow-md rounded-xl p-6">
+                <form onSubmit={handleSubmit} className="bg-black bg-opacity-70 border-4 border-white border-dashed w-8/12 shadow-md rounded-xl p-6">
                     <div className="Flex flex-col items-center justify-start gap-4">
 
                         <div className='w-full h-auto flex items-center justify-center mb-4 border-b-2 border-white py-4'>
@@ -493,91 +493,104 @@ const AddCharacter = () => {
 
                     </div>
 
+                    <div className='w-full h-auto flex flex-col items-center justify-center my-4 border-y-4 border-white gap-4'>
+                        <h2 className='text-6xl text-white py-2'>
+                            Informacion util
+                        </h2>
+                        <div className='w-full h-auto flex  items-start justify-center my-4bg-opacity-65 gap-4'>
+                            {raceData && (
+                                <div className="w-full h-auto flex flex-col items-start justify-center p-4 rounded-lg text-white gap-2">
+                                    <h2 className="w-full text-5xl mb-4 text-center">Información de la Raza</h2>
 
-                    {raceData && (
-                        <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-800 bg-opacity-70 p-4 rounded-lg">
-                            <h2 className="text-2xl text-white mb-4">Información de la Raza</h2>
-                            <p className="text-white">Velocidad: {raceData.speed}</p>
-                            <p className="text-white">Tamaño: {raceData.size}</p>
-                            <p className="text-white">Descripción del Tamaño: {raceData.size_description}</p>
-                            <h3 className="text-xl text-white mt-4">Bonificaciones de Habilidad:</h3>
-                            <ul className="list-disc list-inside text-white">
-                                {raceData.ability_bonuses?.map((bonus, index) => (
-                                    <li key={index}>{bonus.ability_score.name}: +{bonus.bonus}</li>
-                                ))}
-                            </ul>
-                            <h3 className="text-xl text-white mt-4">Idiomas:</h3>
-                            <p className="text-white">{raceData.language_desc}</p>
+                                    <p className="text-3xl text-yellow-500">Velocidad: <p className='text-white text-2xl'>{raceData.speed} </p> </p>
+                                    <p className="text-3xl text-yellow-500 ">Tamaño: <p className='text-white text-2xl'> {raceData.size} </p></p>
+                                    <h3 className="text-3xl text-yellow-500">Descripción del Tamaño: </h3>
+                                    <p className='text-2xl'>{raceData.size_description}</p>
+                                    <h3 className="text-3xl mt-4 text-yellow-500">Bonificaciones de Habilidad:</h3>
+                                    <ul className="list-disc list-inside text-2xl">
+                                        {raceData.ability_bonuses?.map((bonus, index) => (
+                                            <li key={index}>{bonus.ability_score.name}: +{bonus.bonus}</li>
+                                        ))}
+                                    </ul>
+                                    <h3 className="text-3xl text-yellow-500 mt-4">Idiomas:</h3>
+                                    <p className="text-2xl">{raceData.language_desc}</p>
 
-                            {/* Mostrar Traits */}
-                            <h2
-                                className="text-xl md:text-2xl text-center mb-4 text-white"
-                                style={{ fontFamily: "'Press Start 2P', cursive" }}
-                            >
-                                Racial Traits
-                            </h2>
-                            {raceData.traitsDetails && (
-                                <ul className="list-disc list-inside text-white">
-                                    {raceData.traitsDetails.map((trait) => (
-                                        <div key={trait.index} className="mb-4">
-                                            <h3 className="text-lg md:text-xl font-bold text-white">{trait.name}</h3>
-                                            <p className="text-white">{trait.desc[0]}</p>
-                                        </div>
-                                    ))}
-                                </ul>
-                            )}
-
-                            {/* Mostrar Subraces */}
-                            {raceData.subracesDetails && raceData.subracesDetails.length > 0 && (
-                                <div className="mt-6">
-                                    <h2
-                                        className="text-xl md:text-2xl mb-4 text-white"
-                                        style={{ fontFamily: "'Press Start 2P', cursive" }}
-                                    >
-                                        Subraces
+                                    {/* Mostrar Traits */}
+                                    <h2 className="w-full text-5xl mb-4 text-center">
+                                        Racial Traits
                                     </h2>
-                                    {raceData.subracesDetails.map((subrace) => (
-                                        <div key={subrace.index} className="mb-4">
-                                            <h3 className="text-lg md:text-xl font-bold text-white">{subrace.name}</h3>
-                                            <p className="text-white">{subrace.desc}</p>
+                                    {raceData.traitsDetails && (
+                                        <ul className="list-disc list-inside text-white">
+                                            {raceData.traitsDetails.map((trait) => (
+                                                <div key={trait.index} className="mb-4">
+                                                    <h3 className="text-3xl md:text-3xl text-yellow-500">{trait.name}</h3>
+                                                    <p className="text-2xl">{trait.desc[0]}</p>
+                                                </div>
+                                            ))}
+                                        </ul>
+                                    )}
+
+                                    {/* Mostrar Subraces */}
+                                    {raceData.subracesDetails && raceData.subracesDetails.length > 0 && (
+                                        <div className="mt-6">
+                                            <h2
+                                                className="text-xl md:text-2xl mb-4 text-white"
+                                                style={{ fontFamily: "'Press Start 2P', cursive" }}
+                                            >
+                                                Subraces
+                                            </h2>
+                                            {raceData.subracesDetails.map((subrace) => (
+                                                <div key={subrace.index} className="mb-4">
+                                                    <h3 className="text-lg md:text-xl font-bold text-white">{subrace.name}</h3>
+                                                    <p className="text-white">{subrace.desc}</p>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
+                                    )}
                                 </div>
                             )}
+
+                            {/* Mostrar datos de la clase seleccionada */}
+                            {classData && (
+                                <div className="w-full h-auto flex flex-col items-center justify-center p-4 rounded-lg">
+                                    <h2 className="w-full text-5xl mb-4 text-center">Información de la Clase</h2>
+                                    <div className='w-full h-auto flex flex-col text-white items-start justify-center my-4bg-opacity-65 gap-4'>
+                                        <p className="text-3xl text-cyan-500">Hit Die: <p className='text-2xl text-white'>d{classData.hit_die}</p> </p>
+
+                                        {/* Mostrar opciones de proficiencias */}
+                                        <ul className="list-disc list-inside">
+                                            <h3 className='text-3xl text-cyan-500'>When you start with this class, you must...</h3>
+                                            {classData.proficiency_choices?.map((choice, index) => (
+                                                <li key={index} className="text-2xl">{choice.desc}</li>
+                                            ))}
+                                        </ul>
+
+                                        {/* Mostrar proficiencias */}
+                                        <h3 className="text-3xl text-cyan-500">Proficiencies:</h3>
+                                        <ul className="list-disc list-inside">
+                                            {classData.proficiencies?.map((prof) => (
+                                                <li key={prof.index} className="text-2xl">{prof.name}</li>
+                                            ))}
+                                        </ul>
+
+                                        {/* Mostrar equipo inicial */}
+                                        <h3 className="text-3xl text-cyan-500">Starting Equipment:</h3>
+                                        <ul className="list-disc list-inside text-2xl">
+                                            {classData.starting_equipment?.map((equip, index) => (
+                                                <li key={index}>{equip.equipment.name} x {equip.quantity}</li>
+                                            ))}
+                                        </ul>
+
+
+                                    </div>
+
+                                </div>
+                            )}
+
                         </div>
-                    )}
 
-                    {/* Mostrar datos de la clase seleccionada */}
-                    {classData && (
-                        <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-800 bg-opacity-70 p-4 rounded-lg">
-                            <h2 className="text-2xl text-white mb-4">Información de la Clase</h2>
-                            <p className="text-white">Hit Die: d{classData.hit_die}</p>
+                    </div>
 
-                            {/* Mostrar opciones de proficiencias */}
-                            <ul className="list-disc list-inside my-4 text-white">
-                                When you start with this class, you must...
-                                {classData.proficiency_choices?.map((choice, index) => (
-                                    <li key={index} className="text-white">{choice.desc}</li>
-                                ))}
-                            </ul>
-
-                            {/* Mostrar proficiencias */}
-                            <h3 className="text-xl mb-2 text-white">Proficiencies:</h3>
-                            <ul className="list-disc list-inside text-white">
-                                {classData.proficiencies?.map((prof) => (
-                                    <li key={prof.index} className="text-white">{prof.name}</li>
-                                ))}
-                            </ul>
-
-                            {/* Mostrar equipo inicial */}
-                            <h3 className="text-xl text-white mt-4">Starting Equipment:</h3>
-                            <ul className="list-disc list-inside text-white">
-                                {classData.starting_equipment?.map((equip, index) => (
-                                    <li key={index}>{equip.equipment.name} x {equip.quantity}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
 
                 </form>
                 {message && <p className="text-green-500 mt-4">{message}</p>}
