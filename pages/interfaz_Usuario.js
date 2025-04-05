@@ -150,7 +150,7 @@ export default function InterfazUsuario() {
                     <Header />
                 </div>
                 <div className="container w-full sm:w-10/12 gap-4 flex flex-col items-center justify-start">
-                    <div className="w-full h-auto flex flex-col sm:flex-row items-center sm:items-start justify-start rounded-xl bg-black bg-opacity-60 p-4 sm:p-6 gap-4 sm:gap-6
+                    <div className="w-full h-auto flex flex-col sm:flex-row items-center sm:items-center justify-start rounded-xl bg-black bg-opacity-60 p-4 sm:p-6 gap-4 sm:gap-6
                     border-white border-2">
                         <img
                             src="/Logo_Jugador.jpeg"
@@ -158,7 +158,7 @@ export default function InterfazUsuario() {
                             layout="fill"
                             className="w-32 sm:w-44 rounded-full"
                         />
-                        <div className="text-center sm:text-left">
+                        <div className="text-center flex flex-col justify-center sm:text-left">
                             <h1 className="text-4xl sm:text-6xl text-white">
                                 Welcome, {loggedInUser ? loggedInUser.name_user : session.user.name}
                             </h1>
