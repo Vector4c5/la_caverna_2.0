@@ -273,14 +273,14 @@ const AddCharacter = () => {
 
             <div className='z-10 w-full h-auto flex flex-col items-center justify-start gap-4'>
 
-                <h1 className="text-7xl text-center my-4 mt-8">Crea Tu Prsonaje</h1>
+                <h1 className="text-7xl text-center my-4 mt-8">Create Your Character</h1>
                 <form onSubmit={handleSubmit} className="bg-black bg-opacity-70 border-4 border-white border-dashed w-8/12 shadow-md rounded-xl p-6">
                     <div className="Flex flex-col items-center justify-start gap-4">
 
                         <div className='w-full h-auto flex items-center justify-center mb-4 border-b-2 border-white py-4'>
                             <div className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'>
                                 <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Nombre del Personaje</label>
+                                    <label className="text-3xl whitespace-nowrap mx-4">Character Name</label>
                                     <input
                                         type="text"
                                         name="name_character"
@@ -291,7 +291,7 @@ const AddCharacter = () => {
                                     />
                                 </div>
                                 <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Raza</label>
+                                    <label className="text-3xl whitespace-nowrap mx-4">Race</label>
                                     <select
                                         name="race"
                                         value={formData.race}
@@ -299,7 +299,7 @@ const AddCharacter = () => {
                                         className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     >
-                                        <option value="" disabled>Selecciona una raza</option>
+                                        <option value="" disabled>Select Your Race</option>
                                         <option value="dragonborn">Dragonborn</option>
                                         <option value="dwarf">Dwarf</option>
                                         <option value="elf">Elf</option>
@@ -315,7 +315,7 @@ const AddCharacter = () => {
 
                             <div className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'>
                                 <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Clase</label>
+                                    <label className="text-3xl whitespace-nowrap mx-4">Class</label>
                                     <select
                                         name="class_character"
                                         value={formData.class_character}
@@ -323,7 +323,7 @@ const AddCharacter = () => {
                                         className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     >
-                                        <option value="" disabled>Selecciona una clase</option>
+                                        <option value="" disabled>Select Your Class</option>
                                         <option value="barbarian">Barbarian</option>
                                         <option value="bard">Bard</option>
                                         <option value="cleric">Cleric</option>
@@ -339,7 +339,7 @@ const AddCharacter = () => {
                                     </select>
                                 </div>
                                 <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Nivel</label>
+                                    <label className="text-3xl whitespace-nowrap mx-4">Level</label>
                                     <input
                                         type="number"
                                         name="level_character"
@@ -356,7 +356,7 @@ const AddCharacter = () => {
                         <div className='w-full h-auto flex flex-col items-center justify-center gap-4 border-b-2 border-white pb-4'>
                             <div className='w-full h-auto flex items-center justify-between'>
                                 <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Fuerza</label>
+                                    <label className="text-3xl whitespace-nowrap mx-4">Strength</label>
                                     <input
                                         type="number"
                                         name="strength"
@@ -367,7 +367,7 @@ const AddCharacter = () => {
                                     />
                                 </div>
                                 <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Destreza</label>
+                                    <label className="text-3xl whitespace-nowrap mx-4">Dexterity</label>
                                     <input
                                         type="number"
                                         name="dexterity"
@@ -378,7 +378,7 @@ const AddCharacter = () => {
                                     />
                                 </div>
                                 <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Constitución</label>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Constitution</label>
                                     <input
                                         type="number"
                                         name="constitution"
@@ -394,7 +394,7 @@ const AddCharacter = () => {
                             <div className='w-full h-auto flex items-center justify-between'>
 
                                 <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Inteligencia</label>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Intelligence </label>
                                     <input
                                         type="number"
                                         name="intelligence"
@@ -406,7 +406,7 @@ const AddCharacter = () => {
                                 </div>
 
                                 <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Sabiduría</label>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Wisdom</label>
                                     <input
                                         type="number"
                                         name="wisdom"
@@ -418,7 +418,7 @@ const AddCharacter = () => {
                                 </div>
 
                                 <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Carisma</label>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Charisma</label>
                                     <input
                                         type="number"
                                         name="charisma"
@@ -431,8 +431,8 @@ const AddCharacter = () => {
                             </div>
                             {/* Agregar lógica de dados */}
                             <div className="w-full h-auto flex flex-col items-center justify-center gap-1 pb-4">
-                                <h2 className="w-5/12 text-4xl text-white border-b-2 border-white text-center">Lanzar Dados</h2>
-                                <p className='text-3xl'> ¿No tienes dados? No te preocupes, prueba tu suerte con los nuestros</p>
+                                <h2 className="w-5/12 text-4xl text-white border-b-2 border-white text-center">Roll Dice</h2>
+                                <p className='text-3xl'> Don’t have dice? Don’t worry, try your luck with ours!</p>
                                 <div className="w-full">
                                     {[...Array(1)].map((_, index) => (
                                         <div key={index} className="w-full flex flex-col items-center justify-center rounded-lg shadow-md gap-4">
@@ -445,7 +445,7 @@ const AddCharacter = () => {
                                                         key={i}
                                                     >
                                                         <p className='text-2xl'>
-                                                            Dado {i + 1}:
+                                                            dice {i + 1}:
                                                         </p>
                                                         <p className='text-2xl'>
                                                             {result}
@@ -463,7 +463,7 @@ const AddCharacter = () => {
                                                 bg-black bg-opacity-60 hover:bg-pink-300 hover:text-black  hover:scale-105 
                                                 transition-all ease-out duration-400'"
                                             >
-                                                Lanzar
+                                                Throw 
                                             </button>
                                         </div>
                                     ))}
@@ -478,7 +478,7 @@ const AddCharacter = () => {
                                 className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'
                             >
                                 <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Puntos de Golpe</label>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Hit Points</label>
                                     <input
                                         type="number"
                                         name="hit_points"
@@ -489,7 +489,7 @@ const AddCharacter = () => {
                                     />
                                 </div>
                                 <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Clase de Armadura</label>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Armor Class</label>
                                     <input
                                         type="number"
                                         name="armor_class"
@@ -505,7 +505,7 @@ const AddCharacter = () => {
                                 className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'
                             >
                                 <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Iniciativa</label>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Initiative</label>
                                     <input
                                         type="number"
                                         name="initiative"
@@ -516,7 +516,7 @@ const AddCharacter = () => {
                                     />
                                 </div>
                                 <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Velocidad</label>
+                                    <label className='text-3xl whitespace-nowrap mx-4'>Speed</label>
                                     <input
                                         type="number"
                                         name="speed"
@@ -531,7 +531,7 @@ const AddCharacter = () => {
 
 
                         <div className='w-full h-auto flex flex-col items-start justify-center py-4'>
-                            <label className='text-3xl whitespace-nowrap'>Trasfondo</label>
+                            <label className='text-3xl whitespace-nowrap'>Background</label>
                             <textarea
                                 name="background"
                                 value={formData.background}
@@ -545,7 +545,7 @@ const AddCharacter = () => {
 
                             {/* Agregar habilidades dinámicas */}
                             <div className='w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto'>
-                                <h2 className='text-3xl whitespace-nowrap'>Habilidades</h2>
+                                <h2 className='text-3xl whitespace-nowrap'>Skills</h2>
                                 {skills.map((skill, index) => (
                                     <div key={index} className='w-full h-auto flex flex-col items-start justify-start pt-2 mb-4 border-b-2 border-white'>
                                         <label className='text-2xl whitespace-nowrap'>Skill Name</label>
@@ -569,7 +569,7 @@ const AddCharacter = () => {
                                         />
 
 
-                                        <label className='text-2xl whitespace-nowrap'>Descripción de la Habilidad</label>
+                                        <label className='text-2xl whitespace-nowrap'>Skill Description</label>
                                         <textarea
                                             name="description_skill"
                                             value={skill.description_skill}
@@ -585,7 +585,7 @@ const AddCharacter = () => {
                                             bg-black bg-opacity-60 hover:bg-red-500 hover:text-black  hover:scale-105 
                                             transition-all ease-out duration-400"                                        >
                                             <p className='text-2xl'>
-                                                Eliminar Hechizo
+                                                Remove skill
                                             </p>
                                         </button>
                                     </div>
@@ -597,16 +597,16 @@ const AddCharacter = () => {
                                 bg-black bg-opacity-60 hover:bg-yellow-300 hover:text-black  hover:scale-105 
                                 transition-all ease-out duration-400"
                                 >
-                                    Agregar Habilidad
+                                    Add skill
                                 </button>
                             </div>
 
                             {/* Agregar hechizos dinámicos */}
                             <div className='w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto'>
-                                <h2 className='text-3xl whitespace-nowrap'>Hechizos</h2>
+                                <h2 className='text-3xl whitespace-nowrap'>Spells</h2>
                                 {spells.map((spell, index) => (
                                     <div key={index} className='w-full h-auto flex flex-col items-start justify-start pt-2 border-b-2 border-white mb-4'>
-                                        <label className='text-2xl whitespace-nowrap'>Nombre del Hechizo</label>
+                                        <label className='text-2xl whitespace-nowrap'>Spell Name</label>
                                         <input
                                             type="text"
                                             name="name_spell"
@@ -616,7 +616,7 @@ const AddCharacter = () => {
                                             required
                                         />
 
-                                        <label className='text-2xl whitespace-nowrap'>Nivel del Hechizo</label>
+                                        <label className='text-2xl whitespace-nowrap'>Spell Level</label>
                                         <input
                                             type="number"
                                             name="level_spell"
@@ -626,7 +626,7 @@ const AddCharacter = () => {
                                             required
                                         />
 
-                                        <label className='text-2xl whitespace-nowrap'>Descripción del Hechizo</label>
+                                        <label className='text-2xl whitespace-nowrap'>Spell Description</label>
                                         <textarea
                                             name="description_spell"
                                             value={spell.description_spell}
@@ -642,7 +642,7 @@ const AddCharacter = () => {
                                             bg-black bg-opacity-60 hover:bg-red-500 hover:text-black  hover:scale-105 
                                             transition-all ease-out duration-400"                                        >
                                             <p className='text-2xl'>
-                                                Eliminar Hechizo
+                                                Remove Spell
                                             </p>
                                         </button>
                                     </div>
@@ -654,7 +654,7 @@ const AddCharacter = () => {
                                 bg-black bg-opacity-60 hover:bg-yellow-300 hover:text-black  hover:scale-105 
                                 transition-all ease-out duration-400"
                                 >
-                                    Agregar Hechizo
+                                    Add Spell
                                 </button>
                             </div>
 
@@ -671,33 +671,33 @@ const AddCharacter = () => {
                     hover:bg-teal-300 hover:text-black hover:scale-105 transition-all ease-out 
                     duration-400'
                         >
-                            Agregar Personaje
+                            Add Character
                         </button>
 
                     </div>
 
                     <div className='w-full h-auto flex flex-col items-center justify-center my-4 border-y-4 border-white gap-4'>
                         <h2 className='text-6xl text-white py-2'>
-                            Informacion util
+                        Useful Information
                         </h2>
                         <div className='w-full h-auto flex  items-start justify-center my-4bg-opacity-65 gap-4'>
                             {raceData && (
                                 <div className="w-full h-auto flex flex-col items-start justify-center p-4 rounded-lg text-white gap-2">
-                                    <h2 className="w-full text-5xl mb-4 text-center">Información de la Raza</h2>
+                                    <h2 className="w-full text-5xl mb-4 text-center">Race Informatio</h2>
 
-                                    <h3 className="text-3xl text-yellow-500">Velocidad: </h3>
+                                    <h3 className="text-3xl text-yellow-500">Speed: </h3>
                                     <p className='text-2xl'>{raceData.speed} </p>
-                                    <h3 className="text-3xl text-yellow-500 ">Tamaño: </h3>
+                                    <h3 className="text-3xl text-yellow-500 ">Size: </h3>
                                     <p className='text-2xl'> {raceData.size} </p>
-                                    <h3 className="text-3xl text-yellow-500">Descripción del Tamaño: </h3>
+                                    <h3 className="text-3xl text-yellow-500">Size Description: </h3>
                                     <p className='text-2xl'>{raceData.size_description}</p>
-                                    <h3 className="text-3xl mt-4 text-yellow-500">Bonificaciones de Habilidad:</h3>
+                                    <h3 className="text-3xl mt-4 text-yellow-500">Ability Score Bonuses</h3>
                                     <ul className="list-disc list-inside text-2xl">
                                         {raceData.ability_bonuses?.map((bonus, index) => (
                                             <li key={index}>{bonus.ability_score.name}: +{bonus.bonus}</li>
                                         ))}
                                     </ul>
-                                    <h3 className="text-3xl text-yellow-500 mt-4">Idiomas:</h3>
+                                    <h3 className="text-3xl text-yellow-500 mt-4">Languages:</h3>
                                     <p className="text-2xl">{raceData.language_desc}</p>
 
                                     {/* Mostrar Traits */}
@@ -738,7 +738,7 @@ const AddCharacter = () => {
                             {/* Mostrar datos de la clase seleccionada */}
                             {classData && (
                                 <div className="w-full h-auto flex flex-col items-center justify-center p-4 rounded-lg">
-                                    <h2 className="w-full text-5xl mb-4 text-center">Información de la Clase</h2>
+                                    <h2 className="w-full text-5xl mb-4 text-center">Class Information</h2>
                                     <div className='w-full h-auto flex flex-col text-white items-start justify-center my-4bg-opacity-65 gap-4'>
                                         <p className="text-3xl text-cyan-500">Hit Die: <p className='text-2xl text-white'>d{classData.hit_die}</p> </p>
 
