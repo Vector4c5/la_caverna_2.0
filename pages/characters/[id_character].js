@@ -56,26 +56,44 @@ const CharacterPage = ({ character }) => {
         doc.addImage(img1, 'PNG', 0, 0, 210, 297); // Ajusta las dimensiones según la hoja (A4: 210x297 mm)
 
         // Estilo del texto
-        doc.setFont('Helvetica', 'normal');
-        doc.setFontSize(10);
+        const fontResponse = await fetch('/fonts/Jersey10-Regular.ttf'); // Ruta de la fuente personalizada
+        const fontBlob = await fontResponse.blob();
+        
+        const fontBase64 = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]); // Obtener solo el contenido Base64
+            reader.readAsDataURL(fontBlob);
+        });
+
+        // Agregar la fuente personalizada
+        doc.addFileToVFS('Jersey10-Regular.tff', fontBase64);
+        doc.addFont('Jersey10-Regular.tff', 'Jersey10', 'normal');
+
+
+        // Usar la fuente personalizada
+        doc.setFont('Jersey10', 'normal');
+        doc.setFontSize(20);
 
         // Posicionar el texto en la primera hoja
-        doc.text(character.name_character, 50, 50); // Nombre del personaje
-        doc.text(character.class_character, 50, 60); // Clase
-        doc.text(character.race, 50, 70); // Raza
-        doc.text(character.level_character.toString(), 50, 80); // Nivel
-        doc.text(character.hit_points.toString(), 50, 90); // Puntos de golpe
-        doc.text(character.armor_class.toString(), 50, 100); // Clase de armadura
-        doc.text(character.initiative.toString(), 50, 110); // Iniciativa
-        doc.text(character.speed.toString(), 50, 120); // Velocidad
+        doc.text(character.name_character, 35, 35); // Nombre del personaje
+        doc.setFontSize(15);
+        doc.text(character.class_character, 111, 28); // Clase
+        doc.text(character.level_character.toString(), 119, 33); // Nivel
+        doc.text(character.race, 110, 41); // Raza
+        doc.text(character.hit_points.toString(), 120, 81); // Puntos de golpe
+
+        doc.setFontSize(20);
+        doc.text(character.armor_class.toString(), 83.5, 65); // Clase de armadura
+        doc.text(character.initiative.toString(), 103.5, 65); // Iniciativa
+        doc.text(character.speed.toString(), 122.5, 65); // Velocidad
 
         // Atributos
-        doc.text(character.strength.toString(), 100, 140); // Fuerza
-        doc.text(character.dexterity.toString(), 100, 150); // Destreza
-        doc.text(character.constitution.toString(), 100, 160); // Constitución
-        doc.text(character.intelligence.toString(), 100, 170); // Inteligencia
-        doc.text(character.wisdom.toString(), 100, 180); // Sabiduría
-        doc.text(character.charisma.toString(), 100, 190); // Carisma
+        doc.text(character.strength.toString(), 16, 70); // Fuerza
+        doc.text(character.dexterity.toString(), 16, 95); // Destreza
+        doc.text(character.constitution.toString(), 16, 120); // Constitución
+        doc.text(character.intelligence.toString(), 16, 145); // Inteligencia
+        doc.text(character.wisdom.toString(), 16, 170); // Sabiduría
+        doc.text(character.charisma.toString(), 16, 195); // Carisma
 
         // **Segunda hoja**
         doc.addPage(); // Agregar una nueva página
@@ -95,8 +113,21 @@ const CharacterPage = ({ character }) => {
         doc.addImage(img2, 'PNG', 0, 0, 210, 297);
 
         // Posicionar contenido en la segunda hoja
-        doc.text('Segunda Hoja - Detalles adicionales', 50, 50);
-        doc.text(`Background: ${character.background || 'Sin descripción'}`, 50, 60);
+        const backgroundText = character.background || 'Sin descripción';
+        const maxWidth = 180; // Ancho máximo en milímetros
+        const lines = doc.splitTextToSize(backgroundText, maxWidth);
+
+        let y = 200; // Posición inicial en el eje Y
+        const lineHeight = 10; // Altura entre líneas
+
+        lines.forEach((line) => {
+            if (y + lineHeight > 280) { // Limitar el texto dentro de un área (por ejemplo, hasta 280 mm en Y)
+                doc.text("...", 20, y); // Agregar puntos suspensivos si el texto excede el área
+                return;
+            }
+            doc.text(line, 20, y);
+            y += lineHeight;
+        });
 
         // **Tercera hoja**
         doc.addPage(); // Agregar una nueva página
