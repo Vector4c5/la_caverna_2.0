@@ -260,7 +260,7 @@ const AddCharacter = () => {
 
     return (
         <div className={`w-full mx-auto flex flex-col items-center justify-start p-4 overflow-y-auto ${jersey_10.className}`}>
-            <div className='w-10/12 h-auto z-50'>
+            <div className="w-full sm:w-10/12 h-auto z-50">
                 <Header />
             </div>
             <StarAnimation />
@@ -271,32 +271,36 @@ const AddCharacter = () => {
                 className="object-cover w-full h-screen opacity-30 z-0 fixed"
             />
 
-            <div className='z-10 w-full h-auto flex flex-col items-center justify-start gap-4'>
+            <div className="z-10 w-full h-auto flex flex-col items-center justify-start gap-4">
+                <h1 className="text-4xl sm:text-5xl lg:text-7xl text-center my-4 mt-8">
+                    Create Your Character
+                </h1>
+                <form
+                    onSubmit={handleSubmit}
+                    className="bg-black bg-opacity-70 border-4 border-white border-dashed w-full sm:w-10/12 lg:w-8/12 shadow-md rounded-xl p-4 sm:p-6"
+                >
+                    <div className="flex flex-col items-center justify-start gap-4">
 
-                <h1 className="text-7xl text-center my-4 mt-8">Create Your Character</h1>
-                <form onSubmit={handleSubmit} className="bg-black bg-opacity-70 border-4 border-white border-dashed w-8/12 shadow-md rounded-xl p-6">
-                    <div className="Flex flex-col items-center justify-start gap-4">
-
-                        <div className='w-full h-auto flex items-center justify-center mb-4 border-b-2 border-white py-4'>
-                            <div className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'>
-                                <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Character Name</label>
+                        <div className="w-full h-auto flex flex-col sm:flex-row items-center justify-center mb-4 border-b-2 border-white py-4 gap-4">
+                            <div className="w-full sm:w-1/2 h-auto flex flex-col justify-center items-center gap-4">
+                                <div className="w-full h-auto flex items-center justify-start">
+                                    <label className="text-xl sm:text-2xl lg:text-3xl whitespace-nowrap mx-4">Character Name</label>
                                     <input
                                         type="text"
                                         name="name_character"
                                         value={formData.name_character}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-lg sm:text-xl lg:text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
-                                <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Race</label>
+                                <div className="w-full h-auto flex items-center justify-start">
+                                    <label className="text-xl sm:text-2xl lg:text-3xl whitespace-nowrap mx-4">Race</label>
                                     <select
                                         name="race"
                                         value={formData.race}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-lg sm:text-xl lg:text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     >
                                         <option value="" disabled>Select Your Race</option>
@@ -313,14 +317,14 @@ const AddCharacter = () => {
                                 </div>
                             </div>
 
-                            <div className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'>
-                                <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Class</label>
+                            <div className="w-full sm:w-1/2 h-auto flex flex-col justify-center items-center gap-4">
+                                <div className="w-full h-auto flex items-center justify-start">
+                                    <label className="text-xl sm:text-2xl lg:text-3xl whitespace-nowrap mx-4">Class</label>
                                     <select
                                         name="class_character"
                                         value={formData.class_character}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-lg sm:text-xl lg:text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     >
                                         <option value="" disabled>Select Your Class</option>
@@ -338,14 +342,14 @@ const AddCharacter = () => {
                                         <option value="wizard">Wizard</option>
                                     </select>
                                 </div>
-                                <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Level</label>
+                                <div className="w-full h-auto flex items-center justify-start">
+                                    <label className="text-xl sm:text-2xl lg:text-3xl whitespace-nowrap mx-4">Level</label>
                                     <input
                                         type="number"
                                         name="level_character"
                                         value={formData.level_character}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-lg sm:text-xl lg:text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
@@ -353,117 +357,111 @@ const AddCharacter = () => {
                         </div>
                         {/* Espacio entre las dos columnas */}
 
-                        <div className='w-full h-auto flex flex-col items-center justify-center gap-4 border-b-2 border-white pb-4'>
-                            <div className='w-full h-auto flex items-center justify-between'>
-                                <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Strength</label>
+
+
+                        <div className="w-full h-auto flex flex-col items-center justify-center gap-4 border-b-2 border-white pb-4">
+                            {/* Primera fila de atributos */}
+                            <div className="w-full h-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div className="w-full sm:w-1/3 h-auto flex items-center justify-start">
+                                    <label className="text- sm:text-xl lg:text-3xl whitespace-nowrap mx-4">Strength</label>
                                     <input
                                         type="number"
                                         name="strength"
                                         value={formData.strength}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
-                                <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className="text-3xl whitespace-nowrap mx-4">Dexterity</label>
+                                <div className="w-full sm:w-1/3 h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-3xl whitespace-nowrap mx-4">Dexterity</label>
                                     <input
                                         type="number"
                                         name="dexterity"
                                         value={formData.dexterity}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-3xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
-                                <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Constitution</label>
+                                <div className="w-full sm:w-1/3 h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-3xl whitespace-nowrap mx-4">Constitution</label>
                                     <input
                                         type="number"
                                         name="constitution"
                                         value={formData.constitution}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-3xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
-
                             </div>
 
-                            <div className='w-full h-auto flex items-center justify-between'>
-
-                                <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Intelligence </label>
+                            {/* Segunda fila de atributos */}
+                            <div className="w-full h-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div className="w-full sm:w-1/3 h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-3xl whitespace-nowrap mx-4">Intelligence</label>
                                     <input
                                         type="number"
                                         name="intelligence"
                                         value={formData.intelligence}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-3xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
-
-                                <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Wisdom</label>
+                                <div className="w-full sm:w-1/3 h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-3xl whitespace-nowrap mx-4">Wisdom</label>
                                     <input
                                         type="number"
                                         name="wisdom"
                                         value={formData.wisdom}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
-
-                                <div className='w-1/3 h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Charisma</label>
+                                <div className="w-full sm:w-1/3 h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-3xl whitespace-nowrap mx-4">Charisma</label>
                                     <input
                                         type="number"
                                         name="charisma"
                                         value={formData.charisma}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-3xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
                             </div>
-                            {/* Agregar lógica de dados */}
-                            <div className="w-full h-auto flex flex-col items-center justify-center gap-1 pb-4">
-                                <h2 className="w-5/12 text-4xl text-white border-b-2 border-white text-center">Roll Dice</h2>
-                                <p className='text-3xl'> Don’t have dice? Don’t worry, try your luck with ours!</p>
+
+                            {/* Lógica de dados */}
+                            <div className="w-full h-auto flex flex-col items-center justify-center gap-4 pb-4">
+                                <h2 className="w-full sm:w-5/12 text-2xl sm:text-3xl lg:text-4xl text-white border-b-2 border-white text-center">Roll Dice</h2>
+                                <p className="text-lg sm:text-xl lg:text-3xl text-center">Don’t have dice? Don’t worry, try your luck with ours!</p>
                                 <div className="w-full">
                                     {[...Array(1)].map((_, index) => (
                                         <div key={index} className="w-full flex flex-col items-center justify-center rounded-lg shadow-md gap-4">
-
-                                            <ul className="flex justify-center w-full text-white mt-2 gap-4">
+                                            <ul className="flex flex-wrap justify-center w-full text-white mt-2 gap-4">
                                                 {diceResults[index]?.map((result, i) => (
                                                     <li
-                                                        className='flex flex-col justify-center items-center bg-teal-500 bg-opacity-50 p-2 border-2 border-teal-300
-                                                    '
+                                                        className="flex flex-col justify-center items-center bg-teal-500 bg-opacity-50 p-2 border-2 border-teal-300"
                                                         key={i}
                                                     >
-                                                        <p className='text-2xl'>
-                                                            dice {i + 1}:
-                                                        </p>
-                                                        <p className='text-2xl'>
-                                                            {result}
-                                                        </p>
+                                                        <p className="text-base sm:text-lg lg:text-3xl">Dice {i + 1}:</p>
+                                                        <p className="text-base sm:text-lg lg:text-3xl">{result}</p>
                                                     </li>
                                                 ))}
                                             </ul>
                                             <button
-                                                type="button" // Cambiar el tipo del botón para que no envíe el formulario
+                                                type="button"
                                                 onClick={(e) => {
-                                                    e.preventDefault(); // Evitar que el botón dispare el envío del formulario
+                                                    e.preventDefault();
                                                     rollDice(index);
                                                 }}
-                                                className="appearance-none w-5/12 h-auto border-4 border-pink-500 rounded-lg p-1 px-3 text-white text-3xl text-center 
-                                                bg-black bg-opacity-60 hover:bg-pink-300 hover:text-black  hover:scale-105 
-                                                transition-all ease-out duration-400'"
+                                                className="appearance-none w-full sm:w-5/12 h-auto border-4 border-pink-500 rounded-lg p-2 sm:p-3 lg:p-4 text-lg sm:text-xl lg:text-3xl text-white text-center 
+                        bg-black bg-opacity-60 hover:bg-pink-300 hover:text-black hover:scale-105 transition-all ease-out duration-400"
                                             >
-                                                Throw 
+                                                Throw
                                             </button>
                                         </div>
                                     ))}
@@ -471,263 +469,246 @@ const AddCharacter = () => {
                             </div>
                         </div>
 
-                        <div
-                            className='w-full h-auto flex justify-center items-center gap-2 border-b-2 border-white py-4'
-                        >
-                            <div
-                                className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'
-                            >
-                                <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Hit Points</label>
+
+                        {/*   */}
+                        <div className="w-full h-auto flex flex-col sm:flex-row justify-center items-center gap-4 border-b-2 border-white py-4">
+                            {/* Primera columna: Hit Points y Armor Class */}
+                            <div className="w-full sm:w-1/2 h-auto flex flex-col justify-center items-center gap-4">
+                                <div className="w-full h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap mx-4">Hit Points</label>
                                     <input
                                         type="number"
                                         name="hit_points"
                                         value={formData.hit_points}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
-                                <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Armor Class</label>
+                                <div className="w-full h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap mx-4">Armor Class</label>
                                     <input
                                         type="number"
                                         name="armor_class"
                                         value={formData.armor_class}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
                             </div>
 
-                            <div
-                                className='w-1/2 h-auto flex flex-col justify-center items-center gap-2'
-                            >
-                                <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Initiative</label>
+                            {/* Segunda columna: Initiative y Speed */}
+                            <div className="w-full sm:w-1/2 h-auto flex flex-col justify-center items-center gap-4">
+                                <div className="w-full h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap mx-4">Initiative</label>
                                     <input
                                         type="number"
                                         name="initiative"
                                         value={formData.initiative}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
-                                <div className='w-full h-auto flex items-center justify-start'>
-                                    <label className='text-3xl whitespace-nowrap mx-4'>Speed</label>
+                                <div className="w-full h-auto flex items-center justify-start">
+                                    <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap mx-4">Speed</label>
                                     <input
                                         type="number"
                                         name="speed"
                                         value={formData.speed}
                                         onChange={handleChange}
-                                        className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                        className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                         required
                                     />
                                 </div>
                             </div>
                         </div>
 
-
-                        <div className='w-full h-auto flex flex-col items-start justify-center py-4'>
-                            <label className='text-3xl whitespace-nowrap'>Background</label>
+                        {/* Background Section */}
+                        <div className="w-full h-auto flex flex-col items-start justify-center py-4">
+                            <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap">Background</label>
                             <textarea
                                 name="background"
                                 value={formData.background}
                                 onChange={handleChange}
-                                className="w-full h-auto min-h-32 text-2xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                className="w-full h-auto min-h-32 text-base sm:text-lg lg:text-xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                 required
                             ></textarea>
                         </div>
+                        {/*   */}
 
-                        <div className='w-full h-auto flex items-center justify-start py-4 gap-4'>
-
-                            {/* Agregar habilidades dinámicas */}
-                            <div className='w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto'>
-                                <h2 className='text-3xl whitespace-nowrap'>Skills</h2>
+                        <div className="w-full h-auto flex flex-col sm:flex-row items-start justify-start py-4 gap-4">
+                            {/* Skills Section */}
+                            <div className="w-full sm:w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto gap-4">
+                                <h2 className="text-xl sm:text-2xl lg:text-3xl whitespace-nowrap">Skills</h2>
                                 {skills.map((skill, index) => (
-                                    <div key={index} className='w-full h-auto flex flex-col items-start justify-start pt-2 mb-4 border-b-2 border-white'>
-                                        <label className='text-2xl whitespace-nowrap'>Skill Name</label>
+                                    <div key={index} className="w-full h-auto flex flex-col items-start justify-start pt-2 mb-4 border-b-2 border-white gap-2">
+                                        <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap">Skill Name</label>
                                         <input
                                             type="text"
                                             name="name_skill"
                                             value={skill.name_skill}
                                             onChange={(e) => handleSkillChange(index, 'name_skill', e.target.value)}
-                                            className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                             required
                                         />
 
-                                        <label className='text-2xl whitespace-nowrap'>Level Skill</label>
+                                        <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap">Level Skill</label>
                                         <input
                                             type="number"
                                             name="level_skill"
                                             value={skill.level_skill}
                                             onChange={(e) => handleSkillChange(index, 'level_skill', e.target.value)}
-                                            className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                             required
                                         />
 
-
-                                        <label className='text-2xl whitespace-nowrap'>Skill Description</label>
+                                        <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap">Skill Description</label>
                                         <textarea
                                             name="description_skill"
                                             value={skill.description_skill}
                                             onChange={(e) => handleSkillChange(index, 'description_skill', e.target.value)}
-                                            className="w-full h-auto min-h-32 text-2xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            className="w-full h-auto min-h-32 text-base sm:text-lg lg:text-xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                             required
                                         ></textarea>
 
                                         <button
                                             type="button"
                                             onClick={() => removeSkillInput(index)}
-                                            className="appearance-none w-5/12 h-auto my-4 border-4 border-red-700 rounded-lg p-1 px-3 text-white text-3xl text-center 
-                                            bg-black bg-opacity-60 hover:bg-red-500 hover:text-black  hover:scale-105 
-                                            transition-all ease-out duration-400"                                        >
-                                            <p className='text-2xl'>
-                                                Remove skill
-                                            </p>
+                                            className="appearance-none w-full sm:w-5/12 h-auto my-4 border-4 border-red-700 rounded-lg p-2 sm:p-3 lg:p-4 text-base sm:text-lg lg:text-xl text-white text-center 
+                    bg-black bg-opacity-60 hover:bg-red-500 hover:text-black hover:scale-105 transition-all ease-out duration-400"
+                                        >
+                                            Remove Skill
                                         </button>
                                     </div>
                                 ))}
                                 <button
                                     type="button"
                                     onClick={addSkillInput}
-                                    className="appearance-none w-11/12 h-auto border-4 border-yellow-600 rounded-lg p-1 px-3 text-white text-3xl text-center 
-                                bg-black bg-opacity-60 hover:bg-yellow-300 hover:text-black  hover:scale-105 
-                                transition-all ease-out duration-400"
+                                    className="appearance-none w-full sm:w-11/12 h-auto border-4 border-yellow-600 rounded-lg p-2 sm:p-3 lg:p-4 text-base sm:text-lg lg:text-xl text-white text-center 
+            bg-black bg-opacity-60 hover:bg-yellow-300 hover:text-black hover:scale-105 transition-all ease-out duration-400"
                                 >
-                                    Add skill
+                                    Add Skill
                                 </button>
                             </div>
 
-                            {/* Agregar hechizos dinámicos */}
-                            <div className='w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto'>
-                                <h2 className='text-3xl whitespace-nowrap'>Spells</h2>
+                            {/* Spells Section */}
+                            <div className="w-full sm:w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto gap-4">
+                                <h2 className="text-xl sm:text-2xl lg:text-3xl whitespace-nowrap">Spells</h2>
                                 {spells.map((spell, index) => (
-                                    <div key={index} className='w-full h-auto flex flex-col items-start justify-start pt-2 border-b-2 border-white mb-4'>
-                                        <label className='text-2xl whitespace-nowrap'>Spell Name</label>
+                                    <div key={index} className="w-full h-auto flex flex-col items-start justify-start pt-2 mb-4 border-b-2 border-white gap-2">
+                                        <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap">Spell Name</label>
                                         <input
                                             type="text"
                                             name="name_spell"
                                             value={spell.name_spell}
                                             onChange={(e) => handleSpellChange(index, 'name_spell', e.target.value)}
-                                            className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                             required
                                         />
 
-                                        <label className='text-2xl whitespace-nowrap'>Spell Level</label>
+                                        <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap">Spell Level</label>
                                         <input
                                             type="number"
                                             name="level_spell"
                                             value={spell.level_spell}
                                             onChange={(e) => handleSpellChange(index, 'level_spell', e.target.value)}
-                                            className="w-full max-h-8 text-2xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            className="w-full text-base sm:text-lg lg:text-xl appearance-none border-b-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                             required
                                         />
 
-                                        <label className='text-2xl whitespace-nowrap'>Spell Description</label>
+                                        <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap">Spell Description</label>
                                         <textarea
                                             name="description_spell"
                                             value={spell.description_spell}
                                             onChange={(e) => handleSpellChange(index, 'description_spell', e.target.value)}
-                                            className="w-full h-auto min-h-32 text-2xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
+                                            className="w-full h-auto min-h-32 text-base sm:text-lg lg:text-xl appearance-none border-2 border-white bg-gray-900 bg-opacity-50 px-2"
                                             required
                                         ></textarea>
 
                                         <button
                                             type="button"
                                             onClick={() => removeSpellInput(index)}
-                                            className="appearance-none w-5/12 h-auto my-4 border-4 border-red-700 rounded-lg p-1 px-3 text-white text-3xl text-center 
-                                            bg-black bg-opacity-60 hover:bg-red-500 hover:text-black  hover:scale-105 
-                                            transition-all ease-out duration-400"                                        >
-                                            <p className='text-2xl'>
-                                                Remove Spell
-                                            </p>
+                                            className="appearance-none w-full sm:w-5/12 h-auto my-4 border-4 border-red-700 rounded-lg p-2 sm:p-3 lg:p-4 text-base sm:text-lg lg:text-xl text-white text-center 
+                    bg-black bg-opacity-60 hover:bg-red-500 hover:text-black hover:scale-105 transition-all ease-out duration-400"
+                                        >
+                                            Remove Spell
                                         </button>
                                     </div>
                                 ))}
                                 <button
                                     type="button"
                                     onClick={addSpellInput}
-                                    className="appearance-none w-11/12 h-auto border-4 border-yellow-600 rounded-lg p-1 px-3 text-white text-3xl text-center 
-                                bg-black bg-opacity-60 hover:bg-yellow-300 hover:text-black  hover:scale-105 
-                                transition-all ease-out duration-400"
+                                    className="appearance-none w-full sm:w-11/12 h-auto border-4 border-yellow-600 rounded-lg p-2 sm:p-3 lg:p-4 text-base sm:text-lg lg:text-xl text-white text-center 
+            bg-black bg-opacity-60 hover:bg-yellow-300 hover:text-black hover:scale-105 transition-all ease-out duration-400"
                                 >
                                     Add Spell
                                 </button>
                             </div>
-
-
                         </div>
-
-
+                        {/*   */}
                     </div>
-                    <div
-                        className='w-full h-auto flex items-center justify-center my-4'>
+
+                    {/*   */}
+
+                    <div className="w-full h-auto flex items-center justify-center my-4">
                         <button
                             type="submit"
-                            className='appearance-none w-10/12 border-4 border-teal-600 rounded-lg p-2 px-3 text-white text-4xl bg-black bg-opacity-60
-                    hover:bg-teal-300 hover:text-black hover:scale-105 transition-all ease-out 
-                    duration-400'
+                            className="appearance-none w-full sm:w-10/12 border-4 border-teal-600 rounded-lg p-2 sm:p-3 lg:p-4 text-lg sm:text-2xl lg:text-4xl text-white bg-black bg-opacity-60
+        hover:bg-teal-300 hover:text-black hover:scale-105 transition-all ease-out duration-400"
                         >
                             Add Character
                         </button>
-
                     </div>
 
-                    <div className='w-full h-auto flex flex-col items-center justify-center my-4 border-y-4 border-white gap-4'>
-                        <h2 className='text-6xl text-white py-2'>
-                        Useful Information
+                    <div className="w-full h-auto flex flex-col items-center justify-center my-4 border-y-4 border-white gap-4">
+                        <h2 className="text-3xl sm:text-5xl lg:text-6xl text-white py-2 text-center">
+                            Useful Information
                         </h2>
-                        <div className='w-full h-auto flex  items-start justify-center my-4bg-opacity-65 gap-4'>
+                        <div className="w-full h-auto flex flex-col sm:flex-row items-start justify-center gap-4">
                             {raceData && (
-                                <div className="w-full h-auto flex flex-col items-start justify-center p-4 rounded-lg text-white gap-2">
-                                    <h2 className="w-full text-5xl mb-4 text-center">Race Informatio</h2>
+                                <div className="w-full sm:w-1/2 h-auto flex flex-col items-start justify-center p-4 rounded-lg text-white gap-4">
+                                    <h2 className="w-full text-2xl sm:text-4xl lg:text-5xl mb-4 text-center">Race Information</h2>
 
-                                    <h3 className="text-3xl text-yellow-500">Speed: </h3>
-                                    <p className='text-2xl'>{raceData.speed} </p>
-                                    <h3 className="text-3xl text-yellow-500 ">Size: </h3>
-                                    <p className='text-2xl'> {raceData.size} </p>
-                                    <h3 className="text-3xl text-yellow-500">Size Description: </h3>
-                                    <p className='text-2xl'>{raceData.size_description}</p>
-                                    <h3 className="text-3xl mt-4 text-yellow-500">Ability Score Bonuses</h3>
-                                    <ul className="list-disc list-inside text-2xl">
+                                    <h3 className="text-lg sm:text-2xl lg:text-3xl text-yellow-500">Speed:</h3>
+                                    <p className="text-base sm:text-xl lg:text-2xl">{raceData.speed}</p>
+
+                                    <h3 className="text-lg sm:text-2xl lg:text-3xl text-yellow-500">Size:</h3>
+                                    <p className="text-base sm:text-xl lg:text-2xl">{raceData.size}</p>
+
+                                    <h3 className="text-lg sm:text-2xl lg:text-3xl text-yellow-500">Size Description:</h3>
+                                    <p className="text-base sm:text-xl lg:text-2xl">{raceData.size_description}</p>
+
+                                    <h3 className="text-lg sm:text-2xl lg:text-3xl mt-4 text-yellow-500">Ability Score Bonuses:</h3>
+                                    <ul className="list-disc list-inside text-base sm:text-xl lg:text-2xl">
                                         {raceData.ability_bonuses?.map((bonus, index) => (
                                             <li key={index}>{bonus.ability_score.name}: +{bonus.bonus}</li>
                                         ))}
                                     </ul>
-                                    <h3 className="text-3xl text-yellow-500 mt-4">Languages:</h3>
-                                    <p className="text-2xl">{raceData.language_desc}</p>
 
-                                    {/* Mostrar Traits */}
-                                    <h2 className="w-full text-5xl mb-4 text-center">
-                                        Racial Traits
-                                    </h2>
+                                    <h3 className="text-lg sm:text-2xl lg:text-3xl mt-4 text-yellow-500">Languages:</h3>
+                                    <p className="text-base sm:text-xl lg:text-2xl">{raceData.language_desc}</p>
+
+                                    <h2 className="w-full text-2xl sm:text-4xl lg:text-5xl mb-4 text-center">Racial Traits</h2>
                                     {raceData.traitsDetails && (
-                                        <ul className="list-disc list-inside text-white">
+                                        <ul className="list-disc list-inside text-base sm:text-xl lg:text-2xl text-white">
                                             {raceData.traitsDetails.map((trait) => (
                                                 <div key={trait.index} className="mb-4">
-                                                    <h3 className="text-3xl md:text-3xl text-yellow-500">{trait.name}</h3>
-                                                    <p className="text-2xl">{trait.desc[0]}</p>
+                                                    <h3 className="text-lg sm:text-2xl lg:text-3xl text-yellow-500">{trait.name}</h3>
+                                                    <p>{trait.desc[0]}</p>
                                                 </div>
                                             ))}
                                         </ul>
                                     )}
 
-                                    {/* Mostrar Subraces */}
                                     {raceData.subracesDetails && raceData.subracesDetails.length > 0 && (
                                         <div className="mt-6">
-                                            <h2
-                                                className="text-xl md:text-2xl mb-4 text-white"
-                                                style={{ fontFamily: "'Press Start 2P', cursive" }}
-                                            >
-                                                Subraces
-                                            </h2>
+                                            <h2 className="text-lg sm:text-xl lg:text-2xl mb-4 text-white">Subraces</h2>
                                             {raceData.subracesDetails.map((subrace) => (
                                                 <div key={subrace.index} className="mb-4">
-                                                    <h3 className="text-lg md:text-xl font-bold text-white">{subrace.name}</h3>
-                                                    <p className="text-white">{subrace.desc}</p>
+                                                    <h3 className="text-base sm:text-lg lg:text-xl text-white">{subrace.name}</h3>
+                                                    <p className="text-base sm:text-lg lg:text-xl text-white">{subrace.desc}</p>
                                                 </div>
                                             ))}
                                         </div>
@@ -735,45 +716,38 @@ const AddCharacter = () => {
                                 </div>
                             )}
 
-                            {/* Mostrar datos de la clase seleccionada */}
                             {classData && (
-                                <div className="w-full h-auto flex flex-col items-center justify-center p-4 rounded-lg">
-                                    <h2 className="w-full text-5xl mb-4 text-center">Class Information</h2>
-                                    <div className='w-full h-auto flex flex-col text-white items-start justify-center my-4bg-opacity-65 gap-4'>
-                                        <p className="text-3xl text-cyan-500">Hit Die: <p className='text-2xl text-white'>d{classData.hit_die}</p> </p>
+                                <div className="w-full sm:w-1/2 h-auto flex flex-col items-center justify-center p-4 rounded-lg text-white gap-4">
+                                    <h2 className="w-full text-2xl sm:text-4xl lg:text-5xl mb-4 text-center">Class Information</h2>
+                                    <div className="w-full h-auto flex flex-col items-start justify-center gap-4">
+                                        <p className="text-lg sm:text-2xl lg:text-3xl text-cyan-500">
+                                            Hit Die: <span className="text-base sm:text-xl lg:text-2xl text-white">d{classData.hit_die}</span>
+                                        </p>
 
-                                        {/* Mostrar opciones de proficiencias */}
-                                        <ul className="list-disc list-inside">
-                                            <h3 className='text-3xl text-cyan-500'>When you start with this class, you must...</h3>
+                                        <h3 className="text-lg sm:text-2xl lg:text-3xl text-cyan-500">When you start with this class, you must...</h3>
+                                        <ul className="list-disc list-inside text-base sm:text-xl lg:text-2xl">
                                             {classData.proficiency_choices?.map((choice, index) => (
-                                                <li key={index} className="text-2xl">{choice.desc}</li>
+                                                <li key={index}>{choice.desc}</li>
                                             ))}
                                         </ul>
 
-                                        {/* Mostrar proficiencias */}
-                                        <h3 className="text-3xl text-cyan-500">Proficiencies:</h3>
-                                        <ul className="list-disc list-inside">
+                                        <h3 className="text-lg sm:text-2xl lg:text-3xl text-cyan-500">Proficiencies:</h3>
+                                        <ul className="list-disc list-inside text-base sm:text-xl lg:text-2xl">
                                             {classData.proficiencies?.map((prof) => (
-                                                <li key={prof.index} className="text-2xl">{prof.name}</li>
+                                                <li key={prof.index}>{prof.name}</li>
                                             ))}
                                         </ul>
 
-                                        {/* Mostrar equipo inicial */}
-                                        <h3 className="text-3xl text-cyan-500">Starting Equipment:</h3>
-                                        <ul className="list-disc list-inside text-2xl">
+                                        <h3 className="text-lg sm:text-2xl lg:text-3xl text-cyan-500">Starting Equipment:</h3>
+                                        <ul className="list-disc list-inside text-base sm:text-xl lg:text-2xl">
                                             {classData.starting_equipment?.map((equip, index) => (
                                                 <li key={index}>{equip.equipment.name} x {equip.quantity}</li>
                                             ))}
                                         </ul>
-
-
                                     </div>
-
                                 </div>
                             )}
-
                         </div>
-
                     </div>
                 </form>
                 {message && <p className="text-green-500 mt-4">{message}</p>}

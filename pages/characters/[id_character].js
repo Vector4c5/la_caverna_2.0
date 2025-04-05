@@ -356,7 +356,7 @@ const CharacterPage = ({ character }) => {
                             <a
                                 href={pdfPreview}
                                 download={`${character.name_character}_HojaDePersonaje.pdf`}
-                                className="mt-4 w-full sm:w-2/3 lg:w-1/3 block text-center border-4 border-green-500 text-white text-2xl sm:text-3xl lg:text-4xl py-2 sm:py-3 lg:py-4 px-4 rounded-lg hover:bg-green-700
+                                className="mt-4 w-full sm:w-2/3 lg:w-2/3 block text-center border-4 border-green-500 text-white text-2xl sm:text-3xl lg:text-4xl py-2 sm:py-3 lg:py-4 px-4 rounded-lg hover:bg-green-700
     hover:scale-105 transition-all duration-500"
                             >
                                 Download PDF
