@@ -20,7 +20,7 @@ export default function Header({ userName = "Player" }) {
         },
         {
             name: "Library",
-            href: "/contact",
+            href: "/library",
             icon: <GiOpenBook />
         },
     ];

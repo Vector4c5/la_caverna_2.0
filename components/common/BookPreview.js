@@ -1,9 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import { Jersey_10 } from '@next/font/google';
+
+const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 
 const BookPreview = ({ title, image, description, link = '#' }) => {
   return (
-    <Link href={link} className="flex justify-center">
+    <Link href={link} className={`flex justify-center ${jersey_10.className}`}>
       <div className="relative w-[300px] h-[400px] group cursor-pointer transform transition-transform duration-300 hover:scale-105">
         {/* Imagen de fondo que abarca todo */}
         <div 
@@ -21,11 +24,11 @@ const BookPreview = ({ title, image, description, link = '#' }) => {
           {/* Contenido del libro */}
           <div className="relative z-10 h-full flex flex-col justify-between p-6">
             <div className="relative z-10">
-              <h3 className="text-2xl text-center font-bold text-white mb-2 font-['Press_Start_2P']">
+              <h3 className="text-5xl text-center text-white mb-2 ">
                 {title}
               </h3>
             </div>
-            <p className="text-black text-sm text-center font-['Press_Start_2P'] p-2 opacity-0 group-hover:opacity-100 
+            <p className="text-black text-2xl text-center p-2 opacity-0 group-hover:opacity-100 
             bg-white bg-opacity-0 group-hover:bg-opacity-80 rounded-xl transition-opacity 
               duration-300">
                 {description}
