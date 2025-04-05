@@ -5,7 +5,7 @@ import { Jersey_10 } from '@next/font/google';
 import { useRouter } from 'next/router';
 import { jsPDF } from 'jspdf';
 import Header from '@/components/common/Header';
-import StartAnimation from '@/components/common/StartAnimation'
+import StartAnimation from '@/components/common/StartAnimation';
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -28,11 +28,51 @@ const getClassImage = (classCharacter) => {
 const CharacterPage = ({ character }) => {
     const router = useRouter();
     const [pdfPreview, setPdfPreview] = useState(null); // Estado para almacenar la URL del PDF generado
+    const [spells, setSpells] = useState([]); // Estado para almacenar los hechizos organizados por nivel
+    const [skills, setSkills] = useState([]); // Estado para almacenar las habilidades
 
     // Si la página aún no está generada, muestra un estado de carga
     if (router.isFallback) {
         return <p className="text-center text-gray-500">Cargando personaje...</p>;
     }
+
+    // Función para obtener los hechizos desde la API
+    const fetchSpells = async () => {
+        try {
+            const { data } = await axios.get(`${backUrl}/spells/${character.id_character}`);
+            const organizedSpells = Array.from({ length: 9 }, () => []); // Crear 9 secciones vacías
+
+            // Organizar los hechizos por nivel
+            data.forEach((spell) => {
+                const level = spell.level_spell;
+                if (level >= 1 && level <= 9) {
+                    organizedSpells[level - 1].push(spell); // Agregar el hechizo a la sección correspondiente
+                }
+            });
+
+            setSpells(organizedSpells); // Actualizar el estado con los hechizos organizados
+        } catch (error) {
+            console.error('Error al obtener los hechizos:', error);
+        }
+    };
+
+    // Función para obtener las habilidades desde la API
+    const fetchSkills = async () => {
+        try {
+            const { data } = await axios.get(`${backUrl}/skills/${character.id_character}`);
+            setSkills(data); // Actualizar el estado con las habilidades
+        } catch (error) {
+            console.error('Error al obtener las habilidades:', error);
+        }
+    };
+
+    // Llamar a las funciones para obtener los hechizos y habilidades cuando el componente se monte
+    useEffect(() => {
+        if (character) {
+            fetchSpells();
+            fetchSkills();
+        }
+    }, [character]);
 
     // Función para generar el PDF con una plantilla de hoja de personaje
     const generatePDF = async () => {
@@ -77,9 +117,9 @@ const CharacterPage = ({ character }) => {
         // Posicionar el texto en la primera hoja
         doc.text(character.name_character, 35, 35); // Nombre del personaje
         doc.setFontSize(15);
-        doc.text(character.class_character, 111, 28); // Clase
-        doc.text(character.level_character.toString(), 119, 33); // Nivel
-        doc.text(character.race, 110, 41); // Raza
+        doc.text(character.class_character, 93, 29); // Clase
+        doc.text(character.level_character.toString(), 115, 29); // Nivel
+        doc.text(character.race, 93, 38); // Raza
         doc.text(character.hit_points.toString(), 120, 81); // Puntos de golpe
 
         doc.setFontSize(20);
@@ -94,6 +134,40 @@ const CharacterPage = ({ character }) => {
         doc.text(character.intelligence.toString(), 16, 145); // Inteligencia
         doc.text(character.wisdom.toString(), 16, 170); // Sabiduría
         doc.text(character.charisma.toString(), 16, 195); // Carisma
+
+        // **Agregar habilidades a la primera hoja**
+        doc.setFontSize(18); // Tamaño de la fuente para las habilidades
+        doc.text("Habilidades:", 145, 150); // Título de la sección de habilidades
+
+        doc.setFontSize(12); // Tamaño de la fuente para las habilidades
+        let currentY = 155; // Posición inicial para las habilidades
+        const skillMaxWidth = 80; // Ancho máximo para las descripciones
+        const skillLineHeight = 5; // Altura entre líneas
+
+        skills.forEach((skill) => {
+            // Agregar el nombre de la habilidad
+            if (currentY + skillLineHeight > 280) {
+                // Si excede el límite de la hoja, no agregar más habilidades
+                doc.text("...", 145, currentY);
+                return;
+            }
+            doc.text(`- ${skill.name_skill}:`, 145, currentY); // Nombre de la habilidad
+            currentY += skillLineHeight;
+
+            // Dividir la descripción de la habilidad en líneas si excede el ancho máximo
+            const skillLines = doc.splitTextToSize(skill.description_skill, skillMaxWidth);
+
+            // Agregar cada línea de la descripción
+            skillLines.forEach((line) => {
+                if (currentY + skillLineHeight > 280) {
+                    // Si excede el límite de la hoja, no agregar más habilidades
+                    doc.text("...", 145, currentY);
+                    return;
+                }
+                doc.text(line, 145, currentY); // Descripción con sangría
+                currentY += skillLineHeight;
+            });
+        });
 
         // **Segunda hoja**
         doc.addPage(); // Agregar una nueva página
@@ -112,20 +186,24 @@ const CharacterPage = ({ character }) => {
         // Agregar la imagen de fondo a la segunda hoja
         doc.addImage(img2, 'PNG', 0, 0, 210, 297);
 
+        // Agregar el nombre del personaje en la segunda hoja
+        doc.setFontSize(16); // Tamaño de la fuente
+        doc.text(character.name_character, 35, 35); // Posición del texto (x = 20, y = 40)
+
         // Posicionar contenido en la segunda hoja
         const backgroundText = character.background || 'Sin descripción';
-        const maxWidth = 180; // Ancho máximo en milímetros
+        const maxWidth = 60; // Ancho máximo en milímetros
         const lines = doc.splitTextToSize(backgroundText, maxWidth);
 
-        let y = 200; // Posición inicial en el eje Y
-        const lineHeight = 10; // Altura entre líneas
+        let y = 150; // Posición inicial en el eje Y (después del nombre del personaje)
+        const lineHeight = 5; // Altura entre líneas
 
         lines.forEach((line) => {
             if (y + lineHeight > 280) { // Limitar el texto dentro de un área (por ejemplo, hasta 280 mm en Y)
                 doc.text("...", 20, y); // Agregar puntos suspensivos si el texto excede el área
                 return;
             }
-            doc.text(line, 20, y);
+            doc.text(line, 10, y);
             y += lineHeight;
         });
 
@@ -146,9 +224,54 @@ const CharacterPage = ({ character }) => {
         // Agregar la imagen de fondo a la tercera hoja
         doc.addImage(img3, 'PNG', 0, 0, 210, 297);
 
-        // Posicionar contenido en la tercera hoja
-        doc.text('Tercera Hoja - Notas adicionales', 50, 50);
-        doc.text('Aquí puedes agregar más información sobre el personaje.', 50, 60);
+        // Posicionar las 9 secciones de hechizos
+        doc.setFontSize(12); // Tamaño de la fuente para los hechizos
+
+        const sectionPositions = [
+            { x: 12, y: 133 }, // Posición para la sección 1
+            { x: 12, y: 213 }, // Posición para la sección 2
+            { x: 80, y: 73 }, // Posición para la sección 3
+            { x: 80, y: 152 }, // Posición para la sección 4
+            { x: 80, y: 232 }, // Posición para la sección 5
+            { x: 145, y: 73 }, // Posición para la sección 6
+            { x: 145, y: 133 }, // Posición para la sección 7
+            { x: 145, y: 193 }, // Posición para la sección 8
+            { x: 145, y: 242 }, // Posición para la sección 9
+        ];
+
+        spells.forEach((section, index) => {
+            const position = sectionPositions[index]; // Obtener la posición de la sección
+            let currentY = position.y; // Posición inicial para los hechizos dentro de la sección
+            const maxWidth = 50; // Ancho máximo para las descripciones
+            const lineHeight = 4; // Altura entre líneas
+
+            // Listar los hechizos de la sección
+            section.forEach((spell) => {
+                if (currentY + lineHeight > 280) {
+                    // Si excede el límite de la hoja, no agregar más hechizos
+                    doc.text("...", position.x, currentY);
+                    return;
+                }
+
+                // Agregar el nombre del hechizo
+                doc.text(`- ${spell.name_spell}`, position.x, currentY);
+                currentY += lineHeight;
+
+                // Dividir la descripción en líneas si excede el ancho máximo
+                const descriptionLines = doc.splitTextToSize(spell.description_spell, maxWidth);
+
+                // Agregar cada línea de la descripción
+                descriptionLines.forEach((line) => {
+                    if (currentY + lineHeight > 290) {
+                        // Si excede el límite de la hoja, no agregar más líneas
+                        doc.text("...", position.x, currentY);
+                        return;
+                    }
+                    doc.text(line, position.x + 6, currentY); // Descripción con sangría
+                    currentY += lineHeight;
+                });
+            });
+        });
 
         // Generar el PDF como un archivo en memoria
         const pdfBlob = doc.output('blob'); // Genera el PDF como un Blob
@@ -161,7 +284,7 @@ const CharacterPage = ({ character }) => {
         if (character) {
             generatePDF();
         }
-    }, [character]); // Ejecuta el efecto solo cuando `character` esté disponible
+    }, [character, spells, skills]); // Ejecuta el efecto solo cuando `character`, `spells` o `skills` cambien
 
     return (
         <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>

@@ -96,7 +96,7 @@ export default function InterfazUsuario() {
     if (!isLoggedIn) {
         return (
             <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
-                <StartAnimation/>
+                <StartAnimation />
                 <img
                     src="/Fondo_Biblioteca.jpeg"
                     alt="landimg"
@@ -107,33 +107,32 @@ export default function InterfazUsuario() {
                     <div className='w-10/12 h-auto'>
                         <Header />
                     </div>
-                    <div className="container w-1/2 h-auto bg-white m-4 p-4 border-4 border-black rounded-xl">
-                        <form onSubmit={handleManualLogin} className='mt-6'>
-                            <div className='mb-4'>
-                                <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='IniciarEmailUser'>
-                                    Correo
-                                </label>
-                                <input
-                                    type='email'
-                                    id='IniciarEmailUser'
-                                    value={manualEmailUser}
-                                    onChange={(e) => setManualEmailUser(e.target.value)}
-                                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                />
-                            </div>
-                            <div className='flex items-center justify-between'>
-                                <button
-                                    type='submit'
-                                    className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-                                >
-                                    Iniciar sesión
-                                </button>
-                            </div>
-                        </form>
-                        <p>No estás logeado</p>
-                        <button onClick={() => signIn('google', { callbackUrl: '/' })} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
-                            Iniciar sesión con Google
-                        </button>
+                    <div className="relative bg-cover w-2/3 h-auto m-4 border-2 border-white rounded-xl">
+                        <h2 className='absolute text-white text-6xl text-right right-32 mt-3 z-20'>
+                            Adventure awaits!</h2>
+                        <Link
+                            href="/"
+                            className="group absolute w-8/12 h-auto  border-4 border-double border-yellow-700 rounded-xl bg-black bg-opacity-80 hover:scale-90
+    transform transition duration-500 ease-in-out overflow-hidden animate-pulse hover:animate-none z-20 left-44 bottom-4">
+                            <span
+                                className="relative z-10 w-full h-full text-4xl text-white text-center
+        group-hover:text-black flex items-center justify-center transition duration-500 ease-in-out">
+                                Log in here
+                            </span>
+                            <span className="absolute top-0  w-full h-full bg-yellow-400 bg-opacity-60 
+    transform translate-y-full group-hover:translate-y-0 transition duration-500 ease-in-out">
+                            </span>
+                        </Link>
+                        <img
+                            src="/Risco.jpeg"
+                            alt="landimg"
+                            layout="fill"
+                            className="object-containr w-full h-auto z-10 rounded-xl opacity-80"
+                        />
+
+
+
+
                     </div>
                 </div>
             </main>
@@ -142,7 +141,7 @@ export default function InterfazUsuario() {
 
     return (
         <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
-            <StartAnimation/>
+            <StartAnimation />
             <img
                 src="/Fondo_Biblioteca.jpeg"
                 alt="landimg"
@@ -157,14 +156,14 @@ export default function InterfazUsuario() {
                     <div className='w-full h-auto flex items-center justify-start rounded-xl bg-black bg-opacity-60 p-6 gap-6
                     border-white border-2'>
                         <img
-                            src="/Imagen_Perfil.png"
+                            src="/Logo_Jugador.jpeg"
                             alt="imagen de perfil"
                             layout="fill"
                             className="w-44 rounded-full"
                         />
                         <div>
                             <h1 className='text-6xl text-white'>
-                                Bienvenido, {loggedInUser ? loggedInUser.name_user : session.user.name}
+                                Welcome, {loggedInUser ? loggedInUser.name_user : session.user.name}
                             </h1>
                             <p className='text-3xl text-white'>Email: {loggedInUser ? loggedInUser.email_user : session.user.email}</p>
                         </div>
@@ -172,16 +171,16 @@ export default function InterfazUsuario() {
                             className='w-44 bg-red-500 hover:bg-red-700 text-white text-3xl py-2 px-1 rounded focus:outline-none 
                             focus:shadow-outline ml-auto m-2 gap-1 transition-all ease-out duration-500'
                         >
-                            Cerrar sesión
+                            Sign out
                             <div className='flex items-center justify-center scale-150'>
                                 <PiArrowSquareRight />
                             </div>
                         </button>
                     </div>
-                    <div className='w-full h-auto flex-col items-center justify-start rounded-xl bg-black bg-opacity-60 p-6 gap-6
+                    <div className='w-full h-auto flex-col items-center justify-start rounded-xl bg-black bg-opacity-60 p-4 gap-6
                     border-white border-2'>
 
-                        <div className='flex flex-col items-center justify-center'>
+                        <div className='flex flex-col items-center justify-center w-full h-auto'>
                             <CharacterGrid userId={loggedInUser?.id_user} />
                         </div>
 
