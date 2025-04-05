@@ -33,7 +33,7 @@ const CharacterPage = ({ character }) => {
 
     // Si la página aún no está generada, muestra un estado de carga
     if (router.isFallback) {
-        return <p className="text-center text-gray-500">Cargando personaje...</p>;
+        return <p className="text-center text-gray-500">Loading character...</p>;
     }
 
     // Función para obtener los hechizos desde la API
@@ -98,7 +98,7 @@ const CharacterPage = ({ character }) => {
         // Estilo del texto
         const fontResponse = await fetch('/fonts/Jersey10-Regular.ttf'); // Ruta de la fuente personalizada
         const fontBlob = await fontResponse.blob();
-        
+
         const fontBase64 = await new Promise((resolve) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result.split(',')[1]); // Obtener solo el contenido Base64
@@ -288,85 +288,83 @@ const CharacterPage = ({ character }) => {
 
     return (
         <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
-            <div className='w-10/12 h-auto z-50 py-4'>
+            <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
                 <Header />
             </div>
             <StartAnimation />
             <img
                 src="/Recamara.jpeg"
-                alt="Personajes FOndp"
+                alt="Personajes Fondo"
                 layout="fill"
                 className="object-cover w-full h-screen opacity-30 z-0 fixed"
             />
-            <div
-                className='w-full h-auto flex flex-col items-center justify-start p-4 gap-4 z-10'>
+            <div className="w-full h-auto flex flex-col items-center justify-start p-4 gap-4 z-10">
                 <div
-                    className='w-7/12 h-auto flex flex-col items-center justify-start p-4 gap-4 bg-black bg-opacity-60 z-10 border-4 border-white rounded-lg
-                border-dashed'>
-                    <h1
-                        className="w-2/3 text-6xl text-center border-b-2 border-white">
+                    className="w-full sm:w-10/12 lg:w-7/12 h-auto flex flex-col items-center justify-start p-4 gap-4 bg-black bg-opacity-60 z-10 border-4 border-white rounded-lg border-dashed">
+                    <h1 className="w-full sm:w-2/3 text-4xl sm:text-5xl lg:text-6xl text-center border-b-2 border-white">
                         {character.name_character}
                     </h1>
-                    <div className="w-11/12 flex flex-col items-start justify-center gap-2 pb-4 border-b-2 border-white">
-                        <div className='w-full flex items-center justify-around'>
-                            <div className='flex gap-6 items-center'>
-                                <h3 className="text-4xl text-yellow-400">
-                                    Nivel:
+                    <div className="w-full flex flex-col items-start justify-center gap-4 pb-4 border-b-2 border-white">
+                        <div className="w-full flex flex-col sm:flex-row items-center justify-around gap-4">
+                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center">
+                                <h3 className="text-3xl sm:text-4xl text-yellow-400">
+                                    Level:
                                 </h3>
-                                <p className='text-3xl'>
+                                <p className="text-2xl sm:text-3xl">
                                     {character.level_character || 'N/A'}
                                 </p>
                             </div>
-                            <div className='flex gap-6 items-center'>
-                                <h3 className="text-4xl text-yellow-400">
-                                    Clase:
+                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center">
+                                <h3 className="text-3xl sm:text-4xl text-yellow-400">
+                                    Class:
                                 </h3>
-                                <p className='text-3xl'>
+                                <p className="text-2xl sm:text-3xl">
                                     {character.class_character || 'N/A'}
                                 </p>
                             </div>
-                            <div className='flex gap-6 items-center'>
-                                <h3 className="text-4xl text-yellow-400">
-                                    Raza:
+                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center">
+                                <h3 className="text-3xl sm:text-4xl text-yellow-400">
+                                    Race:
                                 </h3>
-                                <p className='text-3xl'>
+                                <p className="text-2xl sm:text-3xl">
                                     {character.race || 'N/A'}
                                 </p>
                             </div>
-
                         </div>
-                        <div
-                            className='w-full flex flex-col items-center justify-center'>
-                            <h3 className="w-2/3 text-4xl text-center text-teal-500">Background: </h3>
-                            <p className='text-3xl text-justify'>{character.background || 'Sin descripción'}</p>
+                        <div className="w-full flex flex-col items-center justify-center">
+                            <h3 className="w-full sm:w-2/3 text-3xl sm:text-4xl text-center text-teal-500">
+                                Background:
+                            </h3>
+                            <p className="text-2xl sm:text-3xl text-justify">
+                                {character.background || 'Sin descripción'}
+                            </p>
                         </div>
                     </div>
 
                     {/* Mostrar la vista previa del PDF si está disponible */}
                     {pdfPreview && (
                         <div className="w-full flex flex-col items-center justify-center mt-4">
-                            <h2 className="text-4xl text-center mb-4">Preparate, un mundo lleno de aventuras te espera</h2>
+                            <h2 className="text-3xl sm:text-4xl text-center mb-4">
+                                Get ready, a world full of adventures awaits you!
+                            </h2>
                             <iframe
                                 src={pdfPreview}
                                 width="100%"
-                                height="1000"
+                                height="600"
                                 className="border-2 border-gray-300 rounded-lg"
                             ></iframe>
                             <a
                                 href={pdfPreview}
                                 download={`${character.name_character}_HojaDePersonaje.pdf`}
-                                className="mt-4 block text-center bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition-all"
+                                className="mt-4 w-full sm:w-2/3 lg:w-1/3 block text-center border-4 border-green-500 text-white text-2xl sm:text-3xl lg:text-4xl py-2 sm:py-3 lg:py-4 px-4 rounded-lg hover:bg-green-700
+    hover:scale-105 transition-all duration-500"
                             >
-                                Descargar PDF
+                                Download PDF
                             </a>
                         </div>
                     )}
-
                 </div>
-
-
             </div>
-
         </main>
     );
 };
