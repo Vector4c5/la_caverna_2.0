@@ -103,36 +103,33 @@ export default function InterfazUsuario() {
                     layout="fill"
                     className="object-cover w-full h-screen opacity-30 z-0 fixed"
                 />
-                <div className='z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4'>
-                    <div className='w-10/12 h-auto'>
+                <div className="z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4">
+                    <div className="w-11/12 sm:w-10/12">
                         <Header />
                     </div>
-                    <div className="relative bg-cover w-2/3 h-auto m-4 border-2 border-white rounded-xl">
-                        <h2 className='absolute text-white text-6xl text-right right-32 mt-3 z-20'>
-                            Adventure awaits!</h2>
+                    <div className="relative bg-cover w-full sm:w-2/3 h-auto m-4 border-2 border-white rounded-xl">
+                        <h2 className="absolute text-white text-4xl sm:text-5xl lg:text-6xl text-right right-4 sm:right-16 lg:right-32 mt-3 z-20">
+                            Adventure awaits!
+                        </h2>
                         <Link
                             href="/"
-                            className="group absolute w-8/12 h-auto  border-4 border-double border-yellow-700 rounded-xl bg-black bg-opacity-80 hover:scale-90
-    transform transition duration-500 ease-in-out overflow-hidden animate-pulse hover:animate-none z-20 left-44 bottom-4">
+                            className="group absolute w-10/12 sm:w-8/12 lg:w-6/12 h-auto p-2 border-4 border-double border-yellow-700 rounded-xl bg-black bg-opacity-80 hover:scale-90
+                            transform transition duration-500 ease-in-out overflow-hidden animate-pulse hover:animate-none z-20 left-1/2 bottom-4 translate-x-[-50%]">
                             <span
-                                className="relative z-10 w-full h-full text-4xl text-white text-center
-        group-hover:text-black flex items-center justify-center transition duration-500 ease-in-out">
+                                className="relative z-10 w-full h-full text-2xl sm:text-3xl lg:text-4xl text-white text-center
+                                group-hover:text-black flex items-center justify-center transition duration-500 ease-in-out">
                                 Log in here
                             </span>
-                            <span className="absolute top-0  w-full h-full bg-yellow-400 bg-opacity-60 
-    transform translate-y-full group-hover:translate-y-0 transition duration-500 ease-in-out">
+                            <span className="absolute top-0 left-0 w-full h-full bg-yellow-400 bg-opacity-60 
+                            transform translate-y-full group-hover:translate-y-0 transition duration-500 ease-in-out">
                             </span>
                         </Link>
                         <img
                             src="/Risco.jpeg"
                             alt="landimg"
                             layout="fill"
-                            className="object-containr w-full h-auto z-10 rounded-xl opacity-80"
+                            className="object-contain w-full h-auto z-10 rounded-xl opacity-80"
                         />
-
-
-
-
                     </div>
                 </div>
             </main>
@@ -148,42 +145,43 @@ export default function InterfazUsuario() {
                 layout="fill"
                 className="object-cover w-full h-screen opacity-30 z-0 fixed"
             />
-            <div className='z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4'>
-                <div className='w-10/12 h-auto'>
+            <div className="z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4">
+                <div className="w-11/12 sm:w-10/12 h-auto">
                     <Header />
                 </div>
-                <div className='container w-10/12 gap-4 flex flex-col items-center justify-start'>
-                    <div className='w-full h-auto flex items-center justify-start rounded-xl bg-black bg-opacity-60 p-6 gap-6
-                    border-white border-2'>
+                <div className="container w-full sm:w-10/12 gap-4 flex flex-col items-center justify-start">
+                    <div className="w-full h-auto flex flex-col sm:flex-row items-center sm:items-start justify-start rounded-xl bg-black bg-opacity-60 p-4 sm:p-6 gap-4 sm:gap-6
+                    border-white border-2">
                         <img
                             src="/Logo_Jugador.jpeg"
                             alt="imagen de perfil"
                             layout="fill"
-                            className="w-44 rounded-full"
+                            className="w-32 sm:w-44 rounded-full"
                         />
-                        <div>
-                            <h1 className='text-6xl text-white'>
+                        <div className="text-center sm:text-left">
+                            <h1 className="text-4xl sm:text-6xl text-white">
                                 Welcome, {loggedInUser ? loggedInUser.name_user : session.user.name}
                             </h1>
-                            <p className='text-3xl text-white'>Email: {loggedInUser ? loggedInUser.email_user : session.user.email}</p>
+                            <p className="text-2xl sm:text-3xl text-white">
+                                Email: {loggedInUser ? loggedInUser.email_user : session.user.email}
+                            </p>
                         </div>
-                        <button onClick={handleLogout}
-                            className='w-44 bg-red-500 hover:bg-red-700 text-white text-3xl py-2 px-1 rounded focus:outline-none 
-                            focus:shadow-outline ml-auto m-2 gap-1 transition-all ease-out duration-500'
+                        <button
+                            onClick={handleLogout}
+                            className="w-full sm:w-44 bg-red-500 hover:bg-red-700 text-white text-2xl sm:text-3xl py-2 px-1 rounded focus:outline-none 
+                            focus:shadow-outline ml-auto m-2 gap-1 transition-all ease-out duration-500"
                         >
                             Sign out
-                            <div className='flex items-center justify-center scale-150'>
+                            <div className="flex items-center justify-center scale-150">
                                 <PiArrowSquareRight />
                             </div>
                         </button>
                     </div>
-                    <div className='w-full h-auto flex-col items-center justify-start rounded-xl bg-black bg-opacity-60 p-4 gap-6
-                    border-white border-2'>
-
-                        <div className='flex flex-col items-center justify-center w-full h-auto'>
+                    <div className="w-full h-auto flex flex-col items-center justify-start rounded-xl bg-black bg-opacity-60 p-4 gap-4 sm:gap-6
+                    border-white border-2">
+                        <div className="flex flex-col items-center justify-center w-full h-auto">
                             <CharacterGrid userId={loggedInUser?.id_user} />
                         </div>
-
                     </div>
                 </div>
             </div>
