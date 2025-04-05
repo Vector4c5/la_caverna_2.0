@@ -86,7 +86,7 @@ export default function Header({ userName = "Player" }) {
                 </div>
 
                 {/* Navegación para pantallas grandes */}
-                <nav className="hidden sm:flex justify-end items-center gap-3 sm:gap-5">
+                <nav className="hidden sm:flex justify-end items-center gap-3 sm:gap-5 px-4">
                     {navPages.map((page) => (
                         <li
                             key={page.href}
