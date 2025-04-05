@@ -260,7 +260,7 @@ const AddCharacter = () => {
 
     return (
         <div className={`w-full mx-auto flex flex-col items-center justify-start p-4 overflow-y-auto ${jersey_10.className}`}>
-            <div className='w-10/12 h-auto z-10'>
+            <div className='w-10/12 h-auto z-50'>
                 <Header />
             </div>
             <StarAnimation />

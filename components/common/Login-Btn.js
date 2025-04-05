@@ -63,7 +63,7 @@ export default function LoginBtn() {
                     </p>
                 </button>
                 {menuOpen && (
-                    <div className="absolute mr-auto mt-8 w-48 bg-white border-2 border-gray-500 shadow-lg z-10">
+                    <div className="absolute mr-auto mt-8 w-48 bg-white border-2 border-gray-500 shadow-lg z-50">
                         <Link href="/interfaz_Usuario" className="group flex items-center px-2 py-2 text-2xl text-black border-b-2 border-black hover:bg-gray-200">
                             <div className="opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out">
                                 <MdPlayArrow />
@@ -91,7 +91,7 @@ export default function LoginBtn() {
 
     return (
         <div className={`relative ${jersey_10.className}`}>
-            <button onClick={toggleMenu} className="group flex items-center gap-4 mx-2 hover:translate-x-4 transition 
+            <Link href='/' className="group flex items-center gap-4 mx-2 hover:translate-x-4 transition 
                             duration-300 ease-in-out">
                 <div className="opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out scale-150">
                     <MdPlayArrow />
@@ -102,12 +102,8 @@ export default function LoginBtn() {
                 <p className="text-3xl">
                     Inicia sesión
                 </p>
-            </button>
-            {menuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                    <button onClick={() => signIn()} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Iniciar sesión con Google</button>
-                </div>
-            )}
+            </Link>
+        
         </div>
     );
 }
