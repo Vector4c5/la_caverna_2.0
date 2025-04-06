@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Jersey_10 } from '@next/font/google';
 import { useRouter } from 'next/router';
 import { jsPDF } from 'jspdf';
@@ -27,58 +28,44 @@ const getClassImage = (classCharacter) => {
 
 const CharacterPage = ({ character }) => {
     const router = useRouter();
-    const [pdfPreview, setPdfPreview] = useState(null); // Estado para almacenar la URL del PDF generado
-    const [spells, setSpells] = useState([]); // Estado para almacenar los hechizos organizados por nivel
-    const [skills, setSkills] = useState([]); // Estado para almacenar las habilidades
-
-    // Si la página aún no está generada, muestra un estado de carga
-    if (router.isFallback) {
-        return <p className="text-center text-gray-500">Loading character...</p>;
-    }
+    const [pdfPreview, setPdfPreview] = useState(null);
+    const [spells, setSpells] = useState([]);
+    const [skills, setSkills] = useState([]);
 
     // Función para obtener los hechizos desde la API
-    const fetchSpells = async () => {
+    const fetchSpells = useCallback(async () => {
         try {
             const { data } = await axios.get(`${backUrl}/spells/${character.id_character}`);
-            const organizedSpells = Array.from({ length: 9 }, () => []); // Crear 9 secciones vacías
+            const organizedSpells = Array.from({ length: 9 }, () => []);
 
-            // Organizar los hechizos por nivel
             data.forEach((spell) => {
                 const level = spell.level_spell;
                 if (level >= 1 && level <= 9) {
-                    organizedSpells[level - 1].push(spell); // Agregar el hechizo a la sección correspondiente
+                    organizedSpells[level - 1].push(spell);
                 }
             });
 
-            setSpells(organizedSpells); // Actualizar el estado con los hechizos organizados
+            setSpells(organizedSpells);
         } catch (error) {
             console.error('Error al obtener los hechizos:', error);
         }
-    };
+    }, [character?.id_character]);
 
     // Función para obtener las habilidades desde la API
-    const fetchSkills = async () => {
+    const fetchSkills = useCallback(async () => {
         try {
             const { data } = await axios.get(`${backUrl}/skills/${character.id_character}`);
-            setSkills(data); // Actualizar el estado con las habilidades
+            setSkills(data);
         } catch (error) {
             console.error('Error al obtener las habilidades:', error);
         }
-    };
+    }, [character?.id_character]);
 
-    // Llamar a las funciones para obtener los hechizos y habilidades cuando el componente se monte
-    useEffect(() => {
-        if (character) {
-            fetchSpells();
-            fetchSkills();
-        }
-    }, [character]);
+    // Función para generar el PDF
+    const generatePDF = useCallback(async () => {
+        if (!character) return;
 
-    // Función para generar el PDF con una plantilla de hoja de personaje
-    const generatePDF = async () => {
-        if (!character) return; // Asegúrate de que `character` esté definido
-
-        const doc = new jsPDF('portrait', 'mm', 'a4'); // Configuración del PDF (A4 vertical)
+        const doc = new jsPDF('portrait', 'mm', 'a4');
 
         // **Primera hoja**
         // Cargar la imagen de la plantilla para la primera hoja
@@ -277,14 +264,27 @@ const CharacterPage = ({ character }) => {
         const pdfBlob = doc.output('blob'); // Genera el PDF como un Blob
         const pdfUrl = URL.createObjectURL(pdfBlob); // Crea una URL para el Blob
         setPdfPreview(pdfUrl); // Almacena la URL en el estado para mostrarla en la vista previa
-    };
+    }, [character, spells, skills]);
+
+    // Llamar a las funciones para obtener los hechizos y habilidades cuando el componente se monte
+    useEffect(() => {
+        if (character) {
+            fetchSpells();
+            fetchSkills();
+        }
+    }, [character, fetchSpells, fetchSkills]);
 
     // Generar el PDF automáticamente al cargar la página
     useEffect(() => {
         if (character) {
             generatePDF();
         }
-    }, [character, spells, skills]); // Ejecuta el efecto solo cuando `character`, `spells` o `skills` cambien
+    }, [character, generatePDF]);
+
+    // Si la página aún no está generada, muestra un estado de carga
+    if (router.isFallback) {
+        return <p className="text-center text-gray-500">Loading character...</p>;
+    }
 
     return (
         <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
@@ -292,12 +292,15 @@ const CharacterPage = ({ character }) => {
                 <Header />
             </div>
             <StartAnimation />
-            <img
-                src="/Recamara.jpeg"
-                alt="Personajes Fondo"
-                layout="fill"
-                className="object-cover w-full h-screen opacity-30 z-0 fixed"
-            />
+            <div className="fixed inset-0 z-0">
+                <Image
+                    src="/Recamara.jpeg"
+                    alt="Personajes Fondo"
+                    layout="fill"
+                    objectFit="cover"
+                    className="opacity-30"
+                />
+            </div>
             <div className="w-full h-auto flex flex-col items-center justify-start p-4 gap-4 z-10">
                 <div
                     className="w-full sm:w-10/12 lg:w-7/12 h-auto flex flex-col items-center justify-start p-4 gap-4 bg-black bg-opacity-60 z-10 border-4 border-white rounded-lg border-dashed">
