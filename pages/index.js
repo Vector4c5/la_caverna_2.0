@@ -1,7 +1,8 @@
 import { Jersey_10 } from '@next/font/google';
-import StarAnimation from "../components/common/StartAnimation";
+import StarAnimation from "@/components/common/StartAnimation";
 import Link from "next/link";
-import { useState, useEffect } from 'react';
+import Image from "next/image";
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
@@ -29,26 +30,7 @@ export default function Home() {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    if (session && session.user) {
-      const newUser = {
-        user_name: session.user.name,
-        email_user: session.user.email,
-      };
-      addUserToDatabase(newUser);
-      setIsLoggedIn(true);
-    }
-  }, [session]);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('loggedInUser');
-    if (storedUser) {
-      setLoggedInUser(JSON.parse(storedUser));
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const addUserToDatabase = async (user) => {
+  const addUserToDatabase = useCallback(async (user) => {
     try {
       const existingUser = users.find(u => u.email_user === user.email_user);
       if (existingUser) {
@@ -65,7 +47,26 @@ export default function Home() {
     } catch (error) {
       console.log('Error al añadir usuario:', error);
     }
-  };
+  }, [users]);
+
+  useEffect(() => {
+    if (session && session.user) {
+      const newUser = {
+        user_name: session.user.name,
+        email_user: session.user.email,
+      };
+      addUserToDatabase(newUser);
+      setIsLoggedIn(true);
+    }
+  }, [session, addUserToDatabase]);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('loggedInUser');
+    if (storedUser) {
+      setLoggedInUser(JSON.parse(storedUser));
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleManualLogin = async (e) => {
     e.preventDefault();
@@ -120,12 +121,15 @@ export default function Home() {
       <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
         <div className="bg-black text-white w-full h-screen flex flex-col justify-center">
           <StarAnimation />
-          <img
-            src="/img_inicio.jpeg"
-            alt="Inicio"
-            layout="fill"
-            className="absolute object-cover w-full h-screen opacity-30 z-0"
-          />
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/img_inicio.jpeg"
+              alt="Inicio"
+              layout="fill"
+              objectFit="cover"
+              className="opacity-30"
+            />
+          </div>
           <div className="items-center justify-center w-full h-screen flex flex-col z-10">
 
             <div className="container flex flex-col items-center justify-center w-8/12 h-auto bg-gray-600 bg-opacity-60 p-4 m-4
@@ -203,11 +207,15 @@ export default function Home() {
                 </div>
 
                 <div className='flex flex-col items-center justify-center w-1/2 p-2 gap-4'>
-                  <img
-                    src="/Logo_The_Cavern.jpeg"
-                    alt="Logo"
-                    className="w-8/12 h-auto border-4 border-white rounded-full shadow-lg shadow-gray-500"
-                  />
+                  <div className="relative w-8/12 h-64">
+                    <Image
+                      src="/Logo_The_Cavern.jpeg"
+                      alt="Logo"
+                      layout="fill"
+                      objectFit="contain"
+                      className="border-4 border-white rounded-full shadow-lg shadow-gray-500"
+                    />
+                  </div>
                   <Link
                     href="https://discord.gg/YzqMRypkYz"
                     className='appearance-none w-10/12 h-auto border-4 border-pink-500 rounded-lg p-1 px-3 text-white text-3xl text-center 
@@ -234,12 +242,15 @@ export default function Home() {
     <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
       <div className="bg-black text-white w-full h-screen flex flex-col justify-center">
         <StarAnimation />
-        <img
-          src="/img_inicio.jpeg"
-          alt="Inicio"
-          layout="fill"
-          className="absolute object-cover w-full h-screen opacity-30 z-0"
-        />
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/img_inicio.jpeg"
+            alt="Inicio"
+            layout="fill"
+            objectFit="cover"
+            className="opacity-30"
+          />
+        </div>
         <div className="relative container w-full h-screen flex flex-col items-center justify-center">
           <div className="container w-9/12 h-1/3 p-5 m-2 flex items-center justify-center border-8 border-white border-double bg-black bg-opacity-60">
             <h1 className='text-8xl text-center'>
