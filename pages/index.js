@@ -119,109 +119,132 @@ export default function Home() {
   if (!isLoggedIn) {
     return (
       <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
-        <div className="relative bg-black text-white w-full h-screen flex flex-col justify-center">
+        <div className="relative bg-black text-white w-full min-h-screen flex flex-col justify-center">
           <StarAnimation />
+          <div className="fixed inset-0 z-0 w-full h-full">
             <img
               src="/img_inicio.jpeg"
               alt="Inicio"
-              className="absolute w-full h-full object-cover opacity-30"
+              className="w-full h-full object-cover opacity-30"
             />
-          <div className="items-center justify-center w-full h-screen flex flex-col z-10">
-            <div className="container flex flex-col items-center justify-center w-8/12 h-auto bg-gray-600 bg-opacity-60 p-4 m-4
-            border-4 border-purple-800 rounded-xl gap-1">
-              <h1 className='text-5xl text-white text-center'>
+          </div>
+          <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center px-4 py-6">
+            <div className="container flex flex-col items-center justify-center w-11/12 sm:w-10/12 md:w-9/12 lg:w-8/12 h-auto 
+                        bg-gray-600 bg-opacity-60 p-3 sm:p-4 md:p-6
+                          border-2 sm:border-3 md:border-4 border-purple-800 rounded-xl gap-2 sm:gap-3 md:gap-4">
+              
+              {/* Title - responsive */}
+              <h1 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white text-center mb-2 sm:mb-4'>
                 Welcome To The Cavern!!
               </h1>
-              <div className='flex items-center w-full h-auto p-2'>
-                <div className='flex flex-col items-center justify-center w-1/2 p-4'>
-                  {/* Formulario de inicio de sesión manual */}
-                  <form onSubmit={handleManualLogin} className='w-full'>
-                    <div className='w-11/12'>
-                      <label className="block text-white text text-3xl mb-2" htmlFor='IniciarEmailUser'>
+              
+              {/* Container for forms and right side - switches to column on mobile */}
+              <div className='flex flex-col md:flex-row items-center w-full h-auto p-2 gap-4'>
+                
+                {/* Left side - forms container */}
+                <div className='flex flex-col items-center justify-center w-full md:w-1/2 p-2 sm:p-3 md:p-4'>
+                  
+                  {/* Login form */}
+                  <form onSubmit={handleManualLogin} className='w-full mb-4 sm:mb-6'>
+                    <div className='w-full'>
+                      <label className="block text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-1 sm:mb-2" htmlFor='IniciarEmailUser'>
                         Email
                       </label>
                       <input
                         type='email'
                         id='IniciarEmailUser'
-                        value={loginEmailUser} // Usa el estado específico para el inicio de sesión
-                        onChange={(e) => setLoginEmailUser(e.target.value)} // Actualiza el estado específico
-                        className='appearance-none border-4 border-cyan-950 rounded-lg w-full p-1 px-3 text-black text-2xl leading-tight
-                        hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
-                        focus:border-purple-800 transition-all ease-out duration-500'
+                        value={loginEmailUser}
+                        onChange={(e) => setLoginEmailUser(e.target.value)}
+                        className='appearance-none border-2 sm:border-3 md:border-4 border-cyan-950 rounded-lg w-full 
+                                  p-1 px-2 sm:p-2 sm:px-3 text-black text-base sm:text-lg md:text-xl lg:text-2xl leading-tight
+                                hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
+                                focus:border-purple-800 transition-all ease-out duration-500'
                       />
                     </div>
-                    <div className='flex items-center justify-end w-11/12'>
+                    <div className='flex items-center justify-end w-full mt-2 sm:mt-3'>
                       <button
                         type='submit'
-                        className='w-6/12 bg-white border-4 border-gray-900 hover:bg-teal-500 text-black text-2xl px-4 py-1 rounded-lg mt-4
-                        transition-all ease-out duration-500 right-0'>
+                        className='w-full sm:w-8/12 md:w-6/12 bg-white border-2 sm:border-3 md:border-4 border-gray-900 
+                                hover:bg-teal-500 text-black text-base sm:text-lg md:text-xl lg:text-2xl 
+                                px-3 py-1 sm:px-4 sm:py-1 rounded-lg mt-2 sm:mt-3 md:mt-4
+                                transition-all ease-out duration-500 right-0'>
                         Iniciar sesión
                       </button>
                     </div>
                   </form>
 
-                  {/* Formulario de registro manual */}
+                  {/* Registration form */}
                   <form onSubmit={handleManualRegister} className='w-full h-auto'>
-                    <div className='w-11/12'>
-                      <label className="block text-white text text-3xl mb-2" htmlFor='RegisterNameUser'>
+                    <div className='w-full mb-2 sm:mb-3'>
+                      <label className="block text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-1 sm:mb-2" htmlFor='RegisterNameUser'>
                         Nombre
                       </label>
                       <input
                         type='text'
                         id='RegisterNameUser'
-                        value={manualNameUser} // Usa el estado específico para el nombre
-                        onChange={(e) => setManualNameUser(e.target.value)} // Actualiza el estado específico
-                        className='appearance-none border-4 border-cyan-950 rounded-lg w-full p-1 px-3 text-black text-2xl leading-tight
-                        hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
-                        focus:border-purple-800 transition-all ease-out duration-500'
+                        value={manualNameUser}
+                        onChange={(e) => setManualNameUser(e.target.value)}
+                        className='appearance-none border-2 sm:border-3 md:border-4 border-cyan-950 rounded-lg w-full 
+                                  p-1 px-2 sm:p-2 sm:px-3 text-black text-base sm:text-lg md:text-xl lg:text-2xl leading-tight
+                                hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
+                                focus:border-purple-800 transition-all ease-out duration-500'
                       />
                     </div>
-                    <div className='w-11/12'>
-                      <label className="block text-white text text-3xl mb-2" htmlFor='RegisterEmailUser'>
+                    <div className='w-full mb-2 sm:mb-3'>
+                      <label className="block text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-1 sm:mb-2" htmlFor='RegisterEmailUser'>
                         Email
                       </label>
                       <input
                         type='email'
                         id='RegisterEmailUser'
-                        value={registerEmailUser} // Usa el estado específico para el registro
-                        onChange={(e) => setRegisterEmailUser(e.target.value)} // Actualiza el estado específico
-                        className='appearance-none border-4 border-cyan-950 rounded-lg w-full p-1 px-3 text-black text-2xl leading-tight
-                        hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
-                        focus:border-purple-800 transition-all ease-out duration-500'
+                        value={registerEmailUser}
+                        onChange={(e) => setRegisterEmailUser(e.target.value)}
+                        className='appearance-none border-2 sm:border-3 md:border-4 border-cyan-950 rounded-lg w-full 
+                                  p-1 px-2 sm:p-2 sm:px-3 text-black text-base sm:text-lg md:text-xl lg:text-2xl leading-tight
+                                hover:shadow-purple-500 hover:shadow-sm focus:shadow-purple-500 focus:shadow-md hover:border-purple-800 
+                                focus:border-purple-800 transition-all ease-out duration-500'
                       />
                     </div>
-                    <div className='flex items-center justify-end w-11/12'>
+                    <div className='flex items-center justify-end w-full mt-2 sm:mt-3'>
                       <button
                         type='submit'
-                        className='w-6/12 bg-white border-4 border-gray-900 hover:bg-teal-500 text-black text-2xl px-4 py-1 rounded-lg mt-4
-                        transition-all ease-out duration-500 right-0'>
+                        className='w-full sm:w-8/12 md:w-6/12 bg-white border-2 sm:border-3 md:border-4 border-gray-900 
+                                hover:bg-teal-500 text-black text-base sm:text-lg md:text-xl lg:text-2xl 
+                                px-3 py-1 sm:px-4 sm:py-1 rounded-lg mt-2 sm:mt-3 md:mt-4
+                                transition-all ease-out duration-500 right-0'>
                         Registrarse
                       </button>
                     </div>
                   </form>
                 </div>
 
-                <div className='flex flex-col items-center justify-center w-1/2 h-auto p-2 gap-4'>
-                  <div className="relative w-8/12 h-auto">
+                {/* Right side - logo and buttons */}
+                <div className='flex flex-col items-center justify-center w-full md:w-1/2 p-2 gap-3 sm:gap-4 md:gap-5'>
+                  {/* Logo container */}
+                  <div className="relative w-10/12 sm:w-9/12 md:w-8/12 aspect-square mb-2">
                     <img
                       src="/Logo_The_Cavern.jpeg"
                       alt="Logo"
-                      layout="fill"
-                      objectFit="contain"
-                      className="border-4 border-white rounded-full shadow-lg shadow-gray-500"
+                      className="w-full h-full object-cover border-2 sm:border-3 md:border-4 border-white rounded-full shadow-lg shadow-gray-500"
                     />
                   </div>
+                  
+                  {/* Discord button */}
                   <Link
                     href="https://discord.gg/YzqMRypkYz"
-                    className='appearance-none w-10/12 h-auto border-4 border-pink-500 rounded-lg p-1 px-3 text-white text-3xl text-center 
-                    bg-black bg-opacity-60 hover:bg-pink-300 hover:text-black hover:shadow-pink-300 hover:shadow-lg hover:scale-110 
-                    transition-all ease-out duration-400'>
+                    className='appearance-none w-full sm:w-10/12 border-2 sm:border-3 md:border-4 border-pink-500 rounded-lg 
+                            p-1 px-2 sm:p-2 sm:px-3 text-white text-base sm:text-lg md:text-2xl lg:text-3xl text-center 
+                          bg-black bg-opacity-60 hover:bg-pink-300 hover:text-black hover:shadow-pink-300 hover:shadow-lg hover:scale-105 
+                            transition-all ease-out duration-400'>
                     Join our Discord community
                   </Link>
+                  
+                  {/* Google sign-in button */}
                   <button onClick={() => signIn()}
-                    className='appearance-none w-10/12 border-4 border-teal-600 rounded-lg p-2 px-3 text-white text-4xl bg-black bg-opacity-60
-                    hover:bg-teal-300 hover:text-black hover:shadow-teal-300 hover:shadow-lg hover:scale-110 transition-all ease-out 
-                    duration-400'>
+                    className='appearance-none w-full sm:w-10/12 border-2 sm:border-3 md:border-4 border-teal-600 rounded-lg 
+                            p-2 px-3 text-white text-base sm:text-xl md:text-2xl lg:text-4xl bg-black bg-opacity-60
+                          hover:bg-teal-300 hover:text-black hover:shadow-teal-300 hover:shadow-lg hover:scale-105 transition-all ease-out 
+                            duration-400'>
                     Sign in with Google
                   </button>
                 </div>
@@ -235,33 +258,40 @@ export default function Home() {
 
   return (
     <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
-        <div className="relative bg-black text-white w-full h-screen flex flex-col justify-center">
+      <div className="relative bg-black text-white w-full min-h-screen flex flex-col justify-center">
         <StarAnimation />
         <div className="fixed inset-0 z-0 w-full h-full">
-        <img
-              src="/img_inicio.jpeg"
-              alt="Inicio"
-              className="absolute w-full h-full object-cover opacity-30"
-            />
+          <img
+            src="/img_inicio.jpeg"
+            alt="Inicio"
+            className="w-full h-full object-cover opacity-30"
+          />
         </div>
-        <div className="relative w-full h-screen flex flex-col items-center justify-center">
-          <div className="w-9/12 h-1/3 p-5 m-2 flex items-center justify-center border-8 border-white border-double bg-black bg-opacity-60">
-            <h1 className='text-8xl text-center'>
+        <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center px-4 py-6">
+          {/* Title container - responsive for all screen sizes */}
+          <div className="w-full md:w-10/12 lg:w-9/12 p-3 sm:p-4 md:p-5 my-2 flex items-center justify-center 
+                        border-4 sm:border-6 md:border-8 border-white border-double bg-black bg-opacity-60">
+            <h1 className='text-3xl sm:text-5xl md:text-6xl lg:text-8xl text-center'>
               Welcome to The Cavern
             </h1>
           </div>
-          <div className="w-1/2 h-auto m-2 flex items-center justify-center">
+
+          {/* Start Adventure button - responsive for all screen sizes */}
+          <div className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 h-auto my-4 flex items-center justify-center">
             <Link
               href="/landing"
-              className="group relative w-9/12 h-auto p-2 border-4 border-double border-yellow-700 rounded-xl bg-black bg-opacity-60 hover:scale-90
-              transform transition duration-500 ease-in-out overflow-hidden animate-pulse hover:animate-none">
+              className="group relative w-full sm:w-10/12 md:w-9/12 h-auto p-2 border-2 sm:border-3 md:border-4 
+                      border-double border-yellow-700 rounded-xl bg-black bg-opacity-60 hover:scale-95
+                      transform transition duration-500 ease-in-out overflow-hidden animate-pulse hover:animate-none"
+            >
               <span
-                className="relative z-10 w-full h-full text-4xl text-white text-center
-                group-hover:text-black flex items-center justify-center transition duration-500 ease-in-out">
+                className="relative z-10 w-full h-full text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white text-center
+                        group-hover:text-black flex items-center justify-center py-2 md:py-3 transition duration-500 ease-in-out"
+              >
                 Start your adventure!!
               </span>
               <span className="absolute top-0 left-0 w-full h-full bg-yellow-400 bg-opacity-60 
-              transform translate-y-full group-hover:translate-y-0 transition duration-500 ease-in-out">
+                            transform translate-y-full group-hover:translate-y-0 transition duration-500 ease-in-out">
               </span>
             </Link>
           </div>
