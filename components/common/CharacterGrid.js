@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image';
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaPlusSquare } from "react-icons/fa";
 
@@ -115,11 +116,15 @@ const CharacterGrid = ({ userId }) => {
                             <div className="w-full h-auto flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400 ease-out scale-150">
                                 <IoMdArrowDropdown />
                             </div>
-                            <img
-                                src={getClassImage(character.class_character)}
-                                alt={character.class_character}
-                                className="w-full h-48 object-cover rounded-lg my-2"
-                            />
+                            <div className="relative w-full h-48 my-2">
+                                <Image
+                                    src={getClassImage(character.class_character)}
+                                    alt={character.class_character}
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className="rounded-lg"
+                                />
+                            </div>
                             <div
                                 className='wfull h-auto flex flex-col items-center justify-center text-white border-y-2 border-white
                             my-2'>
