@@ -62,7 +62,7 @@ export default function LoginBtn() {
                         <FaUserAstronaut />
                     </div>
                     <p className="text-xl sm:text-3xl truncate overflow-hidden whitespace-nowrap text-ellipsis">
-                        {loggedInUser.name_user}
+                        {loggedInUser.user_name || loggedInUser.name_user || "Usuario"}
                     </p>
                 </button>
                 {menuOpen && (

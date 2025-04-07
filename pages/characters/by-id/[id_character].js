@@ -11,29 +11,36 @@ import StartAnimation from '@/components/common/StartAnimation';
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const getClassImage = (classCharacter) => {
-    switch (classCharacter.toLowerCase()) {
-        case 'hechicera':
-            return '/Logo_The_Cavern.jpeg'; // Ruta de la imagen para "Hechicera"
-        case 'guerrero':
-            return '/guerrero.png'; // Ruta de la imagen para "Guerrero"
-        case 'mago':
-            return '/mago.png'; // Ruta de la imagen para "Mago"
-        case 'arquero':
-            return '/arquero.png'; // Ruta de la imagen para "Arquero"
-        default:
-            return '/default.png'; // Imagen por defecto si no coincide ninguna clase
-    }
-};
-
-const CharacterPage = ({ character }) => {
+const CharacterPage = () => {
     const router = useRouter();
+    const { id_character } = router.query;
+    const [character, setCharacter] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [pdfPreview, setPdfPreview] = useState(null);
     const [spells, setSpells] = useState([]);
     const [skills, setSkills] = useState([]);
 
+    // Función para obtener los detalles del personaje
+    const fetchCharacterDetails = useCallback(async () => {
+        if (!id_character) return;
+        
+        try {
+            setLoading(true);
+            const { data } = await axios.get(`${backUrl}/characters/by-id/${id_character}`);
+            setCharacter(data);
+        } catch (error) {
+            console.error('Error al obtener los detalles del personaje:', error);
+            setError('No se pudo cargar la información del personaje');
+        } finally {
+            setLoading(false);
+        }
+    }, [id_character]);
+
     // Función para obtener los hechizos desde la API
     const fetchSpells = useCallback(async () => {
+        if (!character?.id_character) return;
+        
         try {
             const { data } = await axios.get(`${backUrl}/spells/${character.id_character}`);
             const organizedSpells = Array.from({ length: 9 }, () => []);
@@ -53,6 +60,8 @@ const CharacterPage = ({ character }) => {
 
     // Función para obtener las habilidades desde la API
     const fetchSkills = useCallback(async () => {
+        if (!character?.id_character) return;
+        
         try {
             const { data } = await axios.get(`${backUrl}/skills/${character.id_character}`);
             setSkills(data);
@@ -95,7 +104,6 @@ const CharacterPage = ({ character }) => {
         // Agregar la fuente personalizada
         doc.addFileToVFS('Jersey10-Regular.tff', fontBase64);
         doc.addFont('Jersey10-Regular.tff', 'Jersey10', 'normal');
-
 
         // Usar la fuente personalizada
         doc.setFont('Jersey10', 'normal');
@@ -266,7 +274,12 @@ const CharacterPage = ({ character }) => {
         setPdfPreview(pdfUrl); // Almacena la URL en el estado para mostrarla en la vista previa
     }, [character, spells, skills]);
 
-    // Llamar a las funciones para obtener los hechizos y habilidades cuando el componente se monte
+    // Cargar datos del personaje cuando cambia el ID
+    useEffect(() => {
+        fetchCharacterDetails();
+    }, [id_character, fetchCharacterDetails]);
+
+    // Cargar los hechizos y habilidades cuando se carga el personaje
     useEffect(() => {
         if (character) {
             fetchSpells();
@@ -274,16 +287,80 @@ const CharacterPage = ({ character }) => {
         }
     }, [character, fetchSpells, fetchSkills]);
 
-    // Generar el PDF automáticamente al cargar la página
+    // Generar el PDF cuando se tengan todos los datos
     useEffect(() => {
-        if (character) {
+        if (character && spells.length > 0 && skills.length > 0) {
             generatePDF();
         }
-    }, [character, generatePDF]);
+    }, [character, spells, skills, generatePDF]);
 
-    // Si la página aún no está generada, muestra un estado de carga
-    if (router.isFallback) {
-        return <p className="text-center text-gray-500">Loading character...</p>;
+    if (loading || !id_character) {
+        return (
+            <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+                <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
+                    <Header />
+                </div>
+                <StartAnimation />
+                <div className="fixed inset-0 z-0">
+                    <Image
+                        src="/Recamara.jpeg"
+                        alt="Personajes Fondo"
+                        layout="fill"
+                        objectFit="cover"
+                        className="opacity-30"
+                    />
+                </div>
+                <div className="w-full h-auto flex items-center justify-center p-4 z-10">
+                    <p className="text-center text-white text-2xl">Cargando información del personaje...</p>
+                </div>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+                <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
+                    <Header />
+                </div>
+                <StartAnimation />
+                <div className="fixed inset-0 z-0">
+                    <Image
+                        src="/Recamara.jpeg"
+                        alt="Personajes Fondo"
+                        layout="fill"
+                        objectFit="cover"
+                        className="opacity-30"
+                    />
+                </div>
+                <div className="w-full h-auto flex items-center justify-center p-4 z-10">
+                    <p className="text-center text-red-500 text-2xl">{error}</p>
+                </div>
+            </main>
+        );
+    }
+
+    if (!character) {
+        return (
+            <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+                <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
+                    <Header />
+                </div>
+                <StartAnimation />
+                <div className="fixed inset-0 z-0">
+                    <Image
+                        src="/Recamara.jpeg"
+                        alt="Personajes Fondo"
+                        layout="fill"
+                        objectFit="cover"
+                        className="opacity-30"
+                    />
+                </div>
+                <div className="w-full h-auto flex items-center justify-center p-4 z-10">
+                    <p className="text-center text-white text-2xl">No se encontró el personaje</p>
+                </div>
+            </main>
+        );
     }
 
     return (
@@ -364,6 +441,13 @@ const CharacterPage = ({ character }) => {
                             >
                                 Download PDF
                             </a>
+                            <button 
+                                onClick={() => router.back()}
+                                className="mt-4 w-full sm:w-2/3 lg:w-2/3 block text-center border-4 border-teal-600 text-white text-2xl sm:text-3xl py-2 sm:py-3 lg:py-4 px-4 rounded-lg hover:bg-teal-700
+    hover:scale-105 transition-all duration-500"
+                            >
+                                Volver a mis personajes
+                            </button>
                         </div>
                     )}
                 </div>
@@ -372,30 +456,4 @@ const CharacterPage = ({ character }) => {
     );
 };
 
-// Exporta el componente como la exportación por defecto
 export default CharacterPage;
-
-export async function getStaticPaths() {
-    try {
-        const { data } = await axios.get(`${backUrl}/characters`);
-        const paths = data && data.id_character
-            ? [{ params: { id_character: data.id_character.toString() } }]
-            : [];
-        return { paths, fallback: true };
-    } catch (error) {
-        console.error('Error al obtener los personajes para las rutas dinámicas:', error);
-        return { paths: [], fallback: true };
-    }
-}
-
-export async function getStaticProps({ params }) {
-    try {
-        const { data } = await axios.get(
-            `${backUrl}/characters/by-id/${params.id_character}`
-        );
-        return { props: { character: data }, revalidate: 10 };
-    } catch (error) {
-        console.error('Error al obtener el personaje:', error);
-        return { notFound: true };
-    }
-}
