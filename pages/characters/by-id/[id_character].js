@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Jersey_10 } from '@next/font/google';
 import { useRouter } from 'next/router';
 import { jsPDF } from 'jspdf';
 import Header from '@/components/common/Header';
 import StartAnimation from '@/components/common/StartAnimation';
+import { Jersey_10 } from 'next/font/google';
 
-const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
+const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 
 const CharacterPage = () => {
     const router = useRouter();
@@ -18,13 +17,13 @@ const CharacterPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [pdfPreview, setPdfPreview] = useState(null);
-    const [spells, setSpells] = useState([]);
+    const [spells, setSpells] = useState(Array.from({ length: 9 }, () => []));
     const [skills, setSkills] = useState([]);
 
     // Función para obtener los detalles del personaje
     const fetchCharacterDetails = useCallback(async () => {
         if (!id_character) return;
-        
+
         try {
             setLoading(true);
             const { data } = await axios.get(`${backUrl}/characters/by-id/${id_character}`);
@@ -40,7 +39,7 @@ const CharacterPage = () => {
     // Función para obtener los hechizos desde la API
     const fetchSpells = useCallback(async () => {
         if (!character?.id_character) return;
-        
+
         try {
             const { data } = await axios.get(`${backUrl}/spells/${character.id_character}`);
             const organizedSpells = Array.from({ length: 9 }, () => []);
@@ -61,7 +60,7 @@ const CharacterPage = () => {
     // Función para obtener las habilidades desde la API
     const fetchSkills = useCallback(async () => {
         if (!character?.id_character) return;
-        
+
         try {
             const { data } = await axios.get(`${backUrl}/skills/${character.id_character}`);
             setSkills(data);
@@ -136,33 +135,38 @@ const CharacterPage = () => {
 
         doc.setFontSize(12); // Tamaño de la fuente para las habilidades
         let currentY = 155; // Posición inicial para las habilidades
-        const skillMaxWidth = 80; // Ancho máximo para las descripciones
+        const skillMaxWidth = 50; // Ancho máximo para las descripciones
         const skillLineHeight = 5; // Altura entre líneas
 
-        skills.forEach((skill) => {
-            // Agregar el nombre de la habilidad
-            if (currentY + skillLineHeight > 280) {
-                // Si excede el límite de la hoja, no agregar más habilidades
-                doc.text("...", 145, currentY);
-                return;
-            }
-            doc.text(`- ${skill.name_skill}:`, 145, currentY); // Nombre de la habilidad
-            currentY += skillLineHeight;
-
-            // Dividir la descripción de la habilidad en líneas si excede el ancho máximo
-            const skillLines = doc.splitTextToSize(skill.description_skill, skillMaxWidth);
-
-            // Agregar cada línea de la descripción
-            skillLines.forEach((line) => {
+        if (!skills || skills.length === 0) {
+            // Si no hay habilidades, mostrar un mensaje
+            doc.text("Agrega tus habilidades", 145, currentY);
+        } else {
+            skills.forEach((skill) => {
+                // Agregar el nombre de la habilidad
                 if (currentY + skillLineHeight > 280) {
                     // Si excede el límite de la hoja, no agregar más habilidades
                     doc.text("...", 145, currentY);
                     return;
                 }
-                doc.text(line, 145, currentY); // Descripción con sangría
+                doc.text(`- ${skill.name_skill}:`, 145, currentY); // Nombre de la habilidad
                 currentY += skillLineHeight;
+
+                // Dividir la descripción de la habilidad en líneas si excede el ancho máximo
+                const skillLines = doc.splitTextToSize(skill.description_skill, skillMaxWidth);
+
+                // Agregar cada línea de la descripción
+                skillLines.forEach((line) => {
+                    if (currentY + skillLineHeight > 280) {
+                        // Si excede el límite de la hoja, no agregar más habilidades
+                        doc.text("...", 145, currentY);
+                        return;
+                    }
+                    doc.text(line, 145, currentY); // Descripción con sangría
+                    currentY += skillLineHeight;
+                });
             });
-        });
+        }
 
         // **Segunda hoja**
         doc.addPage(); // Agregar una nueva página
@@ -234,39 +238,44 @@ const CharacterPage = () => {
             { x: 145, y: 242 }, // Posición para la sección 9
         ];
 
-        spells.forEach((section, index) => {
-            const position = sectionPositions[index]; // Obtener la posición de la sección
-            let currentY = position.y; // Posición inicial para los hechizos dentro de la sección
-            const maxWidth = 50; // Ancho máximo para las descripciones
-            const lineHeight = 4; // Altura entre líneas
+        if (!spells || spells.every(section => section.length === 0)) {
+            // Si no hay hechizos en ninguna sección, mostrar un mensaje
+            doc.text("No tiene hechizos registrados", 80, 50);
+        } else {
+            spells.forEach((section, index) => {
+                const position = sectionPositions[index]; // Obtener la posición de la sección
+                let currentY = position.y; // Posición inicial para los hechizos dentro de la sección
+                const maxWidth = 50; // Ancho máximo para las descripciones
+                const lineHeight = 4; // Altura entre líneas
 
-            // Listar los hechizos de la sección
-            section.forEach((spell) => {
-                if (currentY + lineHeight > 280) {
-                    // Si excede el límite de la hoja, no agregar más hechizos
-                    doc.text("...", position.x, currentY);
-                    return;
-                }
-
-                // Agregar el nombre del hechizo
-                doc.text(`- ${spell.name_spell}`, position.x, currentY);
-                currentY += lineHeight;
-
-                // Dividir la descripción en líneas si excede el ancho máximo
-                const descriptionLines = doc.splitTextToSize(spell.description_spell, maxWidth);
-
-                // Agregar cada línea de la descripción
-                descriptionLines.forEach((line) => {
-                    if (currentY + lineHeight > 290) {
-                        // Si excede el límite de la hoja, no agregar más líneas
+                // Listar los hechizos de la sección
+                section.forEach((spell) => {
+                    if (currentY + lineHeight > 280) {
+                        // Si excede el límite de la hoja, no agregar más hechizos
                         doc.text("...", position.x, currentY);
                         return;
                     }
-                    doc.text(line, position.x + 6, currentY); // Descripción con sangría
+
+                    // Agregar el nombre del hechizo
+                    doc.text(`- ${spell.name_spell}`, position.x, currentY);
                     currentY += lineHeight;
+
+                    // Dividir la descripción en líneas si excede el ancho máximo
+                    const descriptionLines = doc.splitTextToSize(spell.description_spell, maxWidth);
+
+                    // Agregar cada línea de la descripción
+                    descriptionLines.forEach((line) => {
+                        if (currentY + lineHeight > 290) {
+                            // Si excede el límite de la hoja, no agregar más líneas
+                            doc.text("...", position.x, currentY);
+                            return;
+                        }
+                        doc.text(line, position.x + 6, currentY); // Descripción con sangría
+                        currentY += lineHeight;
+                    });
                 });
             });
-        });
+        }
 
         // Generar el PDF como un archivo en memoria
         const pdfBlob = doc.output('blob'); // Genera el PDF como un Blob
@@ -289,14 +298,21 @@ const CharacterPage = () => {
 
     // Generar el PDF cuando se tengan todos los datos
     useEffect(() => {
-        if (character && spells.length > 0 && skills.length > 0) {
-            generatePDF();
+        if (character) {
+            // Asegurarse de que spells y skills estén al menos definidos como arrays vacíos
+            const hasLoadedSpells = Array.isArray(spells);
+            const hasLoadedSkills = Array.isArray(skills);
+            
+            // Si ya tenemos el personaje y se intentó cargar skills y spells (aunque estén vacíos)
+            if (hasLoadedSpells && hasLoadedSkills) {
+                generatePDF();
+            }
         }
     }, [character, spells, skills, generatePDF]);
 
     if (loading || !id_character) {
         return (
-            <main className={`flex min-h-screen flex-col items-center justify-between text-white ${jersey_10.className}`}>
+            <main className={`flex min-h-screen flex-col items-center justify-between bg-black  text-white ${jersey_10.className}`}>
                 <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
                     <Header />
                 </div>
@@ -319,7 +335,7 @@ const CharacterPage = () => {
 
     if (error) {
         return (
-            <main className={`flex min-h-screen flex-col items-center justify-between text-white bg-black${jersey_10.className}`}>
+            <main className={`flex min-h-screen flex-col items-center justify-between text-white bg-black ${jersey_10.className}`}>
                 <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
                     <Header />
                 </div>
@@ -364,7 +380,7 @@ const CharacterPage = () => {
     }
 
     return (
-        <main className={`flex min-h-screen flex-col items-center justify-between bg-black text-white${jersey_10.className}`}>
+        <main className={`flex min-h-screen flex-col items-center justify-between bg-black text-white ${jersey_10.className}`}>
             <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4 text-white">
                 <Header />
             </div>
@@ -381,7 +397,7 @@ const CharacterPage = () => {
             <div className="w-full h-auto flex flex-col items-center justify-start p-4 gap-4 z-10">
                 <div
                     className="w-full sm:w-10/12 lg:w-7/12 h-auto flex flex-col items-center justify-start p-4 gap-4 bg-black bg-opacity-60 z-10 border-4 border-white rounded-lg border-dashed">
-                    <h1 className="w-full sm:w-2/3 text-4xl sm:text-5xl lg:text-6xl text-center border-b-2 border-white">
+                    <h1 className="w-full sm:w-2/3 text-4xl sm:text-5xl lg:text-6xl text-center border-b-2 border-white text-white">
                         {character.name_character}
                     </h1>
                     <div className="w-full flex flex-col items-start justify-center gap-4 pb-4 border-b-2 border-white">
@@ -390,7 +406,7 @@ const CharacterPage = () => {
                                 <h3 className="text-3xl sm:text-4xl text-yellow-400">
                                     Level:
                                 </h3>
-                                <p className="text-2xl sm:text-3xl">
+                                <p className="text-2xl sm:text-3xl text-white">
                                     {character.level_character || 'N/A'}
                                 </p>
                             </div>
@@ -398,7 +414,7 @@ const CharacterPage = () => {
                                 <h3 className="text-3xl sm:text-4xl text-yellow-400">
                                     Class:
                                 </h3>
-                                <p className="text-2xl sm:text-3xl">
+                                <p className="text-2xl sm:text-3xl text-white">
                                     {character.class_character || 'N/A'}
                                 </p>
                             </div>
@@ -406,7 +422,7 @@ const CharacterPage = () => {
                                 <h3 className="text-3xl sm:text-4xl text-yellow-400">
                                     Race:
                                 </h3>
-                                <p className="text-2xl sm:text-3xl">
+                                <p className="text-2xl sm:text-3xl text-white">
                                     {character.race || 'N/A'}
                                 </p>
                             </div>
@@ -415,7 +431,7 @@ const CharacterPage = () => {
                             <h3 className="w-full sm:w-2/3 text-3xl sm:text-4xl text-center text-teal-500">
                                 Background:
                             </h3>
-                            <p className="text-2xl sm:text-3xl text-justify">
+                            <p className="text-2xl sm:text-3xl text-justify text-white">
                                 {character.background || 'Sin descripción'}
                             </p>
                         </div>
@@ -424,7 +440,7 @@ const CharacterPage = () => {
                     {/* Mostrar la vista previa del PDF si está disponible */}
                     {pdfPreview && (
                         <div className="w-full flex flex-col items-center justify-center mt-4">
-                            <h2 className="text-3xl sm:text-4xl text-center mb-4">
+                            <h2 className="text-3xl sm:text-4xl text-center mb-2 text-white4">
                                 Get ready, a world full of adventures awaits you!
                             </h2>
                             <iframe
@@ -441,7 +457,7 @@ const CharacterPage = () => {
                             >
                                 Download PDF
                             </a>
-                            <button 
+                            <button
                                 onClick={() => router.back()}
                                 className="mt-4 w-full sm:w-2/3 lg:w-2/3 block text-center border-4 border-teal-600 text-white text-2xl sm:text-3xl py-2 sm:py-3 lg:py-4 px-4 rounded-lg hover:bg-teal-700
     hover:scale-105 transition-all duration-500"
