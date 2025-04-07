@@ -260,7 +260,7 @@ const AddCharacter = () => {
     };
 
     return (
-        <div className={`w-full mx-auto flex flex-col items-center justify-start p-4 overflow-y-auto ${jersey_10.className}`}>
+        <main className={`w-full mx-auto flex flex-col items-center justify-start p-4 overflow-y-auto bg-black text-white ${jersey_10.className}`}>
             <div className="w-full sm:w-10/12 h-auto z-50">
                 <Header />
             </div>
@@ -275,13 +275,13 @@ const AddCharacter = () => {
                 />
             </div>
 
-            <div className="z-10 w-full h-auto flex flex-col items-center justify-start gap-4">
+            <div className="z-10 w-full h-auto flex flex-col items-center justify-start gap-4 text-white">
                 <h1 className="text-4xl sm:text-5xl lg:text-7xl text-center my-4 mt-8">
                     Create Your Character
                 </h1>
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-black bg-opacity-70 border-4 border-white border-dashed w-full sm:w-10/12 lg:w-8/12 shadow-md rounded-xl p-4 sm:p-6"
+                    className="bg-black bg-opacity-70 border-4 border-white border-dashed text-white w-full sm:w-10/12 lg:w-8/12 shadow-md rounded-xl p-4 sm:p-6"
                 >
                     <div className="flex flex-col items-center justify-start gap-4">
 
@@ -363,7 +363,7 @@ const AddCharacter = () => {
 
 
 
-                        <div className="w-full h-auto flex flex-col items-center justify-center gap-4 border-b-2 border-white pb-4">
+                        <div className="w-full h-auto flex flex-col items-center justify-center gap-4 border-b-2 border-white pb-4 text-white">
                             {/* Primera fila de atributos */}
                             <div className="w-full h-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                                 <div className="w-full sm:w-1/3 h-auto flex items-center justify-start">
@@ -402,7 +402,7 @@ const AddCharacter = () => {
                             </div>
 
                             {/* Segunda fila de atributos */}
-                            <div className="w-full h-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div className="w-full h-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-white">
                                 <div className="w-full sm:w-1/3 h-auto flex items-center justify-start">
                                     <label className="text-lg sm:text-xl lg:text-3xl whitespace-nowrap mx-4">Intelligence</label>
                                     <input
@@ -439,9 +439,9 @@ const AddCharacter = () => {
                             </div>
 
                             {/* Lógica de dados */}
-                            <div className="w-full h-auto flex flex-col items-center justify-center gap-4 pb-4">
+                            <div className="w-full h-auto flex flex-col items-center justify-center gap-4 pb-4 text-white">
                                 <h2 className="w-full sm:w-5/12 text-2xl sm:text-3xl lg:text-4xl text-white border-b-2 border-white text-center">Roll Dice</h2>
-                                <p className="text-lg sm:text-xl lg:text-3xl text-center">Don&apos;t have dice? Don&apos;t worry, try your luck with ours!</p>
+                                <p className="text-lg sm:text-xl lg:text-3xl text-center text-white">Don&apos;t have dice? Don&apos;t worry, try your luck with ours!</p>
                                 <div className="w-full">
                                     {[...Array(1)].map((_, index) => (
                                         <div key={index} className="w-full flex flex-col items-center justify-center rounded-lg shadow-md gap-4">
@@ -475,7 +475,7 @@ const AddCharacter = () => {
 
 
                         {/*   */}
-                        <div className="w-full h-auto flex flex-col sm:flex-row justify-center items-center gap-4 border-b-2 border-white py-4">
+                        <div className="w-full h-auto flex flex-col sm:flex-row justify-center items-center text-white gap-4 border-b-2 border-white py-4">
                             {/* Primera columna: Hit Points y Armor Class */}
                             <div className="w-full sm:w-1/2 h-auto flex flex-col justify-center items-center gap-4">
                                 <div className="w-full h-auto flex items-center justify-start">
@@ -503,7 +503,7 @@ const AddCharacter = () => {
                             </div>
 
                             {/* Segunda columna: Initiative y Speed */}
-                            <div className="w-full sm:w-1/2 h-auto flex flex-col justify-center items-center gap-4">
+                            <div className="w-full sm:w-1/2 h-auto flex flex-col justify-center items-center gap-4 text-white">
                                 <div className="w-full h-auto flex items-center justify-start">
                                     <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap mx-4">Initiative</label>
                                     <input
@@ -530,7 +530,7 @@ const AddCharacter = () => {
                         </div>
 
                         {/* Background Section */}
-                        <div className="w-full h-auto flex flex-col items-start justify-center py-4">
+                        <div className="w-full h-auto flex flex-col items-start justify-center py-4 text-white">
                             <label className="text-lg sm:text-xl lg:text-2xl whitespace-nowrap">Background</label>
                             <textarea
                                 name="background"
@@ -542,7 +542,7 @@ const AddCharacter = () => {
                         </div>
                         {/*   */}
 
-                        <div className="w-full h-auto flex flex-col sm:flex-row items-start justify-start py-4 gap-4">
+                        <div className="w-full h-auto flex flex-col sm:flex-row items-start justify-start py-4 gap-4 text-white">
                             {/* Skills Section */}
                             <div className="w-full sm:w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto gap-4">
                                 <h2 className="text-xl sm:text-2xl lg:text-3xl whitespace-nowrap">Skills</h2>
@@ -598,7 +598,7 @@ const AddCharacter = () => {
                             </div>
 
                             {/* Spells Section */}
-                            <div className="w-full sm:w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto gap-4">
+                            <div className="w-full sm:w-1/2 h-auto flex flex-col items-center justify-start py-4 mb-auto gap-4 text-white">
                                 <h2 className="text-xl sm:text-2xl lg:text-3xl whitespace-nowrap">Spells</h2>
                                 {spells.map((spell, index) => (
                                     <div key={index} className="w-full h-auto flex flex-col items-start justify-start pt-2 mb-4 border-b-2 border-white gap-2">
@@ -758,7 +758,7 @@ const AddCharacter = () => {
                 {error && <p className="text-red-500 mt-4">{error}</p>}
             </div>
 
-        </div>
+        </main>
     );
 };
 
