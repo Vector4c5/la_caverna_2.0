@@ -2,11 +2,12 @@ import Link from 'next/link';
 import Header from '@/components/common/Header';
 import StartAnimation from '@/components/common/StartAnimation'
 import CharacterGrid from '@/components/common/CharacterGrid';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { Jersey_10 } from '@next/font/google';
 import { PiArrowSquareRight } from "react-icons/pi";
+import Image from 'next/image';
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -30,27 +31,7 @@ export default function InterfazUsuario() {
         fetchUsers();
     }, []);
 
-    useEffect(() => {
-        if (session && session.user) {
-            const newUser = {
-                name_user: session.user.name,
-                email_user: session.user.email,
-            };
-            addUserToDatabase(newUser);
-            setIsLoggedIn(true);
-        }
-    }, [session]);
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem('loggedInUser');
-        if (storedUser) {
-            const user = JSON.parse(storedUser);
-            setLoggedInUser(user);
-            setIsLoggedIn(true);
-        }
-    }, []);
-
-    const addUserToDatabase = async (user) => {
+    const addUserToDatabase = useCallback(async (user) => {
         try {
             const existingUser = users.find(u => u.email_user === user.email_user);
             if (existingUser) {
@@ -67,7 +48,27 @@ export default function InterfazUsuario() {
         } catch (error) {
             console.log('Error al añadir usuario:', error);
         }
-    };
+    }, [users]);
+
+    useEffect(() => {
+        if (session && session.user) {
+            const newUser = {
+                name_user: session.user.name,
+                email_user: session.user.email,
+            };
+            addUserToDatabase(newUser);
+            setIsLoggedIn(true);
+        }
+    }, [session, addUserToDatabase]);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('loggedInUser');
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            setLoggedInUser(user);
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     const handleManualLogin = async (e) => {
         e.preventDefault();
@@ -97,12 +98,15 @@ export default function InterfazUsuario() {
         return (
             <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
                 <StartAnimation />
-                <img
-                    src="/Fondo_Biblioteca.jpeg"
-                    alt="landimg"
-                    layout="fill"
-                    className="object-cover w-full h-screen opacity-30 z-0 fixed"
-                />
+                <div className="fixed inset-0 z-0">
+                    <Image
+                        src="/Fondo_Biblioteca.jpeg"
+                        alt="landimg"
+                        layout="fill"
+                        objectFit="cover"
+                        className="opacity-30"
+                    />
+                </div>
                 <div className="z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4">
                     <div className="w-11/12 sm:w-10/12">
                         <Header />
@@ -124,12 +128,15 @@ export default function InterfazUsuario() {
                             transform translate-y-full group-hover:translate-y-0 transition duration-500 ease-in-out">
                             </span>
                         </Link>
-                        <img
-                            src="/Risco.jpeg"
-                            alt="landimg"
-                            layout="fill"
-                            className="object-contain w-full h-auto z-10 rounded-xl opacity-80"
-                        />
+                        <div className="relative w-full h-64 z-10 rounded-xl opacity-80">
+                            <Image
+                                src="/Risco.jpeg"
+                                alt="landimg"
+                                layout="fill"
+                                objectFit="contain"
+                                className="rounded-xl"
+                            />
+                        </div>
                     </div>
                 </div>
             </main>
@@ -139,12 +146,15 @@ export default function InterfazUsuario() {
     return (
         <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
             <StartAnimation />
-            <img
-                src="/Fondo_Biblioteca.jpeg"
-                alt="landimg"
-                layout="fill"
-                className="object-cover w-full h-screen opacity-30 z-0 fixed"
-            />
+            <div className="fixed inset-0 z-0">
+                <Image
+                    src="/Fondo_Biblioteca.jpeg"
+                    alt="landimg"
+                    layout="fill"
+                    objectFit="cover"
+                    className="opacity-30"
+                />
+            </div>
             <div className="z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4">
                 <div className="w-11/12 sm:w-10/12 h-auto">
                     <Header />
@@ -152,12 +162,15 @@ export default function InterfazUsuario() {
                 <div className="container w-full sm:w-10/12 gap-4 flex flex-col items-center justify-start">
                     <div className="w-full h-auto flex flex-col sm:flex-row items-center sm:items-center justify-start rounded-xl bg-black bg-opacity-60 p-4 sm:p-6 gap-4 sm:gap-6
                     border-white border-2">
-                        <img
-                            src="/Logo_Jugador.jpeg"
-                            alt="imagen de perfil"
-                            layout="fill"
-                            className="w-32 sm:w-44 rounded-full"
-                        />
+                        <div className="relative w-32 h-32 sm:w-44 sm:h-44">
+                            <Image
+                                src="/Logo_Jugador.jpeg"
+                                alt="imagen de perfil"
+                                layout="fill"
+                                objectFit="cover"
+                                className="rounded-full"
+                            />
+                        </div>
                         <div className="text-center flex flex-col justify-center sm:text-left">
                             <h1 className="text-4xl sm:text-6xl text-white">
                                 Welcome, {loggedInUser ? loggedInUser.name_user : session.user.name}

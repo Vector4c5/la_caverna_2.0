@@ -3,6 +3,7 @@ import { MdPlayArrow } from "react-icons/md";
 import { GiOpenBook } from "react-icons/gi";
 import { FaBars } from "react-icons/fa"; // Importar el ícono de menú hamburguesa
 import Link from "next/link";
+import Image from "next/image";
 import { Jersey_10 } from '@next/font/google';
 import LoginBtn from "@/components/common/Login-Btn";
 import { useState } from "react";
@@ -32,11 +33,15 @@ export default function Header({ userName = "Player" }) {
         >
             {/* Logo y título */}
             <div className="flex items-center justify-start w-auto">
-                <img
-                    src="/Logo_The_Cavern.jpeg"
-                    alt="Logo"
-                    className="w-20 sm:w-16 h-auto border-4 border-white rounded-full shadow-md shadow-gray-500 mx-4"
-                />
+                <div className="relative w-20 h-20 sm:w-16 sm:h-16 mx-4">
+                    <Image
+                        src="/Logo_The_Cavern.jpeg"
+                        alt="Logo"
+                        layout="fill"
+                        objectFit="cover"
+                        className="border-4 border-white rounded-full shadow-md shadow-gray-500"
+                    />
+                </div>
                 <h1 className="text-4xl whitespace-nowrap sm:text-6xl text-white text-left">
                     The Cavern
                 </h1>

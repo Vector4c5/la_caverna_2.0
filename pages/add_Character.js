@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Header from '@/components/common/Header';
 import StarAnimation from '@/components/common/StartAnimation';
+import Image from 'next/image';
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -264,12 +265,15 @@ const AddCharacter = () => {
                 <Header />
             </div>
             <StarAnimation />
-            <img
-                src="/Armario.jpeg"
-                alt="landimg"
-                layout="fill"
-                className="object-cover w-full h-screen opacity-30 z-0 fixed"
-            />
+            <div className="fixed inset-0 z-0">
+                <Image
+                    src="/Armario.jpeg"
+                    alt="landimg"
+                    layout="fill"
+                    objectFit="cover"
+                    className="opacity-30"
+                />
+            </div>
 
             <div className="z-10 w-full h-auto flex flex-col items-center justify-start gap-4">
                 <h1 className="text-4xl sm:text-5xl lg:text-7xl text-center my-4 mt-8">
@@ -437,7 +441,7 @@ const AddCharacter = () => {
                             {/* Lógica de dados */}
                             <div className="w-full h-auto flex flex-col items-center justify-center gap-4 pb-4">
                                 <h2 className="w-full sm:w-5/12 text-2xl sm:text-3xl lg:text-4xl text-white border-b-2 border-white text-center">Roll Dice</h2>
-                                <p className="text-lg sm:text-xl lg:text-3xl text-center">Don’t have dice? Don’t worry, try your luck with ours!</p>
+                                <p className="text-lg sm:text-xl lg:text-3xl text-center">Don&apos;t have dice? Don&apos;t worry, try your luck with ours!</p>
                                 <div className="w-full">
                                     {[...Array(1)].map((_, index) => (
                                         <div key={index} className="w-full flex flex-col items-center justify-center rounded-lg shadow-md gap-4">
