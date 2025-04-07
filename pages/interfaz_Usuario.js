@@ -96,7 +96,7 @@ export default function InterfazUsuario() {
 
     if (!isLoggedIn) {
         return (
-            <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+            <main className={`flex min-h-screen flex-col items-center justify-between bg-black ${jersey_10.className}`}>
                 <StartAnimation />
                 <div className="fixed inset-0 z-0 w-full h-full">
                     <img
@@ -143,7 +143,7 @@ export default function InterfazUsuario() {
     }
 
     return (
-        <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+        <main className={`flex min-h-screen flex-col items-center justify-between bg-black ${jersey_10.className}`}>
             <StartAnimation />
             <div className="fixed inset-0 z-0 w-full h-full">
                 <img
@@ -154,7 +154,7 @@ export default function InterfazUsuario() {
                 />
             </div>
             <div className="z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4">
-                <div className="w-11/12 sm:w-10/12 h-auto">
+                <div className="w-11/12 sm:w-10/12 h-auto text-white">
                     <Header />
                 </div>
                 <div className="container w-full sm:w-10/12 gap-4 flex flex-col items-center justify-start">

@@ -296,13 +296,13 @@ const CharacterPage = () => {
 
     if (loading || !id_character) {
         return (
-            <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+            <main className={`flex min-h-screen flex-col items-center justify-between text-white ${jersey_10.className}`}>
                 <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
                     <Header />
                 </div>
                 <StartAnimation />
                 <div className="fixed inset-0 z-0">
-                    <Image
+                    <img
                         src="/Recamara.jpeg"
                         alt="Personajes Fondo"
                         layout="fill"
@@ -319,7 +319,7 @@ const CharacterPage = () => {
 
     if (error) {
         return (
-            <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+            <main className={`flex min-h-screen flex-col items-center justify-between text-white bg-black${jersey_10.className}`}>
                 <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
                     <Header />
                 </div>
@@ -342,13 +342,13 @@ const CharacterPage = () => {
 
     if (!character) {
         return (
-            <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
+            <main className={`flex min-h-screen flex-col items-center justify-between text-white bg-black ${jersey_10.className}`}>
                 <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
                     <Header />
                 </div>
                 <StartAnimation />
                 <div className="fixed inset-0 z-0">
-                    <Image
+                    <img
                         src="/Recamara.jpeg"
                         alt="Personajes Fondo"
                         layout="fill"
@@ -364,13 +364,13 @@ const CharacterPage = () => {
     }
 
     return (
-        <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
-            <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4">
+        <main className={`flex min-h-screen flex-col items-center justify-between bg-black text-white${jersey_10.className}`}>
+            <div className="w-11/12 sm:w-10/12 lg:w-8/12 h-auto z-50 py-4 text-white">
                 <Header />
             </div>
             <StartAnimation />
             <div className="fixed inset-0 z-0">
-                <Image
+                <img
                     src="/Recamara.jpeg"
                     alt="Personajes Fondo"
                     layout="fill"

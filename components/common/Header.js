@@ -34,7 +34,7 @@ export default function Header({ userName = "Player" }) {
             {/* Logo y título */}
             <div className="flex items-center justify-start w-auto">
                 <div className="relative w-20 h-20 sm:w-16 sm:h-16 mx-4">
-                    <Image
+                    <img
                         src="/Logo_The_Cavern.jpeg"
                         alt="Logo"
                         layout="fill"
