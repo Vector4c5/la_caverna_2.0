@@ -11,6 +11,21 @@ import StartAnimation from '@/components/common/StartAnimation';
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
 
+const getClassImage = (classCharacter) => {
+    switch (classCharacter.toLowerCase()) {
+        case 'hechicera':
+            return '/Logo_The_Cavern.jpeg'; // Ruta de la imagen para "Hechicera"
+        case 'guerrero':
+            return '/guerrero.png'; // Ruta de la imagen para "Guerrero"
+        case 'mago':
+            return '/mago.png'; // Ruta de la imagen para "Mago"
+        case 'arquero':
+            return '/arquero.png'; // Ruta de la imagen para "Arquero"
+        default:
+            return '/default.png'; // Imagen por defecto si no coincide ninguna clase
+    }
+};
+
 const CharacterPage = ({ character }) => {
     const router = useRouter();
     const [pdfPreview, setPdfPreview] = useState(null);
