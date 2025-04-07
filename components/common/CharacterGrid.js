@@ -85,11 +85,47 @@ const CharacterGrid = ({ userId }) => {
 
 
     if (loading) {
-        return <p className="text-center text-gray-500">Cargando personajes...</p>;
+        return (
+            <div className="w-full flex flex-col items-center justify-start gap-4">
+                <h2 className='text-6xl w-10/12 text-white text-center border-b-2 border-white mb-4'>
+                    Your Characters
+                </h2>
+                <Link
+                    href='/add_Character'
+                    className="group flex flex-col justify-center items-center w-8/12 border-4 border-pink-600 rounded-lg p-2 px-3 
+                            text-white bg-black bg-opacity-60 hover:bg-pink-950 hover:scale-105 transition-all ease-out 
+                            duration-400"
+                >
+                    <p className='group-hover:text-black text-center text-5xl'>Add Character</p>
+                    <div className="group-hover:text-black w-full h-auto flex flex-col items-center justify-center text-4xl text-white">
+                        <FaPlusSquare />
+                    </div>
+                </Link>
+                <p className="text-center text-gray-500">Cargando personajes...</p>
+            </div>
+        );
     }
 
     if (error) {
-        return <p className="text-center text-red-500">{error}</p>;
+        return (
+            <div className="w-full flex flex-col items-center justify-start gap-4">
+                <h2 className='text-6xl w-10/12 text-white text-center border-b-2 border-white mb-4'>
+                    Your Characters
+                </h2>
+                <Link
+                    href='/add_Character'
+                    className="group flex flex-col justify-center items-center w-8/12 border-4 border-pink-600 rounded-lg p-2 px-3 
+                            text-white bg-black bg-opacity-60 hover:bg-pink-950 hover:scale-105 transition-all ease-out 
+                            duration-400"
+                >
+                    <p className='group-hover:text-black text-center text-5xl'>Add Character</p>
+                    <div className="group-hover:text-black w-full h-auto flex flex-col items-center justify-center text-4xl text-white">
+                        <FaPlusSquare />
+                    </div>
+                </Link>
+                <p className="text-center text-red-500">{error}</p>
+            </div>
+        );
     }
 
     return (
