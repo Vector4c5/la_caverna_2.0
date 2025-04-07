@@ -53,33 +53,33 @@ const CharacterGrid = ({ userId }) => {
     const getClassImage = (classCharacter) => {
         switch (classCharacter?.toLowerCase()) {
             case 'barbarian':
-                return '/Logo_The_Cavern.jpeg'; // Ruta de la imagen para "Hechicera"
+                return '/barbarian.png'; // Ruta de la imagen para "Hechicera"
             case 'bard':
-                return '/guerrero.png'; // Ruta de la imagen para "Guerrero"
+                return '/bard.png'; // Ruta de la imagen para "Guerrero"
             case 'cleric':
-                return '/mago.png'; // Ruta de la imagen para "Mago"
+                return '/cleric.png'; // Ruta de la imagen para "Mago"
             case 'druid':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/druid.png'; // Ruta de la imagen para "Arquero"
             case 'fighter':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/fighter.png'; // Ruta de la imagen para "Arquero"
             case 'druid':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/druid.png'; // Ruta de la imagen para "Arquero"
             case 'monk':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/monk.png'; // Ruta de la imagen para "Arquero"
             case 'paladin':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/paladin.png'; // Ruta de la imagen para "Arquero"
             case 'ranger':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/ranger.png'; // Ruta de la imagen para "Arquero"
             case 'rogue':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/rogue.png'; // Ruta de la imagen para "Arquero"
             case 'sorcerer':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/sorcerer.png'; // Ruta de la imagen para "Arquero"
             case 'warlock':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/warlock.png'; // Ruta de la imagen para "Arquero"
             case 'wizard':
-                return '/arquero.png'; // Ruta de la imagen para "Arquero"
+                return '/wizzar.png'; // Ruta de la imagen para "Arquero"
             default:
-                return '/default.png'; // Imagen por defecto si no coincide ninguna clase
+                return '/barbarian.png'; // Imagen por defecto si no coincide ninguna clase
         }
     };
 
@@ -156,7 +156,7 @@ const CharacterGrid = ({ userId }) => {
                             <div className="w-full h-auto flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400 ease-out scale-150">
                                 <IoMdArrowDropdown />
                             </div>
-                            <div className="relative w-full h-48 my-2">
+                            <div className="relative w-full h-auto my-2">
                                 <img
                                     src={getClassImage(character.class_character)}
                                     alt={character.class_character}
