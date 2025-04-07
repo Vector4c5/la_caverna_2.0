@@ -119,25 +119,20 @@ export default function Home() {
   if (!isLoggedIn) {
     return (
       <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
-        <div className="bg-black text-white w-full h-screen flex flex-col justify-center">
+        <div className="relative bg-black text-white w-full h-screen flex flex-col justify-center">
           <StarAnimation />
-          <div className="absolute inset-0 z-0">
             <img
               src="/img_inicio.jpeg"
               alt="Inicio"
-              layout="fill"
-              objectFit="cover"
-              className="opacity-30"
+              className="absolute w-full h-full object-cover opacity-30"
             />
-          </div>
           <div className="items-center justify-center w-full h-screen flex flex-col z-10">
-
             <div className="container flex flex-col items-center justify-center w-8/12 h-auto bg-gray-600 bg-opacity-60 p-4 m-4
             border-4 border-purple-800 rounded-xl gap-1">
               <h1 className='text-5xl text-white text-center'>
                 Welcome To The Cavern!!
               </h1>
-              <div className='flex items-center w-full p-2'>
+              <div className='flex items-center w-full h-auto p-2'>
                 <div className='flex flex-col items-center justify-center w-1/2 p-4'>
                   {/* Formulario de inicio de sesión manual */}
                   <form onSubmit={handleManualLogin} className='w-full'>
@@ -166,7 +161,7 @@ export default function Home() {
                   </form>
 
                   {/* Formulario de registro manual */}
-                  <form onSubmit={handleManualRegister} className='w-full'>
+                  <form onSubmit={handleManualRegister} className='w-full h-auto'>
                     <div className='w-11/12'>
                       <label className="block text-white text text-3xl mb-2" htmlFor='RegisterNameUser'>
                         Nombre
@@ -206,9 +201,9 @@ export default function Home() {
                   </form>
                 </div>
 
-                <div className='flex flex-col items-center justify-center w-1/2 p-2 gap-4'>
-                  <div className="relative w-8/12 h-64">
-                    <Image
+                <div className='flex flex-col items-center justify-center w-1/2 h-auto p-2 gap-4'>
+                  <div className="relative w-8/12 h-auto">
+                    <img
                       src="/Logo_The_Cavern.jpeg"
                       alt="Logo"
                       layout="fill"
@@ -240,24 +235,22 @@ export default function Home() {
 
   return (
     <main className={`flex min-h-screen flex-col items-center justify-between ${jersey_10.className}`}>
-      <div className="bg-black text-white w-full h-screen flex flex-col justify-center">
+        <div className="relative bg-black text-white w-full h-screen flex flex-col justify-center">
         <StarAnimation />
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/img_inicio.jpeg"
-            alt="Inicio"
-            layout="fill"
-            objectFit="cover"
-            className="opacity-30"
-          />
+        <div className="fixed inset-0 z-0 w-full h-full">
+        <img
+              src="/img_inicio.jpeg"
+              alt="Inicio"
+              className="absolute w-full h-full object-cover opacity-30"
+            />
         </div>
-        <div className="relative container w-full h-screen flex flex-col items-center justify-center">
-          <div className="container w-9/12 h-1/3 p-5 m-2 flex items-center justify-center border-8 border-white border-double bg-black bg-opacity-60">
+        <div className="relative w-full h-screen flex flex-col items-center justify-center">
+          <div className="w-9/12 h-1/3 p-5 m-2 flex items-center justify-center border-8 border-white border-double bg-black bg-opacity-60">
             <h1 className='text-8xl text-center'>
               Welcome to The Cavern
             </h1>
           </div>
-          <div className="container w-1/2 h-auto m-2 flex items-center justify-center">
+          <div className="w-1/2 h-auto m-2 flex items-center justify-center">
             <Link
               href="/landing"
               className="group relative w-9/12 h-auto p-2 border-4 border-double border-yellow-700 rounded-xl bg-black bg-opacity-60 hover:scale-90
