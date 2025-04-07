@@ -15,32 +15,37 @@ const CharacterGrid = ({ userId }) => {
     useEffect(() => {
         async function fetchCharacters() {
             try {
-                setLoading(true); // Inicia el estado de carga
-                setError(null); // Reinicia el estado de error
+                setLoading(true);
+                setError(null);
 
-                console.log(`Fetching characters for userId: ${userId}`); // Log para verificar el userId
+                console.log(`Fetching characters for userId: ${userId}`);
                 const { data } = await axios.get(`${backUrl}/characters/${userId}`);
-                console.log('API Response:', data); // Log para verificar la respuesta de la API
+                console.log('API Response:', data);
 
-                // Verifica si la respuesta es un objeto único o un array
+                // Verificamos si la respuesta es un array (como debería ser)
                 if (Array.isArray(data)) {
-                    setCharacters(data); // Si es un array, úsalo directamente
+                    setCharacters(data);
                 } else if (data && typeof data === 'object') {
-                    setCharacters([data]); // Si es un objeto único, conviértelo en un array
+                    // Si es un objeto único, lo convertimos a array (por compatibilidad)
+                    setCharacters([data]);
                 } else {
-                    console.error('API response is not valid:', data);
-                    setCharacters([]); // Si no es válido, establece un array vacío
+                    console.log('No se encontraron personajes');
+                    setCharacters([]);
                 }
             } catch (error) {
                 console.error('Error al obtener los personajes:', error);
-                setError('No se pudieron cargar los personajes. Intenta nuevamente más tarde.');
+                setError('No se pudieron cargar los personajes');
+                setCharacters([]);
             } finally {
-                setLoading(false); // Finaliza el estado de carga
+                setLoading(false);
             }
         }
 
         if (userId) {
-            fetchCharacters(); // Llama a la función solo si `userId` está definido
+            fetchCharacters();
+        } else {
+            setLoading(false);
+            setCharacters([]);
         }
     }, [userId]);
 
@@ -103,12 +108,11 @@ const CharacterGrid = ({ userId }) => {
                     <FaPlusSquare />
                 </div>
             </Link>
-            {characters.length > 0 ? (
                 <div className="w-11/12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {characters.map((character) => (
                         <Link
                             key={character.id_character}
-                            href={`/characters/${character.id_character}`} // Cambiado para coincidir con la ruta dinámica
+                            href={`/characters/by-id/${character.id_character}`} // Cambiado para coincidir con la ruta dinámica
                             className="group flex flex-col justify-start appearance-none w-full border-4 border-teal-600 rounded-lg p-2 px-3 text-white bg-black bg-opacity-60
                                 hover:bg-teal-950 hover:scale-105 transition-all ease-out 
                                 duration-400"
@@ -117,7 +121,7 @@ const CharacterGrid = ({ userId }) => {
                                 <IoMdArrowDropdown />
                             </div>
                             <div className="relative w-full h-48 my-2">
-                                <Image
+                                <img
                                     src={getClassImage(character.class_character)}
                                     alt={character.class_character}
                                     layout="fill"
@@ -146,28 +150,12 @@ const CharacterGrid = ({ userId }) => {
                                         {character.level_character || 'N/A'}
                                     </p>
                                 </div>
-
-
                             </div>
-
-
                         </Link>
                     ))}
 
                 </div>
-            ) : (
-                <Link
-                    href='/add_Character'
-                    className="group flex flex-col justify-center items-center w-full border-4 border-pink-600 rounded-lg p-2 px-3 text-white bg-black bg-opacity-60
-                    hover:bg-pink-950 hover:scale-105 transition-all ease-out 
-                    duration-400"
-                >
-                    <p className='text-center'>Add Character</p>
-                    <div className="w-full h-auto flex flex-col items-center justify-center opacity-100 scale-150">
-                        <FaPlusSquare />
-                    </div>
-                </Link>
-            )}
+            
         </div>
     );
 };

@@ -122,7 +122,7 @@ export default function Home() {
         <div className="bg-black text-white w-full h-screen flex flex-col justify-center">
           <StarAnimation />
           <div className="absolute inset-0 z-0">
-            <Image
+            <img
               src="/img_inicio.jpeg"
               alt="Inicio"
               layout="fill"
