@@ -6,6 +6,7 @@ import { jsPDF } from 'jspdf';
 import Header from '@/components/common/Header';
 import StartAnimation from '@/components/common/StartAnimation';
 import { Jersey_10 } from 'next/font/google';
+import { toast } from 'react-toastify'; // Añade esta línea
 
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
@@ -20,6 +21,7 @@ const CharacterPage = () => {
     const [spells, setSpells] = useState(Array.from({ length: 9 }, () => []));
     const [skills, setSkills] = useState([]);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [pdfGenerated, setPdfGenerated] = useState(false); // Añade este estado
 
     // Función para obtener los detalles del personaje
     const fetchCharacterDetails = useCallback(async () => {
@@ -286,16 +288,43 @@ const CharacterPage = () => {
 
     // Función para manejar la eliminación del personaje
     const handleDeleteCharacter = async () => {
+        setShowDeleteConfirmation(false); // Cierra el modal primero
         try {
             await axios.delete(`${backUrl}/characters/${id_character}`);
-            // Mostrar mensaje de éxito
-            alert('Personaje eliminado exitosamente');
-            // Redirigir a la página de personajes
-            router.push('/landing');
+            
+            toast.success('Personaje eliminado exitosamente', {
+                position: "top-center",
+                icon: "🎉",
+                autoClose: 3000,
+                toastId: 'delete-success' // ID único
+            });
+            
+            setTimeout(() => {
+                router.push('/interfaz_Usuario'); 
+            }, 1000);
         } catch (error) {
             console.error('Error al eliminar el personaje:', error);
-            alert('Error al eliminar el personaje');
+            
+            toast.error('Error al eliminar el personaje', {
+                position: "top-center",
+                icon: "❌",
+                autoClose: 5000,
+                toastId: 'delete-error' // ID único
+            });
         }
+    };
+
+    // Crea una función para manejar la descarga con notificación
+    const handlePdfDownload = () => {
+        // El navegador manejará la descarga automáticamente
+        
+        // Muestra una notificación de éxito una sola vez
+        toast.info('Descargando PDF...', {
+            position: "bottom-right",
+            icon: "⬇️",
+            autoClose: 2000,
+            toastId: 'pdf-download' // ID único
+        });
     };
 
     // Cargar datos del personaje cuando cambia el ID
@@ -313,17 +342,36 @@ const CharacterPage = () => {
 
     // Generar el PDF cuando se tengan todos los datos
     useEffect(() => {
-        if (character) {
-            // Asegurarse de que spells y skills estén al menos definidos como arrays vacíos
+        if (character && !pdfGenerated) {
+            // Verificamos que los datos necesarios estén disponibles
             const hasLoadedSpells = Array.isArray(spells);
             const hasLoadedSkills = Array.isArray(skills);
 
-            // Si ya tenemos el personaje y se intentó cargar skills y spells (aunque estén vacíos)
             if (hasLoadedSpells && hasLoadedSkills) {
-                generatePDF();
+                try {
+                    generatePDF();
+                    setPdfGenerated(true); // Marcar como generado
+                    
+                    // Notificar una sola vez
+                    toast.success('¡Hoja de personaje generada!', {
+                        position: "bottom-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        icon: "📄",
+                        toastId: 'pdf-success' // ID único para esta notificación
+                    });
+                } catch (error) {
+                    console.error('Error generando PDF:', error);
+                    
+                    toast.error('Error al generar la hoja de personaje', {
+                        position: "bottom-right",
+                        icon: "⚠️",
+                        toastId: 'pdf-error' // ID único para esta notificación
+                    });
+                }
             }
         }
-    }, [character, spells, skills, generatePDF]);
+    }, [character, spells, skills, generatePDF, pdfGenerated]);
 
     if (loading || !id_character) {
         return (
@@ -333,13 +381,13 @@ const CharacterPage = () => {
                 </div>
                 <StartAnimation />
                 <div className="fixed inset-0 z-0">
+                <div className="fixed inset-0 z-0">
                     <img
                         src="/Recamara.jpeg"
                         alt="Personajes Fondo"
-                        layout="fill"
-                        objectFit="cover"
-                        className="opacity-30"
+                        className="w-full h-full object-cover opacity-30"
                     />
+                </div>
                 </div>
                 <div className="w-full h-auto flex items-center justify-center p-4 z-10">
                     <p className="text-center text-white text-2xl">Cargando información del personaje...</p>
@@ -468,11 +516,12 @@ const CharacterPage = () => {
                 rounded-lg bg-black bg-opacity-50
                 hover:bg-green-700 hover:scale-105 
                 transition-all duration-500"
+                                    onClick={handlePdfDownload}
                                 >
                                     Download PDF
                                 </a>
-                                <button
-                                    onClick={() => router.back()}
+                                <Link
+                                    href="/interfaz_Usuario"
                                     className="w-full text-center border-2 sm:border-3 md:border-4 border-teal-600 
                 text-white text-xl sm:text-2xl md:text-3xl 
                 py-2 sm:py-3 md:py-3 lg:py-4 px-3 md:px-4 
@@ -480,8 +529,8 @@ const CharacterPage = () => {
                 hover:bg-teal-700 hover:scale-105 
                 transition-all duration-500"
                                 >
-                                    Return to my characters"
-                                </button>
+                                    Return to my characters
+                                </Link>
                             </div>
 
                             <button
@@ -512,13 +561,13 @@ const CharacterPage = () => {
                                 onClick={handleDeleteCharacter}
                                 className="w-full sm:w-1/2 py-3 px-4 bg-red-600 hover:bg-red-700 text-white text-xl rounded-lg transition-all hover:scale-105"
                             >
-                                Confirmar
+                                Confirm
                             </button>
                             <button
                                 onClick={() => setShowDeleteConfirmation(false)}
                                 className="w-full sm:w-1/2 py-3 px-4 bg-gray-600 hover:bg-gray-700 text-white text-xl rounded-lg transition-all hover:scale-105"
                             >
-                                Cancelar
+                                Cancel
                             </button>
                         </div>
                     </div>
