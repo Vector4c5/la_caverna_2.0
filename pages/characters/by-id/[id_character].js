@@ -19,6 +19,7 @@ const CharacterPage = () => {
     const [pdfPreview, setPdfPreview] = useState(null);
     const [spells, setSpells] = useState(Array.from({ length: 9 }, () => []));
     const [skills, setSkills] = useState([]);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
     // Función para obtener los detalles del personaje
     const fetchCharacterDetails = useCallback(async () => {
@@ -283,6 +284,20 @@ const CharacterPage = () => {
         setPdfPreview(pdfUrl); // Almacena la URL en el estado para mostrarla en la vista previa
     }, [character, spells, skills]);
 
+    // Función para manejar la eliminación del personaje
+    const handleDeleteCharacter = async () => {
+        try {
+            await axios.delete(`${backUrl}/characters/${id_character}`);
+            // Mostrar mensaje de éxito
+            alert('Personaje eliminado exitosamente');
+            // Redirigir a la página de personajes
+            router.push('/landing');
+        } catch (error) {
+            console.error('Error al eliminar el personaje:', error);
+            alert('Error al eliminar el personaje');
+        }
+    };
+
     // Cargar datos del personaje cuando cambia el ID
     useEffect(() => {
         fetchCharacterDetails();
@@ -302,7 +317,7 @@ const CharacterPage = () => {
             // Asegurarse de que spells y skills estén al menos definidos como arrays vacíos
             const hasLoadedSpells = Array.isArray(spells);
             const hasLoadedSkills = Array.isArray(skills);
-            
+
             // Si ya tenemos el personaje y se intentó cargar skills y spells (aunque estén vacíos)
             if (hasLoadedSpells && hasLoadedSkills) {
                 generatePDF();
@@ -344,9 +359,7 @@ const CharacterPage = () => {
                     <img
                         src="/Recamara.jpeg"
                         alt="Personajes Fondo"
-                        layout="fill"
-                        objectFit="cover"
-                        className="opacity-30"
+                        className="w-full h-full object-cover opacity-30"
                     />
                 </div>
                 <div className="w-full h-auto flex items-center justify-center p-4 z-10">
@@ -367,9 +380,7 @@ const CharacterPage = () => {
                     <img
                         src="/Recamara.jpeg"
                         alt="Personajes Fondo"
-                        layout="fill"
-                        objectFit="cover"
-                        className="opacity-30"
+                        className="w-full h-full object-cover opacity-30"
                     />
                 </div>
                 <div className="w-full h-auto flex items-center justify-center p-4 z-10">
@@ -386,14 +397,12 @@ const CharacterPage = () => {
             </div>
             <StartAnimation />
             <div className="fixed inset-0 z-0">
-                <img
-                    src="/Recamara.jpeg"
-                    alt="Personajes Fondo"
-                    layout="fill"
-                    objectFit="cover"
-                    className="opacity-30"
-                />
-            </div>
+                    <img
+                        src="/Recamara.jpeg"
+                        alt="Personajes Fondo"
+                        className="w-full h-full object-cover opacity-30"
+                    />
+                </div>
             <div className="w-full h-auto flex flex-col items-center justify-start p-4 gap-4 z-10">
                 <div
                     className="w-full sm:w-10/12 lg:w-7/12 h-auto flex flex-col items-center justify-start p-4 gap-4 bg-black bg-opacity-60 z-10 border-4 border-white rounded-lg border-dashed">
@@ -449,25 +458,72 @@ const CharacterPage = () => {
                                 height="600"
                                 className="border-2 border-gray-300 rounded-lg"
                             ></iframe>
-                            <a
-                                href={pdfPreview}
-                                download={`${character.name_character}_HojaDePersonaje.pdf`}
-                                className="mt-4 w-full sm:w-2/3 lg:w-2/3 block text-center border-4 border-green-500 text-white text-2xl sm:text-3xl lg:text-4xl py-2 sm:py-3 lg:py-4 px-4 rounded-lg hover:bg-green-700
-    hover:scale-105 transition-all duration-500"
-                            >
-                                Download PDF
-                            </a>
+                            <div className='flex flex-col sm:flex-row w-full mt-4 gap-3 sm:gap-2'>
+                                <a
+                                    href={pdfPreview}
+                                    download={`${character.name_character}_HojaDePersonaje.pdf`}
+                                    className="w-full text-center border-2 sm:border-3 md:border-4 border-green-500 
+                text-white text-xl sm:text-2xl md:text-3xl 
+                py-2 sm:py-3 md:py-3 lg:py-4 px-3 md:px-4 
+                rounded-lg bg-black bg-opacity-50
+                hover:bg-green-700 hover:scale-105 
+                transition-all duration-500"
+                                >
+                                    Download PDF
+                                </a>
+                                <button
+                                    onClick={() => router.back()}
+                                    className="w-full text-center border-2 sm:border-3 md:border-4 border-teal-600 
+                text-white text-xl sm:text-2xl md:text-3xl 
+                py-2 sm:py-3 md:py-3 lg:py-4 px-3 md:px-4 
+                rounded-lg bg-black bg-opacity-50
+                hover:bg-teal-700 hover:scale-105 
+                transition-all duration-500"
+                                >
+                                    Return to my characters"
+                                </button>
+                            </div>
+
                             <button
-                                onClick={() => router.back()}
-                                className="mt-4 w-full sm:w-2/3 lg:w-2/3 block text-center border-4 border-teal-600 text-white text-2xl sm:text-3xl py-2 sm:py-3 lg:py-4 px-4 rounded-lg hover:bg-teal-700
-    hover:scale-105 transition-all duration-500"
+                                onClick={() => setShowDeleteConfirmation(true)}
+                                className="mt-4 w-full text-center border-2 sm:border-3 md:border-4 border-red-600 
+                text-white text-xl sm:text-2xl md:text-3xl 
+                py-2 sm:py-2.5 md:py-3 px-3 md:px-4 
+                rounded-lg bg-black bg-opacity-50
+                hover:bg-red-700 hover:scale-105 
+                transition-all duration-500"
                             >
-                                Volver a mis personajes
+                                Delete Character
                             </button>
                         </div>
                     )}
                 </div>
             </div>
+
+            {/* Modal de confirmación */}
+            {showDeleteConfirmation && (
+                <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+                    <div className="bg-gray-800 border-4 border-white p-6 rounded-lg w-11/12 sm:w-96 max-w-md">
+                        <h3 className="text-2xl sm:text-3xl text-white text-center mb-6">
+                            ¿Estás seguro de eliminar este personaje?
+                        </h3>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button
+                                onClick={handleDeleteCharacter}
+                                className="w-full sm:w-1/2 py-3 px-4 bg-red-600 hover:bg-red-700 text-white text-xl rounded-lg transition-all hover:scale-105"
+                            >
+                                Confirmar
+                            </button>
+                            <button
+                                onClick={() => setShowDeleteConfirmation(false)}
+                                className="w-full sm:w-1/2 py-3 px-4 bg-gray-600 hover:bg-gray-700 text-white text-xl rounded-lg transition-all hover:scale-105"
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     );
 };
