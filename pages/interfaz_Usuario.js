@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { Jersey_10 } from '@next/font/google';
 import { PiArrowSquareRight } from "react-icons/pi";
-import Image from 'next/image';
+
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;

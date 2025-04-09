@@ -3,7 +3,6 @@ import { MdPlayArrow } from "react-icons/md";
 import { GiOpenBook } from "react-icons/gi";
 import { FaBars } from "react-icons/fa"; // Importar el ícono de menú hamburguesa
 import Link from "next/link";
-import Image from "next/image";
 import { Jersey_10 } from '@next/font/google';
 import LoginBtn from "@/components/common/Login-Btn";
 import { useState } from "react";
