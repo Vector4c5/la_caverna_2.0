@@ -192,7 +192,7 @@ export default function Home() {
                                 hover:bg-teal-500 text-black text-base sm:text-lg md:text-xl lg:text-2xl 
                                 px-3 py-1 sm:px-4 sm:py-1 rounded-lg mt-2 sm:mt-3 md:mt-4
                                 transition-all ease-out duration-500 right-0'>
-                        Iniciar sesión
+                        Log In
                       </button>
                     </div>
                   </form>
@@ -201,7 +201,7 @@ export default function Home() {
                   <form onSubmit={handleManualRegister} className='w-full h-auto'>
                     <div className='w-full mb-2 sm:mb-3'>
                       <label className="block text-white text-lg sm:text-xl md:text-2xl lg:text-3xl mb-1 sm:mb-2" htmlFor='RegisterNameUser'>
-                        Nombre
+                        Name
                       </label>
                       <input
                         type='text'
@@ -236,7 +236,7 @@ export default function Home() {
                                 hover:bg-teal-500 text-black text-base sm:text-lg md:text-xl lg:text-2xl 
                                 px-3 py-1 sm:px-4 sm:py-1 rounded-lg mt-2 sm:mt-3 md:mt-4
                                 transition-all ease-out duration-500 right-0'>
-                        Registrarse
+                        Sign Up
                       </button>
                     </div>
                   </form>
@@ -263,14 +263,14 @@ export default function Home() {
                     Join our Discord community
                   </Link>
                   
-                  {/* Google sign-in button */}
-                  <button onClick={() => signIn()}
+                  {/* Google sign-in button  desafortunadamente no funciona */}
+                  {/* <button onClick={() => signIn()} 
                     className='appearance-none w-full sm:w-10/12 border-2 sm:border-3 md:border-4 border-teal-600 rounded-lg 
                             p-2 px-3 text-white text-base sm:text-xl md:text-2xl lg:text-4xl bg-black bg-opacity-60
                           hover:bg-teal-300 hover:text-black hover:shadow-teal-300 hover:shadow-lg hover:scale-105 transition-all ease-out 
                             duration-400'>
                     Sign in with Google
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
