@@ -1,22 +1,48 @@
 import Header from "@/components/common/Header";
 import StartAnimation from "@/components/common/StartAnimation";
 import Link from "next/link";
+import BookPreview from "@/components/common/BookPreview";
 import { Jersey_10 } from '@next/font/google';
 
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 
 export default function landing() {
+
+    const books = [
+        {
+            id: 1,
+            title: "Classes",
+            image: "/Portada_clases.jpeg",
+            description: "Discover your class and live a unique adventure.",
+            link: "/clases/j_clases",
+        },
+        {
+            id: 2,
+            title: "Spells",
+            image: "/Portada_Hechizos.jpeg",
+            description: "Discover all the spells available for your adventure.",
+            link: "/hechizos/hechizos",
+        },
+        {
+            id: 3,
+            title: "Look More",
+            image: "/Portada_Look_More.jpeg",
+            description: "Discover all the spells available for your adventure.",
+            link: "/library",
+        },
+    ]
     return (
         <div className={`bg-black text-white w-full min-h-screen flex flex-col items-center justify-start bg-fixed overflow-y-auto ${jersey_10.className}`}>
-            <img
-                src="/img_interior_caverna.jpeg"
-                alt="landimg"
-                layout="fill"
-                className=" object-cover w-full h-screen opacity-30 z-0 fixed"
-            />
+            <div className="fixed inset-0 z-0">
+                    <img
+                        src="/img_interior_caverna.jpeg"
+                        alt="Personajes Fondo"
+                        className="w-full h-full object-cover opacity-30"
+                    />
+                </div>
             <StartAnimation />
-            <div className="container w-10/12 h-24 flex flex-col m-10 items-center justify-start gap-5 z-10">
+            <div className="container w-10/12 h-24 flex flex-col m-10 py-4 items-center justify-start gap-5 z-10">
 
                 <div className="w-full h-28">
                     <Header />
@@ -101,10 +127,24 @@ export default function landing() {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col items-center w-11/12 h-auto my-2 bg-black bg-opacity-50 rounded-2xl p-5 border-dashed border-4 border-red-900">
+                <div className="flex flex-col items-center w-11/12 h-auto mb-6 bg-black bg-opacity-50 rounded-2xl p-5 border-dashed border-4 border-red-900">
                     <h1 className="text-center text-xl sm:text-4xl w-full text-white my-5">
                         Enough talk, start your adventure or create your own story, take a look at our collections!
                     </h1>
+
+                     {/* Grid of books */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 w-full z-20 mb-4">
+                {books.map((book, index) => (
+                    <div key={book.id}>
+                        <BookPreview
+                            title={book.title}
+                            image={book.image}
+                            description={book.description}
+                            link={book.link}
+                        />
+                    </div>
+                ))}
+            </div>
                 </div>
 
             

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { toast } from 'react-toastify';
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -76,35 +77,59 @@ export default function Home() {
         setLoggedInUser(user);
         localStorage.setItem('loggedInUser', JSON.stringify(user));
         console.log('Inicio de sesión exitoso:', user);
+        toast.success(`¡Bienvenido ${user.user_name || user.name_user}!`, {
+          icon: "👋"
+        });
       } else {
         console.log('Correo incorrecto.');
+        toast.error('Correo no registrado. Por favor verifica tus datos.', {
+          icon: "🔒"
+        });
       }
     } catch (error) {
       console.log('Error al iniciar sesión manualmente:', error);
+      toast.error('Error al iniciar sesión. Intenta nuevamente.', {
+        icon: "⚠️"
+      });
     }
   };
 
   const handleManualRegister = async (e) => {
     e.preventDefault();
     const newUser = {
-      user_name: manualNameUser, // Cambiado a "user_name" para coincidir con el backend
+      user_name: manualNameUser,
       email_user: registerEmailUser,
     };
 
     try {
       const existingUser = users.find(u => u.email_user === newUser.email_user);
       if (existingUser) {
-        alert('El usuario ya está registrado.');
+        toast.warning('El usuario ya está registrado.', {
+          position: "top-center",
+          icon: "🚫"
+        });
         return;
       }
 
-      const response = await axios.post(`${backUrl}/users_cavern`, newUser); // Enviando los datos correctos
+      const response = await axios.post(`${backUrl}/users_cavern`, newUser);
       console.log('Usuario registrado correctamente:', response.data);
       setUsers([...users, response.data]);
-      alert('Registro exitoso. Ahora puedes iniciar sesión.');
+      
+      toast.success('¡Registro exitoso! Ahora puedes iniciar sesión.', {
+        position: "top-center",
+        icon: "🎉"
+      });
+      
+      setManualNameUser('');
+      setRegisterEmailUser('');
+      
     } catch (error) {
       console.log('Error al registrar usuario:', error);
-      alert('Hubo un error al registrar el usuario.');
+      
+      toast.error('Hubo un error al registrar el usuario.', {
+        position: "top-center",
+        icon: "❌"
+      });
     }
   };
 
