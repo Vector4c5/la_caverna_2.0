@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Header from '@/components/common/Header';
 import StarAnimation from '@/components/common/StartAnimation';
-import { toast } from 'react-toastify'; 
+import { toast } from 'react-toastify';
 
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
@@ -174,7 +174,7 @@ const AddCharacter = () => {
         try {
             // Mostrar toast de "Creando personaje..."
             toast.info('Creando tu personaje...', {
-                position: "top-center", 
+                position: "top-center",
                 autoClose: 2000,
                 icon: "⏳",
                 toastId: 'creating-character'
@@ -199,7 +199,7 @@ const AddCharacter = () => {
                     console.log('Habilidad creada:', skill.name_skill);
                 } catch (err) {
                     console.error(`Error al crear la habilidad "${skill.name_skill}":`, err.response?.data || err);
-                    
+
                     toast.warning(`No se pudo crear la habilidad "${skill.name_skill}"`, {
                         position: "bottom-right",
                         icon: "⚠️",
@@ -220,9 +220,9 @@ const AddCharacter = () => {
                     console.log('Hechizo creado:', spell.name_spell);
                 } catch (err) {
                     console.error(`Error al crear el hechizo "${spell.name_spell}":`, err.response?.data || err);
-                    
+
                     toast.warning(`No se pudo crear el hechizo "${spell.name_spell}"`, {
-                        position: "bottom-right", 
+                        position: "bottom-right",
                         icon: "⚠️",
                         toastId: `spell-error-${spell.name_spell}`
                     });
@@ -257,10 +257,10 @@ const AddCharacter = () => {
             });
             setSkills([]);
             setSpells([]);
-            
+
         } catch (err) {
             console.error('Error al agregar el personaje:', err.response?.data || err);
-            
+
             // Toast de error
             toast.error(err.response?.data?.error || 'Hubo un error al crear el personaje. Intenta nuevamente.', {
                 position: "top-center",
@@ -277,7 +277,7 @@ const AddCharacter = () => {
             newResults[diceIndex] = results;
             return newResults;
         });
-        
+
         // Mostrar el resultado más alto
         const highestRoll = Math.max(...results);
         toast.info(`¡Dados lanzados! Valor más alto: ${highestRoll}`, {
@@ -315,10 +315,8 @@ const AddCharacter = () => {
             <div className="fixed inset-0 z-0">
                 <img
                     src="/Armario.jpeg"
-                    alt="landimg"
-                    layout="fill"
-                    objectFit="cover"
-                    className="opacity-30"
+                    alt="Personajes Fondo"
+                    className="w-full h-full object-cover opacity-30"
                 />
             </div>
 

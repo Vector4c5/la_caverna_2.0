@@ -38,7 +38,7 @@ export default function jugadores() {
             link: "/equipamiento/j_equipamiento",
         },
         {
-            id: 1,
+            id: 5,
             title: "Monsters",
             image: "/Portada_monstruos.jpeg",
             description: "Choose your monsters and make your players suffer",

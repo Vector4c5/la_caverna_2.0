@@ -159,8 +159,7 @@ const CharacterGrid = ({ userId }) => {
                                 <img
                                     src={getClassImage(character.class_character)}
                                     alt={character.class_character}
-                                    layout="fill"
-                                    objectFit="cover"
+                        
                                     className="rounded-lg"
                                 />
                             </div>

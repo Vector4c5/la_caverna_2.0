@@ -36,8 +36,6 @@ export default function Header({ userName = "Player" }) {
                     <img
                         src="/Logo_The_Cavern.jpeg"
                         alt="Logo"
-                        layout="fill"
-                        objectFit="cover"
                         className="border-4 border-white rounded-full shadow-md shadow-gray-500"
                     />
                 </div>

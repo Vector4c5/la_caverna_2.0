@@ -98,12 +98,11 @@ export default function InterfazUsuario() {
         return (
             <main className={`flex min-h-screen flex-col items-center justify-between bg-black ${jersey_10.className}`}>
                 <StartAnimation />
-                <div className="fixed inset-0 z-0 w-full h-full">
+                <div className="fixed inset-0 z-0">
                     <img
                         src="/Fondo_Biblioteca.jpeg"
-                        alt="background library"
+                        alt="Personajes Fondo"
                         className="w-full h-full object-cover opacity-30"
-                        style={{ position: 'absolute', top: 0, left: 0 }}
                     />
                 </div>
                 <div className="z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4">
@@ -145,14 +144,13 @@ export default function InterfazUsuario() {
     return (
         <main className={`flex min-h-screen flex-col items-center justify-between bg-black ${jersey_10.className}`}>
             <StartAnimation />
-            <div className="fixed inset-0 z-0 w-full h-full">
-                <img
-                    src="/Fondo_Biblioteca.jpeg"
-                    alt="background library"
-                    className="w-full h-full object-cover opacity-30"
-                    style={{ position: 'absolute', top: 0, left: 0 }}
-                />
-            </div>
+            <div className="fixed inset-0 z-0">
+                    <img
+                        src="/Fondo_Biblioteca.jpeg"
+                        alt="Personajes Fondo"
+                        className="w-full h-full object-cover opacity-30"
+                    />
+                </div>
             <div className="z-10 w-full h-screen overflow-y-auto flex flex-col items-center justify-start p-4 gap-4">
                 <div className="w-11/12 sm:w-10/12 h-auto text-white">
                     <Header />
@@ -164,8 +162,6 @@ export default function InterfazUsuario() {
                             <img
                                 src="/Logo_Jugador.jpeg"
                                 alt="imagen de perfil"
-                                layout="fill"
-                                objectFit="cover"
                                 className="rounded-full"
                             />
                         </div>
