@@ -341,7 +341,7 @@ const CharacterPage = () => {
                 </div>
                 <StartAnimation />
                 <div className="fixed inset-0 z-0">
-                    <Image
+                    <img
                         src="/Recamara.jpeg"
                         alt="Personajes Fondo"
                         layout="fill"
