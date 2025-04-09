@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Header from '@/components/common/Header';
 import StarAnimation from '@/components/common/StartAnimation';
+import { toast } from 'react-toastify'; 
+
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -161,11 +163,23 @@ const AddCharacter = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!userId) {
-            setError('El ID del usuario no está definido. Asegúrate de que el usuario esté logueado.');
+            toast.error('El ID del usuario no está definido. Asegúrate de que el usuario esté logueado.', {
+                position: "top-center",
+                icon: "⚠️",
+                toastId: 'user-id-error'
+            });
             return;
         }
 
         try {
+            // Mostrar toast de "Creando personaje..."
+            toast.info('Creando tu personaje...', {
+                position: "top-center", 
+                autoClose: 2000,
+                icon: "⏳",
+                toastId: 'creating-character'
+            });
+
             // Crear el personaje primero
             const characterResponse = await axios.post(`${backUrl}/characters`, {
                 id_user: userId,
@@ -185,6 +199,12 @@ const AddCharacter = () => {
                     console.log('Habilidad creada:', skill.name_skill);
                 } catch (err) {
                     console.error(`Error al crear la habilidad "${skill.name_skill}":`, err.response?.data || err);
+                    
+                    toast.warning(`No se pudo crear la habilidad "${skill.name_skill}"`, {
+                        position: "bottom-right",
+                        icon: "⚠️",
+                        toastId: `skill-error-${skill.name_skill}`
+                    });
                 }
             }
 
@@ -200,11 +220,24 @@ const AddCharacter = () => {
                     console.log('Hechizo creado:', spell.name_spell);
                 } catch (err) {
                     console.error(`Error al crear el hechizo "${spell.name_spell}":`, err.response?.data || err);
+                    
+                    toast.warning(`No se pudo crear el hechizo "${spell.name_spell}"`, {
+                        position: "bottom-right", 
+                        icon: "⚠️",
+                        toastId: `spell-error-${spell.name_spell}`
+                    });
                 }
             }
 
-            setMessage('Personaje, habilidades y hechizos creados exitosamente.');
-            setError('');
+            // Toast de éxito
+            toast.success(`¡${formData.name_character} ha sido creado exitosamente!`, {
+                position: "top-center",
+                icon: "🎉",
+                autoClose: 5000,
+                toastId: 'character-success'
+            });
+
+            // Limpiar el formulario
             setFormData({
                 name_character: '',
                 race: '',
@@ -222,21 +255,36 @@ const AddCharacter = () => {
                 speed: '',
                 background: '',
             });
-            setSkills([]); // Reiniciar las habilidades
-            setSpells([]); // Reiniciar los hechizos
+            setSkills([]);
+            setSpells([]);
+            
         } catch (err) {
             console.error('Error al agregar el personaje:', err.response?.data || err);
-            setError(err.response?.data?.error || 'Hubo un error al agregar el personaje. Intenta nuevamente.');
-            setMessage('');
+            
+            // Toast de error
+            toast.error(err.response?.data?.error || 'Hubo un error al crear el personaje. Intenta nuevamente.', {
+                position: "top-center",
+                icon: "❌",
+                toastId: 'character-error'
+            });
         }
     };
 
     const rollDice = (diceIndex) => {
-        const results = Array.from({ length: 6 }, () => Math.floor(Math.random() * 20) + 1); // Generar 5 números aleatorios entre 1 y 20
+        const results = Array.from({ length: 6 }, () => Math.floor(Math.random() * 20) + 1);
         setDiceResults((prevResults) => {
             const newResults = [...prevResults];
             newResults[diceIndex] = results;
             return newResults;
+        });
+        
+        // Mostrar el resultado más alto
+        const highestRoll = Math.max(...results);
+        toast.info(`¡Dados lanzados! Valor más alto: ${highestRoll}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            icon: "🎲",
+            toastId: `dice-roll-${Date.now()}`
         });
     };
 
