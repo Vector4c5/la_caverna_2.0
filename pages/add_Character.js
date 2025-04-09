@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Header from '@/components/common/Header';
 import StarAnimation from '@/components/common/StartAnimation';
-import Image from 'next/image';
 
 const jersey_10 = Jersey_10({ weight: '400', subsets: ['latin'] });
 const backUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -266,7 +265,7 @@ const AddCharacter = () => {
             </div>
             <StarAnimation />
             <div className="fixed inset-0 z-0">
-                <Image
+                <img
                     src="/Armario.jpeg"
                     alt="landimg"
                     layout="fill"
